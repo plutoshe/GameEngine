@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <Windows.h>
-
+#include <conio.h>
 #if defined _DEBUG
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
 #endif // _DEBUG
 
 #include "GLib.h"
+#include "Log.h"
 
 void * LoadFile(const char * i_pFilename, size_t & o_sizeFile);
 GLib::Sprites::Sprite * CreateSprite(const char * i_pFilename);
@@ -23,6 +24,25 @@ void TestKeyCallback(unsigned int i_VKeyID, bool bWentDown)
 	OutputDebugStringA(Buffer);
 #endif // __DEBUG
 }
+bool bQuit = false;
+static GLib::Point2D	Offset = { -180.0f, -100.0f };
+void ChangPosition(unsigned int i_VKeyID, bool i_bDown) {
+	if (i_bDown) {
+		char key = i_VKeyID;
+		switch (key)
+		{
+		case 'A':Offset.x -= 20.f; DEBUG_LOG("A"); break;
+		case 'W':Offset.y += 20.f; DEBUG_LOG("W"); break;
+		case 'S':Offset.y -= 20.f; DEBUG_LOG("S"); break;
+		case 'D':Offset.x += 20.f; DEBUG_LOG("D"); break;
+		case 'Q':bQuit = true; DEBUG_LOG("Q"); break;
+		default:
+			break;
+		}
+		
+	}
+	
+}
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
@@ -36,15 +56,16 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 
 		// Create a couple of sprites using our own helper routine CreateSprite
 		GLib::Sprites::Sprite * pGoodGuy = CreateSprite("data\\GoodGuy.dds");
-		GLib::Sprites::Sprite * pBadGuy = CreateSprite("data\\BadGuy.dds");
+		//GLib::Sprites::Sprite * pBadGuy = CreateSprite("data\\BadGuy.dds");
 
-		bool bQuit = false;
 
+		auto bindKeyboardFunc = ChangPosition;
+		GLib::SetKeyStateChangeCallback(bindKeyboardFunc);
 		do
 		{
 			// IMPORTANT: We need to let GLib do it's thing. 
-			GLib::Service(bQuit);
 
+			GLib::Service(bQuit);
 			if (!bQuit)
 			{
 				// IMPORTANT: Tell GLib that we want to start rendering
@@ -54,39 +75,15 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 
 				if (pGoodGuy)
 				{
+
 					static float			moveDist = .01f;
 					static float			moveDir = moveDist;
 
-					static GLib::Point2D	Offset = { -180.0f, -100.0f };
-
-					if (Offset.x < -220.0f)
-						moveDir = moveDist;
-					else if (Offset.x > -140.0f)
-						moveDir = -moveDist;
-
-					Offset.x += moveDir;
-
 					// Tell GLib to render this sprite at our calculated location
+					
 					GLib::Sprites::RenderSprite(*pGoodGuy, Offset, 0.0f);
 				}
-				if (pBadGuy)
-				{
-					static float			moveDist = .02f;
-					static float			moveDir = -moveDist;
-
-					static GLib::Point2D	Offset = { 180.0f, -100.0f };
-
-					if (Offset.x > 200.0f)
-						moveDir = -moveDist;
-					else if (Offset.x < 160.0f)
-						moveDir = moveDist;
-
-					Offset.x += moveDir;
-
-					// Tell GLib to render this sprite at our calculated location
-					GLib::Sprites::RenderSprite(*pBadGuy, Offset, 0.0f);
-				}
-
+				
 				// Tell GLib we're done rendering sprites
 				GLib::Sprites::EndRendering();
 				// IMPORTANT: Tell GLib we're done rendering
@@ -96,8 +93,6 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 
 		if (pGoodGuy)
 			GLib::Sprites::Release(pGoodGuy);
-		if (pBadGuy)
-			GLib::Sprites::Release(pBadGuy);
 
 		// IMPORTANT:  Tell GLib to shutdown, releasing resources.
 		GLib::Shutdown();

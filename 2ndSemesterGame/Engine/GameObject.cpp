@@ -1,5 +1,5 @@
 #include "GameObject.h"
-
+#include "Physics.h"
 
 
 GameObject::GameObject()
@@ -12,13 +12,18 @@ GameObject::~GameObject()
 }
 
 void GameObject::CheckInput(unsigned int i_VKeyID) {
-	DEBUG_LOG("%d", i_VKeyID);
-	/*switch (i_VKeyID)
+	
+	char key = i_VKeyID;
+	switch (key)
 	{
-		
-	default:
-		break;
-	}*/
+		case 'A':position.x = position.x - 20.f; DEBUG_LOG("A"); break;
+		case 'W':position.y = position.y + 20.f; DEBUG_LOG("W"); break;
+		case 'S':position.y = position.y - 20.f; DEBUG_LOG("S"); break;
+		case 'D':position.x = position.x + 20.f; DEBUG_LOG("D"); break;
+		case 'R':DriveForceOnCurrentFrame = Vector3D(10, 10, 0); DEBUG_LOG("r"); break;
+		default:
+			break;
+	}
 }
 void GameObject::CreateSprite(const char * i_pFilename)
 {
@@ -101,4 +106,15 @@ void * GameObject::LoadFile(const char * i_pFilename, size_t & o_sizeFile)
 	o_sizeFile = FileSize;
 
 	return pBuffer;
+}
+
+void GameObject::UpdatePhysics(double i_dt, std::vector<Vector3D> addition_Forces) {
+	Vector3D totalForce(DriveForceOnCurrentFrame);
+	for (auto id = 0; id = addition_Forces.size(); id++) {
+		totalForce = totalForce + addition_Forces[id];
+	}
+	totalForce = totalForce + velocity.normalized() * (-dragCof);
+	//DEBUG_LOG("%d %d", totalForce.x, totalForce.y);
+	Physcis::AddForce(*this, totalForce, i_dt);	
+	DriveForceOnCurrentFrame.clear();
 }

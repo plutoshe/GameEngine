@@ -164,9 +164,11 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="Physics.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Timing.h" />
+    <ClInclude Include="Vectors.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
   </ItemGroup>
@@ -174,6 +176,7 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -181,6 +184,7 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Timing.cpp" />
+    <ClCompile Include="Vectors.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Vector3D.cpp" />
   </ItemGroup>

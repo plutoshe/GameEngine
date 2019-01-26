@@ -8,6 +8,7 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
+	gameobjects.clear();
 }
 
 bool GameManager::Initialization(HINSTANCE i_hInstance, int i_nCmdShow, const char * i_pWindowName, WORD i_IconID, unsigned int i_WindowWidth, unsigned int i_WindowHeight) {
@@ -20,23 +21,23 @@ void GameManager::Rendering() {
 	GLib::BeginRendering();
 	// Tell GLib that we want to render some sprites
 	GLib::Sprites::BeginRendering();
-	GLib::Service(bQuit);
+	//GLib::Service(bQuit);
 	if (!bQuit)
 	{
 		// IMPORTANT: Tell GLib that we want to start rendering
 		GLib::BeginRendering();
 		// Tell GLib that we want to render some sprites
 		GLib::Sprites::BeginRendering();
-		for (int id = 0; id < gameobjects.size(); id++)
-			if (gameobjects[id].irender)
+		for (int id = 0; id < gameobjects.get_size(); id++)
+			if (gameobjects[id]->irender)
 			{
 
 				static float moveDist = .01f;
 				static float moveDir = moveDist;
 
 				// Tell GLib to render this sprite at our calculated location
-				auto pos = GLib::Point2D{ gameobjects[id].position.x(), gameobjects[id].position.y()};
-				GLib::Sprites::RenderSprite(*gameobjects[id].irender, pos, 0.0f);
+				auto pos = GLib::Point2D{ gameobjects[id]->position.x, gameobjects[id]->position.y};
+				GLib::Sprites::RenderSprite(*gameobjects[id]->irender, pos, 0.0f);
 			}
 
 		// Tell GLib we're done rendering sprites
@@ -47,15 +48,24 @@ void GameManager::Rendering() {
 	}
 }
 
-void GameManager::PhysicsUpdate() {
+void GameManager::PhysicsUpdate(double deltaTime) {
+	
+	for (int id = 0; id < gameobjects.get_size(); id++) {
+		gameobjects[id]->UpdatePhysics(deltaTime);
+	}
+}
+
+void GameManager::UpdateKey(unsigned int i_VKeyID) {
 
 }
 
 void GameManager::CheckInput(unsigned int i_VKeyID, bool bWentDown)
 {
-	DEBUG_LOG("current click: %d", i_VKeyID);
-	for (int id = 0; id < gameobjects.size(); id++)
-		gameobjects[id].CheckInput(i_VKeyID);
+	DEBUG_LOG("current click: %x, %d, %d %d %d", i_VKeyID, 1, gameobjects[0]->position.x, gameobjects[0]->position.y, gameobjects[0]->position.z);
+	UpdateKey(i_VKeyID);
+	
+	for (int id = 0; id < gameobjects.get_size(); id++)
+		gameobjects[id]->CheckInput(i_VKeyID);
 }
 
 namespace GLib {
@@ -75,7 +85,7 @@ void GameManager::InputGet() {
 
 		case WM_KEYDOWN:
 			WPARAM param = mssg.wParam;
-			char c = MapVirtualKey(param, MAPVK_VK_TO_CHAR);
+			unsigned int c = (unsigned int)MapVirtualKey(param, MAPVK_VK_TO_CHAR);
 			this->CheckInput(c, true);
 			break;
 		}
@@ -86,23 +96,25 @@ void GameManager::InputGet() {
 }
 
 void GameManager::Run() {
-	GLib::Service(bQuit);
+	//GLib::Service(bQuit);
 	
 	while (!bQuit) {
 		InputGet();
 		double delta_time = Timing::CalcLastFrameTime_ms();
+		PhysicsUpdate(delta_time);
 		Rendering();
+
 	}
 	Release();
 }
 
-void GameManager::AddGameObejct(GameObject gameobject) {
-	gameobjects.push_back(gameobject);
+void GameManager::AddGameObejct(GameObject *gameobject) {
+	gameobjects.push(gameobject);
 }
 
 void GameManager::Release() {
-	for (int id = 0; id < gameobjects.size(); id++)
-		if (gameobjects[id].irender)
-			GLib::Sprites::Release(gameobjects[id].irender);
+	for (int id = 0; id < gameobjects.get_size(); id++)
+		if (gameobjects[id]->irender)
+			GLib::Sprites::Release(gameobjects[id]->irender);
 	GLib::Shutdown();
 }

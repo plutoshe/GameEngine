@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <Windows.h>
 #include <conio.h>
+#include <ctime>
 #if defined _DEBUG
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
@@ -10,6 +11,7 @@
 
 #include "GLib.h"
 #include "Log.h"
+#include "Timing.h"
 
 void * LoadFile(const char * i_pFilename, size_t & o_sizeFile);
 GLib::Sprites::Sprite * CreateSprite(const char * i_pFilename);
@@ -44,11 +46,15 @@ void ChangPosition(unsigned int i_VKeyID, bool i_bDown) {
 	
 }
 
+double clockToMilliseconds(clock_t ticks) {
+	// units/(units/time) => time (seconds) * 1000 = milliseconds
+	return (ticks / (double)CLOCKS_PER_SEC)*1000.0;
+}
+
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
 	// IMPORTANT: first we need to initialize GLib
 	bool bSuccess = GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
-
 	if (bSuccess)
 	{
 		// IMPORTANT (if we want keypress info from GLib): Set a callback for notification of key presses
@@ -59,12 +65,19 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 		//GLib::Sprites::Sprite * pBadGuy = CreateSprite("data\\BadGuy.dds");
 
 
+
 		auto bindKeyboardFunc = ChangPosition;
 		GLib::SetKeyStateChangeCallback(bindKeyboardFunc);
+		clock_t lastTime = clock();
+		unsigned int frames = 0;
+		double  frameRate = 30;
+		double  averageFrameTimeMilliseconds = 33.333;
+		bool first = true;
+		double deltaTime = 0;
 		do
 		{
 			// IMPORTANT: We need to let GLib do it's thing. 
-
+			DEBUG_LOG("%.4f", Timing::CalcLastFrameTime_ms());
 			GLib::Service(bQuit);
 			if (!bQuit)
 			{
@@ -88,6 +101,7 @@ int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_l
 				GLib::Sprites::EndRendering();
 				// IMPORTANT: Tell GLib we're done rendering
 				GLib::EndRendering();
+
 			}
 		} while (bQuit == false);
 

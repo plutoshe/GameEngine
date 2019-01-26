@@ -45,7 +45,7 @@ namespace GLib
 
 		ShowWindow( g_hWnd, i_CmdShow );
 
-		Input::Initialize();
+		//Input::Initialize();
 		Sprites::Initialize();
 		return true;
 	}

@@ -2,7 +2,7 @@
 
 Vector3D::Vector3D() {}
 
-Vector3D::Vector3D(int x, int y, int z) : _x(x), _y(y), _z(z) {}
+Vector3D::Vector3D(float x, float y, float z) : _x(x), _y(y), _z(z) {}
 
 Vector3D::~Vector3D() {}
 
@@ -14,7 +14,7 @@ Vector3D Vector3D::operator-(const Vector3D& minus) {
 	return Vector3D(_x - minus.x(), _y - minus.y(), _z - minus.z());
 }
 
-Vector3D Vector3D::operator*(int mul) {
+Vector3D Vector3D::operator*(float mul) {
 	return Vector3D(_x * mul, _y * mul, _z * mul);
 }
 

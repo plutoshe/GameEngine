@@ -13,6 +13,12 @@ public:
 	void SetFlag(int flag) { i_flag = flag; }
 };
 
+class TestHeri : public GameObject{
+public:
+	TestHeri() { i_data = ""; own = 1; i_flag = 4; }
+	int own = 1;
+};
+
 bool TestStrongPointer() {
 	// test constructor
 	OwningPointer<GameObject> MyPtr1(new GameObject("Joe", 1));
@@ -53,6 +59,27 @@ bool TestStrongPointer() {
 		std::cout << "Test accessing the method of owning object failed!" << std::endl;
 		return false;
 	}
+
+	// test inheritance
+	OwningPointer<TestHeri> MyPtr5(new TestHeri());
+	OwningPointer<GameObject> MyPtr6(MyPtr5);
+	MyPtr3 = MyPtr5;
+	if (!(MyPtr5 == MyPtr6) || !(MyPtr6 == MyPtr5) || (MyPtr5 != MyPtr6) ||
+		!(MyPtr3 == MyPtr6) || (MyPtr3 != MyPtr6)  ||
+		!(MyPtr3 == MyPtr5) || !(MyPtr5 == MyPtr3) || (MyPtr3 != MyPtr5)) {
+		std::cout << "Test inheritance equality failed!" << std::endl;
+		return false;
+	}
+	if (MyPtr4.GetReferenceCounters().OwnerReferences != 1) {
+		std::cout << "Test reassignment failed!" << std::endl;
+		return false;
+	}
+	MyPtr6->i_data = "test 123";
+	if (MyPtr5->i_data != "test 123") {
+		std::cout << "Test assignment in base class failed!" << std::endl;
+		return false;
+	}
+
 	return true;
 }
 

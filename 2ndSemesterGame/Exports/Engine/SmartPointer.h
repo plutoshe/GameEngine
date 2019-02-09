@@ -7,9 +7,8 @@ namespace Engine {
 
 	typedef uint64_t	ref_counter_t;
 
-	class ReferenceCounters
+	struct ReferenceCounters
 	{
-	public:
 		ref_counter_t		OwnerReferences;
 		ref_counter_t		ObserverReferences;
 
@@ -62,10 +61,7 @@ namespace Engine {
 			ReleaseCurrentOwningPointer();
 			OwningObject = i_other.OwningObject;
 			CountRef = i_other.CountRef;
-		}
-
-		ReferenceCounters& GetReferenceCounters() {
-			return *CountRef;
+			CountRef->OwnerReferences++;
 		}
 
 		void ReleaseOwningObject() {
@@ -85,6 +81,9 @@ namespace Engine {
 			OwningObject = nullptr;
 			CountRef = nullptr;
 		}
+		ReferenceCounters& GetReferenceCounters() {
+			return *CountRef;
+		}
 
 		// Copy Constructor between polymorphic types
 		// OwningPointer<Base> BasePtr( new Base() );
@@ -92,8 +91,9 @@ namespace Engine {
 		template<class U>
 		OwningPointer(const OwningPointer<U> & i_other) {
 			ReleaseCurrentOwningPointer();
-			OwningObject = (T)i_other.OwningObject;
+			OwningObject = reinterpret_cast<T*>(i_other.OwningObject);
 			CountRef = i_other.CountRef;
+			CountRef->OwnerReferences++;
 		}
 
 		// Copy Constructor - For creating an Owning Pointer from an Observing Pointer
@@ -102,18 +102,20 @@ namespace Engine {
 			ReleaseCurrentOwningPointer();
 			OwningObject = i_other.AcquireOwnership().OwningObject;
 			CountRef = i_other.AcquireOwnership().CountRef;
+			CountRef->OwnerReferences++;
 		}
 
 		// Copy Constructor - For creating an Owning Pointer of a polymorphic type from an Observing Pointer
 		template<class U>
 		OwningPointer(const ObservingPointer<U> & i_other) {
 			ReleaseCurrentOwningPointer();
-			OwningObject = (T)i_other.AcquireOwnership().OwningObject;
+			OwningObject = reinterpret_cast<T*>(i_other.AcquireOwnership().OwningObject);
 			CountRef = i_other.AcquireOwnership().CountRef;
+			CountRef->OwnerReferences++;
 		}
 
 		// Assignment Operator
-		OwningPointer & operator=(OwningPointer & i_other) {
+		OwningPointer & operator=(const OwningPointer & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentOwningPointer();
 				OwningObject = i_other.OwningObject;
@@ -128,7 +130,7 @@ namespace Engine {
 		OwningPointer & operator=(const OwningPointer<U> & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentOwningPointer();
-				OwningObject = (T)i_other.OwningObject;
+				OwningObject = reinterpret_cast<T*>(i_other.OwningObject);
 				CountRef = i_other.CountRef;
 				CountRef->OwnerReferences++;
 			}
@@ -151,7 +153,7 @@ namespace Engine {
 		OwningPointer & operator=(const ObservingPointer<U> & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentOwningPointer();
-				OwningObject = (T)i_other.AcquireOwnership().OwningObject;
+				OwningObject = reinterpret_cast<T*>(i_other.AcquireOwnership().OwningObject);
 				CountRef = i_other.AcquireOwnership().CountRef;
 				CountRef->OwnerReferences++;
 			}
@@ -196,7 +198,7 @@ namespace Engine {
 		// Equality comparison operator between pointers to polymorphic types
 		template<class U>
 		inline bool operator==(const OwningPointer<U> & i_other) const {
-			return (OwningObject == i_other.OwningObject);
+			return (OwningObject == reinterpret_cast<T*>(i_other.OwningObject));
 		}
 
 		// Equality comparison operator for comparing to an Observing Pointer
@@ -207,7 +209,7 @@ namespace Engine {
 		// Equality comparison operator for comparing to an Observing Pointer of a polymorphic type
 		template<class U>
 		inline bool operator==(const ObservingPointer<U> & i_other) const {
-			return (*this == i_other.AcquireOwnership());
+			return (*this == reinterpret_cast<T*>(i_other.AcquireOwnership()));
 		}
 
 		// Inequality comparison operator
@@ -218,7 +220,7 @@ namespace Engine {
 		// Inequality comparison operator between pointers to polymorphic types
 		template<class U>
 		inline bool operator!=(const OwningPointer<U> & i_other) const {
-			return (OwningObject != i_other.OwningObject);
+			return (OwningObject != reinterpret_cast<T*>(i_other.OwningObject));
 		}
 
 		// Inequality comparison operator for comparing to an Observing Pointer
@@ -229,7 +231,7 @@ namespace Engine {
 		// Inequality comparison operator for comparing to an Observing Pointer of a polymorphic type
 		template<class U>
 		inline bool operator!=(const ObservingPointer<U> & i_other) const {
-			return (*this != i_other.AcquireOwnership());
+			return (*this != reinterpret_cast<T*>(i_other.AcquireOwnership()));
 		}
 
 		// Equality comparison operator directly to pointer 
@@ -240,7 +242,7 @@ namespace Engine {
 		// Equality comparison operator directly to pointer (of polymorphic type)
 		template<class U>
 		inline bool operator==(U * i_ptr) const {
-			return (OwningObject == i_ptr);
+			return (OwningObject == reinterpret_cast<T*>(i_ptr));
 		}
 
 		// Equality comparison operator for nullptr
@@ -256,7 +258,7 @@ namespace Engine {
 		// Inequality comparison operator directly to pointer (of polymorphic type)
 		template<class U>
 		inline bool operator!=(U * i_ptr) const {
-			return (OwningObject != i_ptr);
+			return (OwningObject != reinterpret_cast<T*>(i_ptr));
 		}
 
 		// Inequality comparison operator for nullptr
@@ -293,10 +295,6 @@ namespace Engine {
 		T* OwningObject;
 		ReferenceCounters* CountRef;
 	public:
-
-		bool isValid() {
-			return (OwningObject != nullptr);
-		}
 		// Default Constructor
 		ObservingPointer() {
 			OwningObject = nullptr;
@@ -313,14 +311,14 @@ namespace Engine {
 
 		template<class U>
 		ObservingPointer(const OwningPointer<U> & i_owner) {
-			i_owner.OwningObject = i_owner.OwningObject;
+			i_owner.OwningObject = reinterpret_cast<T*>(i_owner.OwningObject);
 			i_owner.CountRef = i_owner.CountRef;
 			CountRef->ObserverReferences++;
 		}
 
 		template<class U>
 		ObservingPointer(const ObservingPointer<U> & i_other) {
-			OwningObject = i_other.OwningObject;
+			OwningObject = reinterpret_cast<T*>(i_other.OwningObject);
 			CountRef = i_other.CountRef;
 			CountRef->ObserverReferences++;
 		}
@@ -342,10 +340,11 @@ namespace Engine {
 		}
 
 		// Assignment operators
+
 		ObservingPointer & operator=(const ObservingPointer & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentCurrentObservingPointer();
-				OwningObject = i_other.CountRef;
+				OwningObject = i_other.OwningObject;
 				CountRef = i_other.CountRef;
 				CountRef->ObserverReferences++;
 			}
@@ -356,7 +355,7 @@ namespace Engine {
 		ObservingPointer & operator=(const ObservingPointer<U> & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentCurrentObservingPointer();
-				OwningObject = i_other.CountRef;
+				OwningObject = reinterpret_cast<T*>(i_other.OwningObject);
 				CountRef = i_other.CountRef;
 				CountRef->ObserverReferences++;
 			}
@@ -367,7 +366,7 @@ namespace Engine {
 		inline ObservingPointer & operator=(const OwningPointer<U> & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentCurrentObservingPointer();
-				OwningObject = i_other.CountRef;
+				OwningObject = reinterpret_cast<T*>(i_other.OwningObject);
 				CountRef = i_other.CountRef;
 				CountRef->ObserverReferences++;
 			}
@@ -393,16 +392,16 @@ namespace Engine {
 
 		template<class U>
 		inline bool operator==(const OwningPointer<U> & i_other) const {
-			return (OwningObject == i_other.OwningObject);
+			return (OwningObject == reinterpret_cast<T*>(i_other.OwningObject));
 		}
 
 		inline bool operator==(const ObservingPointer<T> & i_other) const {
-			return (OwningObject == i_other.OwningObject);
+			return (OwningObject == reinterpret_cast<T*>(i_other.OwningObject));
 		}
 
 		template<class U>
 		inline bool operator==(const ObservingPointer<U> & i_other) const {
-			return (OwningObject == i_other.OwningObject);
+			return (OwningObject == reinterpret_cast<T*>(i_other.OwningObject));
 		}
 
 		inline bool operator==(T * i_ptr) const {
@@ -421,7 +420,7 @@ namespace Engine {
 
 		template<class U>
 		inline bool operator!=(const OwningPointer<U> & i_other) const {
-			return (OwningObject != i_other.OwningObject);
+			return (OwningObject != reinterpret_cast<T*>(i_other.OwningObject));
 		}
 
 		inline bool operator!=(const ObservingPointer<T> & i_other) const {
@@ -430,7 +429,7 @@ namespace Engine {
 
 		template<class U>
 		inline bool operator!=(const ObservingPointer<U> & i_other) const {
-			return (OwningObject != i_other.OwningObject);
+			return (OwningObject != reinterpret_cast<T*>(i_other.OwningObject));
 		}
 
 		inline bool operator!=(T * i_ptr) const {
@@ -439,7 +438,7 @@ namespace Engine {
 
 		template<class U>
 		inline bool operator!=(U * i_ptr) const {
-			return (OwningObject != i_ptr);
+			return (OwningObject != reinterpret_cast<T*>(i_ptr));
 		}
 
 		// bool operator

@@ -2,12 +2,18 @@
 #include <assert.h>
 
 extern bool SmartPtrUnitTest();
-void main() {
+
+int main() {
 	assert(SmartPtrUnitTest());
 	std::cout << "Pass smarter point test" << std::endl;
-	assert(_CrtCheckMemory());
+	
+	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT);
+	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDOUT);
+	_CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDOUT);
+	assert(_CrtDumpMemoryLeaks() == 0);
 	std::cout << "No Memory Leak" << std::endl;
-	std::cout <<  "-------------Enter to leave!-------------" << std::endl;
-	std::cin.get();
-	return;
+	return 0;
 }

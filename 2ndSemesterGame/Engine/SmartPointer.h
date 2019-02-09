@@ -80,6 +80,9 @@ namespace Engine {
 			OwningObject = nullptr;
 			CountRef = nullptr;
 		}
+		ReferenceCounters& GetReferenceCounters() {
+			return *CountRef;
+		}
 
 		// Copy Constructor between polymorphic types
 		// OwningPointer<Base> BasePtr( new Base() );

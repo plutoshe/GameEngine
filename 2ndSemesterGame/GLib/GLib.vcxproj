@@ -143,7 +143,7 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\GLib\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
-copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
+ copy "$(OutputPath)$(TargetName).pdb" "$(SolutionDir)Exports\GLib\$(ProjectName)_$(PlatformTarget)-$(Configuration).pdb" copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -164,7 +164,7 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\GLib\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
-copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
+ copy "$(OutputPath)$(TargetName).pdb" "$(SolutionDir)Exports\GLib\$(ProjectName)_$(PlatformTarget)-$(Configuration).pdb" copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\GLib\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -93,13 +93,13 @@ public:
 
 
 
-template<template<typename> class Vector, typename TYPE>
+template<typename TYPE>
 class Matrix4x4: public Matrix<TYPE, 4, 4>
 {
 public:
 	
 	// copy
-	Matrix4x4(const typename Vector<TYPE> &p) {
+	Matrix4x4(const Vector4D<TYPE> &p) {
 		for (int i = 0; i < 4; i++) (*this)[i][i] = p[i]; 
 	}
 
@@ -114,16 +114,16 @@ public:
 		(*this)[3][0] = M41; (*this)[3][1] = M42; (*this)[3][2] = M43; (*this)[3][3] = M44;
 	}
 
-	Vector<TYPE> operator *(const Vector<TYPE> &p) {
-		Vector<TYPE> r;
+	Vector4D<TYPE> operator *(const Vector4D<TYPE> &p) {
+		Vector4D<TYPE> r;
 		r.Clear();
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
 				r[i] += (*this)[i][j] * p[j];
 	}
 
-	friend Vector<TYPE> operator *(const Matrix4x4& v, const Vector<TYPE> &p) {
-		Vector<TYPE> r;
+	friend Vector4D<TYPE> operator *(const Matrix4x4& v, const Vector4D<TYPE> &p) {
+		Vector4D<TYPE> r;
 		for (int j = 0; j < 4; j++)
 			for (int k = 0; k < 4; k++) 
 				r[k] += p[j] * (*this)[j][k];
@@ -138,7 +138,7 @@ public:
 		*this = *this.OriginTranspose();
 	}
 
-	void Translation(Vector<TYPE> p) {
+	void Translation(Vector4D<TYPE> p) {
 		
 	}
 
@@ -172,14 +172,14 @@ public:
 		(*this)[3][0] = TYPE(0);   (*this)[3][1] = TYPE(0);  (*this)[3][2] = TYPE(0); (*this)[3][3] = TYPE(1);
 	}
 
-	void SetTrans(const Vector<TYPE> &move) {
+	void SetTrans(const Vector4D<TYPE> &move) {
 		(*this)[0][0] = TYPE(1); (*this)[0][1] = TYPE(0); (*this)[0][2] = TYPE(0); (*this)[0][3] = TYPE(move.x);
 		(*this)[1][0] = TYPE(0); (*this)[1][1] = TYPE(1); (*this)[1][2] = TYPE(0); (*this)[1][3] = TYPE(move.y);
 		(*this)[2][0] = TYPE(0); (*this)[2][1] = TYPE(0); (*this)[2][2] = TYPE(1); (*this)[2][3] = TYPE(move.z);
 		(*this)[3][0] = TYPE(0); (*this)[3][1] = TYPE(0); (*this)[3][2] = TYPE(0); (*this)[3][3] = TYPE(1);
 	}
 
-	void AddTrans(const Vector<TYPE> &move) {
+	void AddTrans(const Vector4D<TYPE> &move) {
 		 (*this)[0][3] += move.x; (*this)[1][3] += move.y; (*this)[2][3] += move.z; 
 	}
 
@@ -202,5 +202,5 @@ public:
 
 };
 
-typedef Matrix4x4<Vector4D, float> Matrix4f;
+typedef Matrix4x4<float> Matrix4f;
 

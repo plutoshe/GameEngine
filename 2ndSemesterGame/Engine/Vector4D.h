@@ -67,3 +67,5 @@ public:
 	void Clear() {}
 };
 
+typedef Vector4D<float> Vector4f;
+typedef Vector4D<int> Vector4i;

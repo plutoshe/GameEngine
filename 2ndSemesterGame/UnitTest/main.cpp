@@ -2,11 +2,13 @@
 #include <assert.h>
 
 extern bool SmartPtrUnitTest();
+extern bool TestContainers();
 
 int main() {
 	assert(SmartPtrUnitTest());
 	std::cout << "Pass smarter point test" << std::endl;
-	
+	assert(TestContainers());
+	std::cout << "Pass container test" << std::endl;
 	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
 	_CrtSetReportFile(_CRT_WARN, _CRTDBG_FILE_STDOUT);
 	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);

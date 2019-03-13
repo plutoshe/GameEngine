@@ -20,7 +20,7 @@ void GameObject::CheckInput(unsigned int i_VKeyID) {
 		case 'W':position.y = position.y + 20.f; DEBUG_LOG("W"); break;
 		case 'S':position.y = position.y - 20.f; DEBUG_LOG("S"); break;
 		case 'D':position.x = position.x + 20.f; DEBUG_LOG("D"); break;
-		case 'R':DriveForceOnCurrentFrame = Vector3D(10, 10, 0); DEBUG_LOG("r"); break;
+		case 'R':DriveForceOnCurrentFrame = Vector3f(10, 10, 0); DEBUG_LOG("r"); break;
 		default:
 			break;
 	}
@@ -108,13 +108,13 @@ void * GameObject::LoadFile(const char * i_pFilename, size_t & o_sizeFile)
 	return pBuffer;
 }
 
-void GameObject::UpdatePhysics(double i_dt, std::vector<Vector3D> addition_Forces) {
-	Vector3D totalForce(DriveForceOnCurrentFrame);
+void GameObject::UpdatePhysics(double i_dt, std::vector<Vector3f> addition_Forces) {
+	Vector3f totalForce(DriveForceOnCurrentFrame);
 	for (auto id = 0; id = addition_Forces.size(); id++) {
 		totalForce = totalForce + addition_Forces[id];
 	}
 	totalForce = totalForce + velocity.normalized() * (-dragCof);
 	//DEBUG_LOG("%d %d", totalForce.x, totalForce.y);
 	Physcis::AddForce(*this, totalForce, i_dt);	
-	DriveForceOnCurrentFrame.clear();
+	DriveForceOnCurrentFrame.Clear();
 }

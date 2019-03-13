@@ -161,14 +161,18 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BasicMacros.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="Physics.h" />
     <ClInclude Include="SmartPointer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Timing.h" />
+    <ClInclude Include="Vector.h" />
+    <ClInclude Include="Vector4D.h" />
     <ClInclude Include="Vectors.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
@@ -177,6 +181,7 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="Physics.cpp" />
     <ClCompile Include="SmartPointer.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -186,6 +191,8 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Timing.cpp" />
+    <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="Vector4D.cpp" />
     <ClCompile Include="Vectors.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Vector3D.cpp" />

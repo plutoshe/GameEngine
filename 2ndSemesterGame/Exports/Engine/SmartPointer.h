@@ -91,7 +91,7 @@ namespace Engine {
 		template<class U>
 		OwningPointer(const OwningPointer<U> & i_other) {
 			ReleaseCurrentOwningPointer();
-			OwningObject = reinterpret_cast<T*>(i_other.OwningObject);
+			OwningObject = i_other.OwningObject;
 			CountRef = i_other.CountRef;
 			CountRef->OwnerReferences++;
 		}

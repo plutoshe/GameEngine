@@ -64,6 +64,18 @@ public:
 	TYPE*       Data() { return &x; }
 	const TYPE* Data() const { return &x; }
 
-	void Clear() {}
+	void Clear() { x = y = z = 0; }
+
+	Vector3D normalized() {
+		TYPE len = Length();
+		if (len > 0)
+			return Vector3D(x / len, y / len, z / len);
+		return Vector3D(0, 0, 0);
+	}
+
+	TYPE Length() { return sqrt((x * x) + (y * y) + (z * z)); }
+	
+
 };
 
+typedef Vector3D<float> Vector3f;

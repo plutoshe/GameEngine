@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ContainersTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SmartPtrUnitTest.cpp" />
   </ItemGroup>

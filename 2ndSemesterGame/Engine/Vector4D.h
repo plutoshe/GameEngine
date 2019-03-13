@@ -25,7 +25,7 @@ public:
 		return p + v;
 	}
 	friend Vector4D operator -(const TYPE v, const Vector4D &p) {
-		return p - v;
+		return p * -1 + v;
 	}
 	friend Vector4D operator *(const TYPE v, const Vector4D &p) {
 		return p * v;
@@ -64,7 +64,7 @@ public:
 	TYPE*       Data() { return &x; }
 	const TYPE* Data() const { return &x; }
 
-	void Clear() {}
+	void Clear() { x = y = z = w = 0; }
 };
 
 typedef Vector4D<float> Vector4f;

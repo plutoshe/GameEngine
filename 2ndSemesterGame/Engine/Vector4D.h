@@ -16,7 +16,7 @@ public:
 
 	~Vector4D() {}
 
-	inline friend std::ostream& operator<<(std::ostream& os, const Vector4D p) {
+	inline friend std::ostream& operator<<(std::ostream& os, const Vector4D &p) {
 		os << "(" << p.x << "," << p.y << "," << p.z << "," << p.w << ")";
 		return os;
 	}
@@ -42,18 +42,28 @@ public:
 
 	//!@name Assignment operators
 
-	const Vector4D& operator += (const Vector4D &p) { return *this + p; }
-	const Vector4D& operator -= (const Vector4D &p) { return *this - p; }
-	const Vector4D& operator *= (const Vector4D &p) { return *this * p; }
-	const Vector4D& operator /= (const Vector4D &p) { return *this / p; }
-	const Vector4D& operator += (const TYPE v) { return *this + v; }
-	const Vector4D& operator -= (const TYPE v) { return *this - v; }
-	const Vector4D& operator *= (const TYPE v) { return *this * v; }
-	const Vector4D& operator /= (const TYPE v) { return *this / v; }
+	const Vector4D& operator += (const Vector4D &p) { x += p.x; y += p.y; z += p.z; w += p.w; return *this; }
+	const Vector4D& operator -= (const Vector4D &p) { x -= p.x; y -= p.y; z -= p.z; w -= p.w; return *this; }
+	const Vector4D& operator *= (const Vector4D &p) { x *= p.x; y *= p.y; z *= p.z; w *= p.w; return *this; }
+	const Vector4D& operator /= (const Vector4D &p) { x /= p.x; y /= p.y; z /= p.z; w /= p.w; return *this; }
+	const Vector4D& operator += (const TYPE v) { x += v; y += v; z += v; w += v; return *this; }
+	const Vector4D& operator -= (const TYPE v) { x -= v; y -= v; z -= v; w -= v; return *this; }
+	const Vector4D& operator *= (const TYPE v) { x *= v; y *= v; z *= v; w *= v; return *this; }
+	const Vector4D& operator /= (const TYPE v) { x /= v; y /= v; z /= v; w /= v; return *this; }
 
 
 	bool operator==(const Vector4D& p) const { return (x == p.x) && (y == p.y) && (z == p.z) && (w == p.w); }
 	bool operator!=(const Vector4D& p) const { return (x != p.x) || (y != p.y) || (z != p.z) || (w != p.w); }
 
+	TYPE&		operator [] (int i) { return Element(i); }
+	const TYPE& operator [] (int i) const { return Element(i); }
+
+	TYPE&       Element(int i) { return (&x)[i]; }
+	const TYPE& Element(int i) const { return (&x)[i]; }
+
+	TYPE*       Data() { return &x; }
+	const TYPE* Data() const { return &x; }
+
+	void Clear() {}
 };
 

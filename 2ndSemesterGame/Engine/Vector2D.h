@@ -15,7 +15,7 @@ public:
 
 
 	~Vector2D() {}
-	inline friend std::ostream& operator<<(std::ostream& os, const Vector2D p) {
+	inline friend std::ostream& operator<<(std::ostream& os, const Vector2D &p) {
 		os << "(" << p.x << "," << p.y << ')';
 		return os;
 	}
@@ -41,17 +41,28 @@ public:
 
 	//!@name Assignment operators
 
-	const Vector2D& operator += (const Vector2D &p) { return *this + p; }
-	const Vector2D& operator -= (const Vector2D &p) { return *this - p; }
-	const Vector2D& operator *= (const Vector2D &p) { return *this * p; }
-	const Vector2D& operator /= (const Vector2D &p) { return *this / p; }
-	const Vector2D& operator += (const TYPE v) { return *this + v; }
-	const Vector2D& operator -= (const TYPE v) { return *this - v; }
-	const Vector2D& operator *= (const TYPE v) { return *this * v; }
-	const Vector2D& operator /= (const TYPE v) { return *this / v; }
+	const Vector2D& operator += (const Vector2D &p) { x += p.x; y += p.y; return *this; }
+	const Vector2D& operator -= (const Vector2D &p) { x -= p.x; y -= p.y; return *this; }
+	const Vector2D& operator *= (const Vector2D &p) { x *= p.x; y *= p.y; return *this; }
+	const Vector2D& operator /= (const Vector2D &p) { x /= p.x; y /= p.y; return *this; }
+	const Vector2D& operator += (const TYPE v) { x += v; y += v; return *this; }
+	const Vector2D& operator -= (const TYPE v) { x -= v; y -= v; return *this; }
+	const Vector2D& operator *= (const TYPE v) { x *= v; y *= v; return *this; }
+	const Vector2D& operator /= (const TYPE v) { x /= v; y /= v; return *this; }
+
 
 	bool operator==(const Vector2D& p) const { return (x == p.x) && (y == p.y); }
 	bool operator!=(const Vector2D& p) const { return (x != p.x) || (y != p.y); }
 
+	TYPE&		operator [] (int i)		  { return Element(i); }
+	const TYPE& operator [] (int i) const { return Element(i); }
+
+	TYPE&       Element(int i)		 { return (&x)[i]; }
+	const TYPE& Element(int i) const { return (&x)[i]; }
+
+	TYPE*       Data()		 { return &x; }
+	const TYPE* Data() const { return &x; }
+
+	void Clear() {}
 };
 

@@ -32,6 +32,7 @@ namespace Engine {
 
 	template<class T>
 	class OwningPointer
+
 	{
 		template<class U>
 		friend class ObservingPointer;
@@ -53,6 +54,11 @@ namespace Engine {
 
 		// Standard Constructor
 		explicit OwningPointer(T * i_ptr) : OwningObject(i_ptr) {
+			CountRef = new ReferenceCounters(1, 0);
+		}
+
+		explicit OwningPointer(const T &i) {
+			OwningObject = new T(i);
 			CountRef = new ReferenceCounters(1, 0);
 		}
 
@@ -110,8 +116,16 @@ namespace Engine {
 			CountRef = i_other.AcquireOwnership().CountRef;
 		}
 
+		/*void operator=(OwningPointer & i_other) {
+			if (*this != i_other) {
+				ReleaseCurrentOwningPointer();
+				OwningObject = i_other.OwningObject;
+				CountRef = i_other.CountRef;
+			}
+		}*/
+
 		// Assignment Operator
-		OwningPointer & operator=(const OwningPointer & i_other) {
+		void operator=(const OwningPointer & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentOwningPointer();
 				OwningObject = i_other.OwningObject;
@@ -121,7 +135,7 @@ namespace Engine {
 
 		// Assignment Operator between polymorphic types
 		template<class U>
-		OwningPointer & operator=(const OwningPointer<U> & i_other) {
+		void operator=(const OwningPointer<U> & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentOwningPointer();
 				OwningObject = (T)i_other.OwningObject;
@@ -130,7 +144,7 @@ namespace Engine {
 		}
 
 		// Assignment Operator - Reassigns an existing Owning Pointer from an existing Observing Pointer
-		OwningPointer & operator=(const ObservingPointer<T> & i_other) {
+		void operator=(const ObservingPointer<T> & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentOwningPointer();
 				OwningObject = i_other.AcquireOwnership().OwningObject;
@@ -140,7 +154,7 @@ namespace Engine {
 
 		// Assignment Operator - Reassigns an existing Owning Pointer from an existing Observing Pointer of a polymorphic type
 		template<class U>
-		OwningPointer & operator=(const ObservingPointer<U> & i_other) {
+		void operator=(const ObservingPointer<U> & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentOwningPointer();
 				OwningObject = (T)i_other.AcquireOwnership().OwningObject;
@@ -152,7 +166,7 @@ namespace Engine {
 		// OwningPointer<Base> BasePtr( new Base() );
 		// BasePtr = nullptr;
 		// Don't really need to implement this. If it's not here it'll go through OwningPointer & operator=( OwningPointer & i_other);
-		OwningPointer & operator=(std::nullptr_t i_null) {
+		void  operator=(std::nullptr_t i_null) {
 			if (*this != nullptr) {
 				ReleaseCurrentOwningPointer();
 			}
@@ -163,13 +177,19 @@ namespace Engine {
 		// Assignment Operator - Assigning directly from an existing pointer
 		// OwningPointer<Base> BasePtr( new Base() );
 		// BasePtr = new Base();
-		OwningPointer & operator=(T * i_ptr) {
+		void operator=(T * i_ptr) {
 			if (*this != i_ptr) {
 				ReleaseCurrentOwningPointer();
 				OwningObject = i_ptr;
 				CountRef = new ReferenceCounters(1, 0);
 			}
 		}
+
+		//OwningPointer & operator=(T i) {
+		//	ReleaseCurrentOwningPointer();
+		//	OwningObject = new T(i);
+		//	CountRef = new ReferenceCounters(1, 0);
+		//}
 
 		// Destructor
 		~OwningPointer() {
@@ -263,11 +283,13 @@ namespace Engine {
 		}
 
 		// indirection operator
-		T & operator*() {
+		T & operator*() const {
 			assert(OwningObject != nullptr);
 			return *OwningObject;
 		}
-
+		T* OriginalPointer() {
+			return OwningObject;
+		}
 	};
 
 	template<class T>
@@ -297,8 +319,8 @@ namespace Engine {
 
 		template<class U>
 		ObservingPointer(const OwningPointer<U> & i_owner) {
-			i_owner.OwningObject = i_owner.OwningObject;
-			i_owner.CountRef = i_owner.CountRef;
+			OwningObject = i_owner.OwningObject;
+			CountRef = i_owner.CountRef;
 			CountRef->ObserverReferences++;
 		}
 
@@ -326,33 +348,33 @@ namespace Engine {
 		}
 
 		// Assignment operators
-		ObservingPointer & operator=(const ObservingPointer & i_other) {
+		void operator=(const ObservingPointer & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentCurrentObservingPointer();
-				OwningObject = i_other.CountRef;
+				OwningObject = i_other.OwningObject;
 				CountRef = i_other.CountRef;
 			}
 		}
 
 		template<class U>
-		ObservingPointer & operator=(const ObservingPointer<U> & i_other) {
+		void operator=(const ObservingPointer<U> & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentCurrentObservingPointer();
-				OwningObject = i_other.CountRef;
+				OwningObject = i_other.OwningObject;
 				CountRef = i_other.CountRef;
 			}
 		}
 
 		template<class U>
-		inline ObservingPointer & operator=(const OwningPointer<U> & i_other) {
+		inline void operator=(const OwningPointer<U> & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentCurrentObservingPointer();
-				OwningObject = i_other.CountRef;
+				OwningObject = i_other.OwningObject;
 				CountRef = i_other.CountRef;
 			}
 		}
 
-		ObservingPointer<T> & operator=(std::nullptr_t i_null) {
+		void operator=(std::nullptr_t i_null) {
 			ReleaseCurrentCurrentObservingPointer();
 			OwningObject = nullptr;
 			CountRef = nullptr;
@@ -418,6 +440,21 @@ namespace Engine {
 		inline bool operator!=(U * i_ptr) const {
 			return (OwningObject != i_ptr);
 		}
+
+		T * operator->() {
+			return OwningObject;
+		}
+
+		// indirection operator
+		T & operator*() const {
+			assert(OwningObject != nullptr);
+			return *OwningObject;
+		}
+
+		T* OriginalPointer() {
+			return OwningObject;
+		}
+
 
 		// bool operator
 		inline operator bool() const {

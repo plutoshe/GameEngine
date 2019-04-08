@@ -11,18 +11,18 @@
 #include "Timing.h"
 #include "GameObject.h"
 #include "GameManager.h"
+#include "Vector3D.h"
 
 void runGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 
 	GameManager myGame;
 	myGame.Initialization(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
-
 	GameObject ch1;
-	ch1.position = Vector3D(-180.f, 100.f, 0);
-	ch1.mass = 10;
-	ch1.dragCof = 1;
-	ch1.CreateSprite("data\\GoodGuy.dds");
-	myGame.AddGameObejct(&ch1);
+	ch1.BasicAttr->Position = Vector3f(-180.f, 100.f, 0);
+	/*ch1.mass = 10;
+	ch1.dragCof = 1;*/
+	//ch1.CreateSprite("data\\GoodGuy.dds");
+	myGame.AddGameObject(ch1);
 	myGame.Run();
 	return;
 }

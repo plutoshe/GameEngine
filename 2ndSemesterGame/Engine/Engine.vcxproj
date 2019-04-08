@@ -90,7 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLib;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Exports/GLib;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -110,7 +110,7 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLib;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Exports/GLib;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,7 +132,7 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLib;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Exports/GLib;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,7 +151,7 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GLib;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Exports/GLib;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -161,13 +161,20 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="GameObject3DBasicAttr.h" />
     <ClInclude Include="BasicMacros.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="InputController.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="Matrix4x4.h" />
-    <ClInclude Include="Physics.h" />
+    <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="PhysicsController.h" />
+    <ClInclude Include="RenderComponent.h" />
+    <ClInclude Include="RenderController.h" />
     <ClInclude Include="SmartPointer.h" />
+    <ClInclude Include="Status.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Timing.h" />
@@ -178,12 +185,19 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
     <ClInclude Include="Vector3D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BasicAttr.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObjectManager.cpp" />
+    <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
-    <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="PhysicsController.cpp" />
+    <ClCompile Include="RenderComponent.cpp" />
+    <ClCompile Include="RenderController.cpp" />
     <ClCompile Include="SmartPointer.cpp" />
+    <ClCompile Include="Status.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

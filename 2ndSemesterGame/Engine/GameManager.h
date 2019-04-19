@@ -29,7 +29,7 @@ public:
 	bool Initialization(HINSTANCE i_hInstance, int i_nCmdShow, const char * i_pWindowName, WORD i_IconID, unsigned int i_WindowWidth, unsigned int i_WindowHeight);
 	void Run();
 
-
+	Engine::ObservingPointer<GameObject> GetNewGameObject();
 	void AddGameObject(GameObject gameobject);
 	void Release();
 

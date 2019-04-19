@@ -69,7 +69,7 @@ bool TestStrongPointer() {
 		!(MyPtr3 == MyPtr5) || !(MyPtr5 == MyPtr3) || (MyPtr3 != MyPtr5)) {
 		std::cout << "Test inheritance equality failed!" << std::endl;
 		return false;
-	}
+	}	
 	if (MyPtr4.GetReferenceCounters().OwnerReferences != 1) {
 		std::cout << "Test reassignment failed!" << std::endl;
 		return false;
@@ -79,7 +79,7 @@ bool TestStrongPointer() {
 		std::cout << "Test assignment in base class failed!" << std::endl;
 		return false;
 	}
-
+	MyPtr6 = nullptr;
 	return true;
 }
 

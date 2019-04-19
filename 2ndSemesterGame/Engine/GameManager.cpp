@@ -61,13 +61,17 @@ void GameManager::Run() {
 		Input->Update();
 		PSGameObejctManager->Update();
 		//Physics.Update();
-		//Render.Update();
+		Render->Update();
 	}
 	Release();
 }
 
 void GameManager::AddGameObject(GameObject gameobject) {
 	PSGameObejctManager->AddGameObejct(gameobject);
+}
+
+Engine::ObservingPointer<GameObject> GameManager::GetNewGameObject() {
+	return PSGameObejctManager->GetNewGameObject();
 }
 
 

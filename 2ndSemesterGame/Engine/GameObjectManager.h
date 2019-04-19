@@ -3,7 +3,7 @@
 #include "RenderComponent.h"
 #include "SmartPointer.h"
 #include "GameObject.h"
-#include <vector>	
+#include <vector>
 
 class GameObjectManager
 {
@@ -19,6 +19,15 @@ public:
 
 	void AddGameObejct(GameObject gameobject) {
 		GameobjectList.push_back(Engine::OwningPointer<GameObject>(gameobject));
+		Engine::ObservingPointer<GameObject> currentGameObject = GameobjectList[GameobjectList.size() - 1];
+		currentGameObject->UpdateConnectionPointer(currentGameObject);
+	}
+
+	Engine::ObservingPointer<GameObject> GetNewGameObject() {
+		Engine::OwningPointer<GameObject> emptyGameObject(new GameObject());
+		GameobjectList.push_back(emptyGameObject);
+		emptyGameObject->UpdateConnectionPointer(emptyGameObject);
+		return emptyGameObject;
 	}
 
 	void Release();

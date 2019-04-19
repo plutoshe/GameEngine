@@ -15,6 +15,11 @@ public:
 
 	void Update();
 	std::vector<Engine::ObservingPointer<RenderComponent>> ListRenderComponent;
+
+	void AddRenderController(Engine::ObservingPointer<RenderComponent> p) {
+		ListRenderComponent.push_back(p);
+	}
+
 private:
 	//Engine::ObservingPointer<GameManager> gameManager;
 };

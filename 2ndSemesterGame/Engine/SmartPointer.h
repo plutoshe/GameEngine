@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <stdint.h>
+#include <cstdio>
 
 namespace Engine {
 
@@ -59,14 +60,16 @@ namespace Engine {
 
 		explicit OwningPointer(const T &i) {
 			OwningObject = new T(i);
+			//OwningObject = &i;
 			CountRef = new ReferenceCounters(1, 0);
 		}
 
 		// Copy Constructor
 		OwningPointer(const OwningPointer & i_other) {
-			ReleaseCurrentOwningPointer();
+			/*ReleaseCurrentOwningPointer();*/
 			OwningObject = i_other.OwningObject;
 			CountRef = i_other.CountRef;
+			CountRef->OwnerReferences++;
 		}
 
 		void ReleaseOwningObject() {
@@ -95,25 +98,28 @@ namespace Engine {
 		// OwningPointer<Default> DefaultPtr = BasePtr; <-- Used here
 		template<class U>
 		OwningPointer(const OwningPointer<U> & i_other) {
-			ReleaseCurrentOwningPointer();
-			OwningObject = (T)i_other.OwningObject;
+			//ReleaseCurrentOwningPointer();
+			OwningObject = reinterpret_cast<T*>(i_other.OwningObject);
 			CountRef = i_other.CountRef;
+			CountRef->OwnerReferences++;
 		}
 
 		// Copy Constructor - For creating an Owning Pointer from an Observing Pointer
 		// Will create a OwningPointer that points to nullptr if the referenced object has been destroyet (no more Owners left, just Observers)
 		OwningPointer(const ObservingPointer<T> & i_other) {
-			ReleaseCurrentOwningPointer();
+			//ReleaseCurrentOwningPointer();
 			OwningObject = i_other.AcquireOwnership().OwningObject;
 			CountRef = i_other.AcquireOwnership().CountRef;
+			CountRef->OwnerReferences++;
 		}
 
 		// Copy Constructor - For creating an Owning Pointer of a polymorphic type from an Observing Pointer
 		template<class U>
 		OwningPointer(const ObservingPointer<U> & i_other) {
-			ReleaseCurrentOwningPointer();
+			//ReleaseCurrentOwningPointer();
 			OwningObject = (T)i_other.AcquireOwnership().OwningObject;
 			CountRef = i_other.AcquireOwnership().CountRef;
+			CountRef->OwnerReferences++;
 		}
 
 		/*void operator=(OwningPointer & i_other) {
@@ -130,6 +136,7 @@ namespace Engine {
 				ReleaseCurrentOwningPointer();
 				OwningObject = i_other.OwningObject;
 				CountRef = i_other.CountRef;
+				CountRef->OwnerReferences++;
 			}
 		}
 
@@ -138,8 +145,9 @@ namespace Engine {
 		void operator=(const OwningPointer<U> & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentOwningPointer();
-				OwningObject = (T)i_other.OwningObject;
+				OwningObject = reinterpret_cast<T*>(i_other.OwningObject);
 				CountRef = i_other.CountRef;
+				CountRef->OwnerReferences++;
 			}
 		}
 
@@ -149,6 +157,7 @@ namespace Engine {
 				ReleaseCurrentOwningPointer();
 				OwningObject = i_other.AcquireOwnership().OwningObject;
 				CountRef = i_other.AcquireOwnership().CountRef;
+				CountRef->OwnerReferences++;
 			}
 		}
 
@@ -159,6 +168,7 @@ namespace Engine {
 				ReleaseCurrentOwningPointer();
 				OwningObject = (T)i_other.AcquireOwnership().OwningObject;
 				CountRef = i_other.AcquireOwnership().CountRef;
+				CountRef->OwnerReferences++;
 			}
 		}
 
@@ -284,6 +294,9 @@ namespace Engine {
 
 		// indirection operator
 		T & operator*() const {
+			if (OwningObject == nullptr) {
+				printf("!!!");
+			}
 			assert(OwningObject != nullptr);
 			return *OwningObject;
 		}
@@ -311,7 +324,6 @@ namespace Engine {
 
 		// Copy Constructors
 		ObservingPointer(const ObservingPointer & i_other) {
-			
 			OwningObject = i_other.OwningObject;
 			CountRef = i_other.CountRef;
 			CountRef->ObserverReferences++;
@@ -353,6 +365,7 @@ namespace Engine {
 				ReleaseCurrentCurrentObservingPointer();
 				OwningObject = i_other.OwningObject;
 				CountRef = i_other.CountRef;
+				CountRef->ObserverReferences++;
 			}
 		}
 
@@ -362,6 +375,7 @@ namespace Engine {
 				ReleaseCurrentCurrentObservingPointer();
 				OwningObject = i_other.OwningObject;
 				CountRef = i_other.CountRef;
+				CountRef->ObserverReferences++;
 			}
 		}
 
@@ -371,6 +385,7 @@ namespace Engine {
 				ReleaseCurrentCurrentObservingPointer();
 				OwningObject = i_other.OwningObject;
 				CountRef = i_other.CountRef;
+				CountRef->ObserverReferences++;
 			}
 		}
 

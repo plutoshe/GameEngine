@@ -30,5 +30,6 @@ void RenderController::Rendering() {
 }
 
 void RenderController::Update() {
-
+	for (int i = 0; i < ListRenderComponent.size(); i++)
+		ListRenderComponent[i]->Update();
 }

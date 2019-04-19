@@ -3,18 +3,17 @@
 #include "GLib.h"
 #include "assert.h"
 #include "Log.h"
-#include "SmartPointer.h"
 #include "PhysicsComponent.h"
 #include "RenderComponent.h"
 #include "GameObject3DBasicAttr.h"
 #include "Status.h"
-#include <vector>
 
-
+#include "SmartPointer.h"
+class GameManager;
 class GameObject
 {
 public:
-
+	Engine::ObservingPointer<GameObject> selfPointer;
 	GameObject();
 	~GameObject();
 	GameObject(const GameObject &g) {
@@ -28,8 +27,13 @@ public:
 	virtual void Start() {}
 	virtual void Update() {}
 
+	void UpdateConnectionPointer(Engine::ObservingPointer<GameObject> g);
+
 	bool HasPhysicsComponent();
 	bool HasRenderComponent();
+
+	void NewPhysicsComponent();
+	void NewRenderComponent();
 
 	Status AddPhysicsComponent(PhysicsComponent p);
 	Status AddRenderComponent(RenderComponent r);
@@ -47,12 +51,15 @@ public:
 	Engine::OwningPointer<PhysicsComponent> physicsComponent;
 	Engine::OwningPointer<RenderComponent> renderComponent;
 	void Release();
+
 private:
 	
 	void equal(const GameObject& g) {
 		BasicAttr = g.BasicAttr;
-		physicsComponent = Engine::OwningPointer<PhysicsComponent>(*(g.physicsComponent));
-		renderComponent = Engine::OwningPointer<RenderComponent>(*(g.renderComponent));
+		if (g.physicsComponent)
+			physicsComponent = Engine::OwningPointer<PhysicsComponent>(*(g.physicsComponent));
+		if (g.renderComponent)
+			renderComponent = Engine::OwningPointer<RenderComponent>(*(g.renderComponent));
 
 	}
 
@@ -68,5 +75,3 @@ private:
 		
 	//void UpdatePhysics(double i_dt, std::vector<Vector3f> addition_Forces = std::vector<Vector3f>());
 };
-
-

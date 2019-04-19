@@ -1,5 +1,7 @@
 ﻿#include "GameObject.h"
+#include "GameManager.h"
 
+extern GameManager CurrentGameManager;
 
 GameObject::GameObject() {
 	BasicAttr = Engine::OwningPointer<GameObject3DBasicAttr>(
@@ -16,15 +18,29 @@ bool GameObject::HasRenderComponent() {
 	return renderComponent != nullptr;
 }
 
+void GameObject::NewPhysicsComponent() {
+	// TODO: Finish the new function of Physics system
+
+	//physicsComponent = Engine::OwningPointer<PhysicsComponent>(PhysicsComponent());
+	/*ParentManager->Physics->AddRenderController(physicsComponent);*/
+}
+
+void GameObject::NewRenderComponent() {
+	renderComponent = Engine::OwningPointer<RenderComponent>(RenderComponent());
+	renderComponent->ParentGameObject = selfPointer;
+	CurrentGameManager.Render->AddRenderController(renderComponent);
+	//renderComponent = ;
+}
+
 Status GameObject::AddPhysicsComponent(PhysicsComponent p) {
-	if (physicsComponent != nullptr) 
+	if (HasPhysicsComponent())
 		return Status(400, "Already has a component");
 	physicsComponent = Engine::OwningPointer<PhysicsComponent>(&p);
 	return NoError;
 }
 
 Status GameObject::AddRenderComponent(RenderComponent r) {
-	if (renderComponent != nullptr)
+	if (HasRenderComponent())
 		return Status(400, "Already has a component");
 	renderComponent = Engine::OwningPointer<RenderComponent>(&r);
 	return NoError;
@@ -58,6 +74,13 @@ void GameObject::Release() {
 		renderComponent->Release();
 }
 
+void GameObject::UpdateConnectionPointer(Engine::ObservingPointer<GameObject> g) {
+	selfPointer = g;
+	if (renderComponent)
+		renderComponent->ParentGameObject = g;
+	if (physicsComponent)
+		physicsComponent->ParentGameObject = g;
+}
 
 
 //void GameObject::CheckInput(unsigned int i_VKeyID) {

@@ -97,9 +97,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Engine\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
-copy "$(OutputPath)$(TargetName).pdb" "$(SolutionDir)Exports\Engine\$(ProjectName)_$(PlatformTarget)-$(Configuration).pdb"
-copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
+      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Engine\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -117,9 +115,7 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Engine\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"
-copy "$(OutputPath)$(TargetName).pdb" "$(SolutionDir)Exports\Engine\$(ProjectName)_$(PlatformTarget)-$(Configuration).pdb"
-copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
+      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Engine\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -140,6 +136,9 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Engine\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -159,6 +158,9 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "$(SolutionDir)Exports\Engine\$(ProjectName)_$(PlatformTarget)-$(Configuration).lib"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GameObject3DBasicAttr.h" />
@@ -166,6 +168,7 @@ copy "$(ProjectDir)*.h" "$(SolutionDir)Exports\Engine\"</Command>
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="StaticVariable.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="Matrix4x4.h" />

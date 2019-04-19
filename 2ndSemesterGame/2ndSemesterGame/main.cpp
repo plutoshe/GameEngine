@@ -22,6 +22,11 @@ void runGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	ch1->BasicAttr->Position = Vector3f(-180.f, 100.f, 0);
 	ch1->NewRenderComponent();
 	ch1->GetRenderComponent()->CreateSprite("data\\GoodGuy.dds");
+
+	Engine::ObservingPointer<GameObject> ch2 = CurrentGameManager.GetNewGameObject();
+	ch2->BasicAttr->Position = Vector3f(180.f, 100.f, 0);
+	ch2->NewRenderComponent();
+	ch2->GetRenderComponent()->CreateSprite("data\\BadGuy.dds");
 	/*ch1.mass = 10;
 	ch1.dragCof = 1;*/
 	//ch1.CreateSprite("data\\GoodGuy.dds");

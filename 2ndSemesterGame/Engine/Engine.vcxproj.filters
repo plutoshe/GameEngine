@@ -28,6 +28,12 @@
     <Filter Include="Header Files\Object\Component">
       <UniqueIdentifier>{9df06e2d-1cb6-45c0-a900-12cc411fe573}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Object\Component\Collider">
+      <UniqueIdentifier>{fad4850b-645f-4283-8ea9-ce130e981b5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object\Component\Collider\2D">
+      <UniqueIdentifier>{915ebc05-f97c-483f-9b74-84e8d564fb8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -75,9 +81,6 @@
     <ClInclude Include="Vectors.h">
       <Filter>Header Files\Utility\DataStructure</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject3DBasicAttr.h">
-      <Filter>Header Files\Object\Component</Filter>
-    </ClInclude>
     <ClInclude Include="GameObjectManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -98,6 +101,12 @@
     </ClInclude>
     <ClInclude Include="StaticVariable.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider2D.h">
+      <Filter>Header Files\Object\Component\Collider\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectBasicAttr.h">
+      <Filter>Header Files\Object\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -146,9 +155,6 @@
     <ClCompile Include="RenderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BasicAttr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameObjectManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -159,6 +165,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InputController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObjectBasicAttr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

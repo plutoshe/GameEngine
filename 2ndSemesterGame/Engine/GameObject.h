@@ -5,7 +5,7 @@
 #include "Log.h"
 #include "PhysicsComponent.h"
 #include "RenderComponent.h"
-#include "GameObject3DBasicAttr.h"
+#include "GameObjectBasicAttr.h"
 #include "Status.h"
 
 #include "SmartPointer.h"
@@ -46,11 +46,22 @@ public:
 	/*template<typename T>
 	T GetComponent();*/
 		
-	Engine::OwningPointer<GameObject3DBasicAttr> BasicAttr;
+	GameObjectBasicAttr BasicAttr;
 
 	Engine::OwningPointer<PhysicsComponent> physicsComponent;
 	Engine::OwningPointer<RenderComponent> renderComponent;
 	void Release();
+
+	// 2D_Collider: 5 Type
+	// Box, Circle, Capsule, Edge, Polygon
+
+	void NewBoxCollider2D() {
+
+	}
+
+
+	// TODO: 3D Collider
+	// Sphere Collider, Cube Collider, Capsule Collider
 
 private:
 	

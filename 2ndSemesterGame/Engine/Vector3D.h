@@ -4,6 +4,7 @@ template<typename TYPE>
 class Vector3D
 {
 public:
+
 	TYPE x, y, z;
 
 	Vector3D() {}

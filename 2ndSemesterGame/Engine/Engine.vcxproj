@@ -163,7 +163,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GameObject3DBasicAttr.h" />
+    <ClInclude Include="Collider2D.h" />
+    <ClInclude Include="GameObjectBasicAttr.h" />
     <ClInclude Include="BasicMacros.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
@@ -188,7 +189,8 @@
     <ClInclude Include="Vector3D.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BasicAttr.cpp" />
+    <ClCompile Include="GameObjectBasicAttr.cpp" />
+    <ClCompile Include="Collider2D.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />

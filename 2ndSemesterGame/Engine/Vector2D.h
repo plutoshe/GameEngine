@@ -66,3 +66,4 @@ public:
 	void Clear() {}
 };
 
+typedef Vector2D<float> Vector2f;

@@ -4,9 +4,7 @@
 extern GameManager CurrentGameManager;
 
 GameObject::GameObject() {
-	BasicAttr = Engine::OwningPointer<GameObject3DBasicAttr>(
-		new GameObject3DBasicAttr()
-		);
+	BasicAttr.Clear();
 }
 GameObject::~GameObject() {}
 

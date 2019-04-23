@@ -1,10 +1,11 @@
 #pragma once
-#include "GameObjectBasicAttr.h"
-#include "GameObject.h"
 #include "SmartPointer.h"
-#include "Vector2D.h"
-
-enum Collider2DType
+#include "VectorUtil.h"
+#include "List.h"
+#include "GeoLine.h"
+#include "GeoPoint.h"
+class PhysicsComponent;
+enum ColliderType
 {
 	Box = 0,
 	/*Circle,
@@ -14,6 +15,9 @@ enum Collider2DType
 };
 
 class Collider {
+public:
+	ColliderType type;
+	Engine::ObservingPointer<PhysicsComponent> ParentGameObject;
 	Collider() {}
 	~Collider() {}
 };
@@ -21,17 +25,23 @@ class Collider {
 class Collider2D: public Collider
 {
 public:
-	Engine::ObservingPointer<GameObject> ParentGameObject;
-
 	Collider2D();
 	~Collider2D();
-
 };
 
-class BoxCollider2D: Collider2D {
+class BoxCollider2D: public Collider2D {
 public:
 	Vector2f Center;
 	Vector2f Size;
+
+	BoxCollider2D() { type = Box; }
+	BoxCollider2D(Vector2f _center, Vector2f _size) {
+		Center = _center; 
+		Size = _size;
+	}
+	DataStructure::List<GeoPoint2D> GetBorderPoints();
+	DataStructure::List<GeoLine2D> GetBorderLines();
+	
 
 };
 

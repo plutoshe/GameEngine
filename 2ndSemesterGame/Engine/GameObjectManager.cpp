@@ -11,6 +11,10 @@ GameObjectManager::~GameObjectManager()
 {
 }
 
+void GameObjectManager::Start() {
+	for (int i = 0; i < GameobjectList.size(); i++)
+		GameobjectList[i]->Start();
+}
 
 void GameObjectManager::Update() {
 	for (int i = 0; i < GameobjectList.size(); i++)

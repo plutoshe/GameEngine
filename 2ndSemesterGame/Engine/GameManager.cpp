@@ -24,19 +24,19 @@ bool GameManager::Initialization(HINSTANCE i_hInstance, int i_nCmdShow, const ch
 
 void GameManager::Run() {
 	//GLib::Service(bQuit);
-	
+	PSGameObejctManager->Start();
 	while (!bQuit) {
 		DeltaTime = Timing::CalcLastFrameTime_ms();
 		Input->Update();
-		PSGameObejctManager->Update(DeltaTime);
-		//Physics.Update();
+		PSGameObejctManager->Update();
+		Physics->Update(DeltaTime);
 		Render->Update();
 	}
 	Release();
 }
 
 void GameManager::AddGameObject(GameObject gameobject) {
-	PSGameObejctManager->AddGameObejct(gameobject);
+	PSGameObejctManager->AddGameObject(gameobject);
 }
 
 Engine::ObservingPointer<GameObject> GameManager::GetNewGameObject() {

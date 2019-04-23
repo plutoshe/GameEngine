@@ -3,14 +3,15 @@
 #include "Log.h"
 namespace DataStructure {
 	template<class T>
-	class Vectors
+	class List
 	{
 	public:
-		Vectors();
-		Vectors(const Vectors<T> &p);
-		void operator=(const Vectors<T> &p);
+		//TODO: add ...param to construct list
+		List();
+		List(const List<T> &p);
+		void operator=(const List<T> &p);
 
-		~Vectors();
+		~List();
 
 		void clear();
 		void fixedSize();
@@ -31,7 +32,7 @@ namespace DataStructure {
 	// constructor
 
 	template <class T>
-	Vectors<T>::Vectors() {
+	List<T>::List() {
 		if (capacity > 0) delete[] data;
 		data = new T[1];
 		size = 0;
@@ -39,7 +40,7 @@ namespace DataStructure {
 	}
 
 	template <class T>
-	Vectors<T>::Vectors(const Vectors<T> &p) {
+	List<T>::List(const List<T> &p) {
 		if (capacity > 0) {
 			delete[] data;
 		}
@@ -48,11 +49,10 @@ namespace DataStructure {
 			data[i] = p.data[i];
 		size = p.size;
 		capacity = p.capacity;
-		return *this;
 	}
 
 	template <class T>
-	void Vectors<T>::operator=(const Vectors<T> &p)
+	void List<T>::operator=(const List<T> &p)
 	{
 		if (capacity > 0)
 			delete[] data;
@@ -66,7 +66,7 @@ namespace DataStructure {
 	// deconstructor
 
 	template <class T>
-	Vectors<T>::~Vectors() {
+	List<T>::~List() {
 		if (capacity > 0)
 			delete[] data;
 	}
@@ -74,7 +74,7 @@ namespace DataStructure {
 	// functions
 
 	template <class T>
-	void Vectors<T>::clear() {
+	void List<T>::clear() {
 		if (capacity > 0)
 			delete[] data;
 		data = new T[1];
@@ -83,7 +83,7 @@ namespace DataStructure {
 	}
 
 	template <class T>
-	void Vectors<T>::fixedSize() {
+	void List<T>::fixedSize() {
 		T* fixedData = new T[size];
 		for (int i = 0; i < size; i++)
 			fixedData[i] = data[i];
@@ -95,7 +95,7 @@ namespace DataStructure {
 
 
 	template <class T>
-	void Vectors<T>::push(T addend) {
+	void List<T>::push(T addend) {
 		if (size + 1 > capacity) {
 			T* old_data = data;
 			data = new T[capacity * 2];
@@ -110,22 +110,22 @@ namespace DataStructure {
 	}
 
 	template <class T>
-	int Vectors<T>::get_size() const {
+	int List<T>::get_size() const {
 		return size;
 	}
 
 	template <class T>
-	int Vectors<T>::get_capacity() const {
+	int List<T>::get_capacity() const {
 		return capacity;
 	}
 
 	template <class T>
-	T& Vectors<T>::operator[](int pos) {
+	T& List<T>::operator[](int pos) {
 		return data[pos];
 	}
 
 	template <class T>
-	std::ostream& operator<<(std::ostream& os, Vectors<T>& p) {
+	std::ostream& operator<<(std::ostream& os, List<T>& p) {
 		for (int i = 0; i < p.get_size(); i++)
 			os << p[i];
 		return os;

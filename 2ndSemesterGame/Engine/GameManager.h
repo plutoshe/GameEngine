@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include <conio.h>
 #include <functional> 
-#include "Vectors.h"
+#include "List.h"
 #include "GLib.h"
 #include "InputController.h"
 #include "PhysicsController.h"
@@ -27,6 +27,7 @@ public:
 	bool bQuit;
 
 	bool Initialization(HINSTANCE i_hInstance, int i_nCmdShow, const char * i_pWindowName, WORD i_IconID, unsigned int i_WindowWidth, unsigned int i_WindowHeight);
+
 	void Run();
 
 	Engine::ObservingPointer<GameObject> GetNewGameObject();
@@ -37,7 +38,7 @@ public:
 	//void Rendering();
 	//void InputGet();
 	//void PhysicsUpdate(double deltaTime);
-	//void AddGameObejct(GameObject *gameobject);
+	//void AddGameObject(GameObject *gameobject);
 	//void CheckInput(unsigned int i_VKeyID, bool bWentDown);
 	//void UpdateKey(unsigned int i_VKeyID);
 	//bool bQuit = false;

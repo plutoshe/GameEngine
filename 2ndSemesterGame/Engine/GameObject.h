@@ -1,5 +1,5 @@
 #pragma once
-#include "Vector3D.h"
+#include "VectorUtil.h"
 #include "GLib.h"
 #include "assert.h"
 #include "Log.h"
@@ -7,12 +7,21 @@
 #include "RenderComponent.h"
 #include "GameObjectBasicAttr.h"
 #include "Status.h"
-
+#include "Matrix4x4.h"
 #include "SmartPointer.h"
 class GameManager;
 class GameObject
 {
 public:
+	Matrix4f LocalToWorldMatrix() {
+		//Matrix4f::GetTranslationMatrix(BasicAttr.Position)
+		return  Matrix4f::GetRotationMatrix(BasicAttr.Rotation) * Matrix4f::GetTranslationMatrix(Vector4f(BasicAttr.Position));
+	}
+
+	Matrix4f WorldToLocalMatrix() {
+		return  Matrix4f::GetTranslationMatrix(BasicAttr.Position).Inversion() * Matrix4f::GetRotationMatrix(BasicAttr.Rotation).Inversion();
+	}
+
 	Engine::ObservingPointer<GameObject> selfPointer;
 	GameObject();
 	~GameObject();

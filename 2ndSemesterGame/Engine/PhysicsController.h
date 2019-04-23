@@ -27,11 +27,9 @@ public:
 
 	//}
 	
-
+	void CollisionImpact(Engine::ObservingPointer<PhysicsComponent> ColliderPhysicsA, Engine::ObservingPointer<PhysicsComponent> ColliderPhysicsB, double collisionTime);
 	std::vector<Engine::ObservingPointer<PhysicsComponent>> PhysicsComponentList;
 	/*std::priority_queue <Collision> Collisions;*/
 	void Update(double deltaTime);
-private:
-
-	double getCollisionTime(Engine::ObservingPointer<PhysicsComponent> a, Engine::ObservingPointer<PhysicsComponent> b);
+	double GetCollisionTime(Engine::ObservingPointer<PhysicsComponent> a, Engine::ObservingPointer<PhysicsComponent> b, double limitTime);
 };

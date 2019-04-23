@@ -1,18 +1,7 @@
 #pragma once
 #include <iostream>
-#include "Vector4D.h"
-#define PS_DATCOPY(dst, src, n) \
-	{ for (int i = 0; i < (n); i++) (dst)[i] = (src)[i]; }
-
-#define PS_DATCONVERT(TYPE, dst, src, n) \
-	{ for (int i = 0; i < (n); i++) (dst)[i] = type((src)[i]); }
-
-#define PS_INITIALIZE(dst, n, value) \
-	{ for (int i = 0; i < (n); i++) (dst)[i] = value; }
-
-#define PS_DATCLEAR(TYPE, dst, n) memset(dst, 0, (n)*sizeof(TYPE))
-
-
+#include "BasicMacros.h"
+#include "VectorUtil.h"
 
 template<typename TYPE, int N, int M>
 class Matrix {
@@ -122,7 +111,6 @@ public:
 		PS_DATCOPY(this->data, p.data, 16);
 	}
 	using Matrix<TYPE, 4, 4>::operator=;
-
 	void operator=(const Vector4D<TYPE> &p) {
 		(*this).Clear();
 		for (int i = 0; i < 4; i++) (*this)[i][i] = p[i];
@@ -147,6 +135,10 @@ public:
 	}
 
 	using Matrix<TYPE, 4, 4>::operator*;
+	Matrix4x4 operator*(const Matrix4x4 &p) {
+		*this = *this* (Matrix<TYPE, 4, 4>)(p);
+		return *this;
+	}
 	Vector4D<TYPE> operator *(const Vector4D<TYPE> &p) {
 		Vector4D<TYPE> r;
 		r.Clear();
@@ -171,13 +163,44 @@ public:
 		return *this;
 	}
 
-	void Transpose() {
-		*this = *this.OriginTranspose();
+	Matrix4x4 Transpose() {
+		return this->OriginTranspose();
 	}
 
-	void Translation(Vector4D<TYPE> p) {
-
+	static Matrix4x4 GetTranslationMatrix(const Vector4D<TYPE> &move) {
+		Matrix4x4 trans;
+		trans.SetTrans(move);
+		return trans;
 	}
+
+	static Matrix4x4 GetRotationXMatrix(TYPE angle) {
+		Matrix4x4 rot;
+		rot.SetRotationX(angle);
+		return rot;
+	}
+
+	static Matrix4x4 GetRotationYMatrix(TYPE angle) {
+		Matrix4x4 rot;
+		rot.SetRotationY(angle);
+		return rot;
+	}
+	
+	static Matrix4x4 GetRotationZMatrix(TYPE angle) {
+		Matrix4x4 rot;
+		rot.SetRotationZ(angle);
+		return rot;
+	}
+
+	static Matrix4x4 GetRotationMatrix(Vector3D<TYPE> angles) {
+		return GetRotationMatrix(angles[0], angles[1], angles[2]);
+	}
+
+	static Matrix4x4 GetRotationMatrix(TYPE angleX, TYPE angleY, TYPE angleZ) {
+		Matrix4x4 rot;
+		rot.SetRotationXYZ(angleX, angleY, angleZ);
+		return rot;
+	}
+
 
 	void SetRotationX(TYPE angle) { SetRotationY((TYPE) ::sin(angle), (TYPE) ::cos(angle)); }
 
@@ -216,6 +239,21 @@ public:
 		(*this)[3][0] = TYPE(0); (*this)[3][1] = TYPE(0); (*this)[3][2] = TYPE(0); (*this)[3][3] = TYPE(1);
 	}
 
+	void SetRotationXYZ(TYPE angleX, TYPE angleY, TYPE angleZ)
+	{
+		const TYPE sx = (TYPE) ::sin(angleX);
+		const TYPE cx = (TYPE) ::cos(angleX);
+		const TYPE sy = (TYPE) ::sin(angleY);
+		const TYPE cy = (TYPE) ::cos(angleY);
+		const TYPE sz = (TYPE) ::sin(angleZ);
+		const TYPE cz = (TYPE) ::cos(angleZ);
+
+		(*this)[0][0] = cy * cz;              (*this)[0][1] = cy * sz;                 (*this)[0][2] = -sy;     (*this)[0][3] = TYPE(0);
+		(*this)[1][0] = cz * sx*sy - cx * sz; (*this)[1][1] = cx * cz + sx * sy * sz;  (*this)[1][2] = cy * sx; (*this)[1][3] = TYPE(0);
+		(*this)[2][0] = cx * cz*sy + sx * sz; (*this)[2][1] = -cz * sx + cx * sy * sz; (*this)[2][2] = cx * cy; (*this)[2][3] = TYPE(0);
+		(*this)[3][0] = TYPE(0);              (*this)[3][1] = TYPE(0);                 (*this)[3][2] = TYPE(0); (*this)[3][3] = TYPE(1);
+	}
+
 	void AddTrans(const Vector4D<TYPE> &move) {
 		(*this)[0][3] += move.x; (*this)[1][3] += move.y; (*this)[2][3] += move.z;
 	}
@@ -241,11 +279,64 @@ public:
 		return r;
 	}
 
-	/*void Matrix4x4::Invert(Matrix4x4 & out)
+
+	Matrix4x4 Inversion()
 	{
+		Matrix4x4 inversion;
+		const TYPE data_11_14__10_15 = (*this)[2][3] * (*this)[3][2] - (*this)[2][2] * (*this)[3][3];
+		const TYPE data_10_15__11_14 = (*this)[2][2] * (*this)[3][3] - (*this)[2][3] * (*this)[3][2];
+		const TYPE data__7_14___6_15 = (*this)[1][3] * (*this)[3][2] - (*this)[1][2] * (*this)[3][3];
+		const TYPE data__6_11___7_10 = (*this)[1][2] * (*this)[2][3] - (*this)[1][3] * (*this)[2][2];
 
-	}*/
+		const TYPE data__9_15__11_13 = (*this)[2][1] * (*this)[3][3] - (*this)[2][3] * (*this)[3][1];
+		const TYPE data_11_13___9_15 = (*this)[2][3] * (*this)[3][1] - (*this)[2][1] * (*this)[3][3];
+		const TYPE data__5_15___7_13 = (*this)[1][1] * (*this)[3][3] - (*this)[1][3] * (*this)[3][1];
+		const TYPE data__7__9___5_11 = (*this)[1][3] * (*this)[2][1] - (*this)[1][1] * (*this)[2][3];
 
+		const TYPE data_10_13___9_14 = (*this)[2][2] * (*this)[3][1] - (*this)[2][1] * (*this)[3][2];
+		const TYPE data__9_14__10_13 = (*this)[2][1] * (*this)[3][2] - (*this)[2][2] * (*this)[3][1];
+		const TYPE data__6_13___5_14 = (*this)[1][2] * (*this)[3][1] - (*this)[1][1] * (*this)[3][2];
+		const TYPE data__5_10___6__9 = (*this)[1][1] * (*this)[2][2] - (*this)[1][2] * (*this)[2][1];
+
+		const TYPE data_11_12___8_15 = (*this)[2][3] * (*this)[3][0] - (*this)[2][0] * (*this)[3][3];
+		const TYPE data__8_15__11_12 = (*this)[2][0] * (*this)[3][3] - (*this)[2][3] * (*this)[3][0];
+		const TYPE data__7_12___4_15 = (*this)[1][3] * (*this)[3][0] - (*this)[1][0] * (*this)[3][3];
+		const TYPE data__4_11___7__8 = (*this)[1][0] * (*this)[2][3] - (*this)[1][3] * (*this)[2][0];
+
+		const TYPE data__8_14__10_12 = (*this)[2][0] * (*this)[3][2] - (*this)[2][2] * (*this)[3][0];
+		const TYPE data_10_12___8_14 = (*this)[2][2] * (*this)[3][0] - (*this)[2][0] * (*this)[3][2];
+		const TYPE data__4_14___6_12 = (*this)[1][0] * (*this)[3][2] - (*this)[1][2] * (*this)[3][0];
+		const TYPE data__6__8___4_10 = (*this)[1][2] * (*this)[2][0] - (*this)[1][0] * (*this)[2][2];
+
+		const TYPE data__9_12___8_13 = (*this)[2][1] * (*this)[3][0] - (*this)[2][0] * (*this)[3][1];
+		const TYPE data__8_13___9_12 = (*this)[2][0] * (*this)[3][1] - (*this)[2][1] * (*this)[3][0];
+		const TYPE data__5_12___4_13 = (*this)[1][1] * (*this)[3][0] - (*this)[1][0] * (*this)[3][1];
+		const TYPE data__4__9___5__8 = (*this)[1][0] * (*this)[2][1] - (*this)[1][1] * (*this)[2][0];
+
+		inversion[0][0] = (*this)[1][1] * (-data_11_14__10_15) + (*this)[1][2] * (-data__9_15__11_13) + (*this)[1][3] * (-data_10_13___9_14);
+		inversion[0][1] = (*this)[0][1] * (-data_10_15__11_14) + (*this)[0][2] * (-data_11_13___9_15) + (*this)[0][3] * (-data__9_14__10_13);
+		inversion[0][2] = (*this)[0][1] * (-data__7_14___6_15) + (*this)[0][2] * (-data__5_15___7_13) + (*this)[0][3] * (-data__6_13___5_14);
+		inversion[0][3] = (*this)[0][1] * (-data__6_11___7_10) + (*this)[0][2] * (-data__7__9___5_11) + (*this)[0][3] * (-data__5_10___6__9);
+
+		inversion[1][0] = (*this)[1][0] * (data_11_14__10_15)+(*this)[1][2] * (-data_11_12___8_15) + (*this)[1][3] * (-data__8_14__10_12);
+		inversion[1][1] = (*this)[0][0] * (data_10_15__11_14)+(*this)[0][2] * (-data__8_15__11_12) + (*this)[0][3] * (-data_10_12___8_14);
+		inversion[1][2] = (*this)[0][0] * (data__7_14___6_15)+(*this)[0][2] * (-data__7_12___4_15) + (*this)[0][3] * (-data__4_14___6_12);
+		inversion[1][3] = (*this)[0][0] * (data__6_11___7_10)+(*this)[0][2] * (-data__4_11___7__8) + (*this)[0][3] * (-data__6__8___4_10);
+
+		inversion[2][0] = (*this)[1][0] * (data__9_15__11_13)+(*this)[1][1] * (data_11_12___8_15)+(*this)[1][3] * (-data__9_12___8_13);
+		inversion[2][1] = (*this)[0][0] * (data_11_13___9_15)+(*this)[0][1] * (data__8_15__11_12)+(*this)[0][3] * (-data__8_13___9_12);
+		inversion[2][2] = (*this)[0][0] * (data__5_15___7_13)+(*this)[0][1] * (data__7_12___4_15)+(*this)[0][3] * (-data__5_12___4_13);
+		inversion[2][3] = (*this)[0][0] * (data__7__9___5_11)+(*this)[0][1] * (data__4_11___7__8)+(*this)[0][3] * (-data__4__9___5__8);
+
+		inversion[3][0] = (*this)[1][0] * (data_10_13___9_14)+(*this)[1][1] * (data__8_14__10_12)+(*this)[1][2] * (data__9_12___8_13);
+		inversion[3][1] = (*this)[0][0] * (data__9_14__10_13)+(*this)[0][1] * (data_10_12___8_14)+(*this)[0][2] * (data__8_13___9_12);
+		inversion[3][2] = (*this)[0][0] * (data__6_13___5_14)+(*this)[0][1] * (data__4_14___6_12)+(*this)[0][2] * (data__5_12___4_13);
+		inversion[3][3] = (*this)[0][0] * (data__5_10___6__9)+(*this)[0][1] * (data__6__8___4_10)+(*this)[0][2] * (data__4__9___5__8);
+
+		const TYPE det = (*this)[0][0] * inversion[0][0] + (*this)[0][1] * inversion[1][0] + (*this)[0][2] * inversion[2][0] + (*this)[0][3] * inversion[3][0];
+		return inversion / det;
+	}
+	
 
 };
 

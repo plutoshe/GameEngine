@@ -331,7 +331,7 @@ namespace Engine {
 
 		template<class U>
 		ObservingPointer(const OwningPointer<U> & i_owner) {
-			OwningObject = i_owner.OwningObject;
+			OwningObject = reinterpret_cast<T*>(i_owner.OwningObject);
 			CountRef = i_owner.CountRef;
 			CountRef->ObserverReferences++;
 		}

@@ -5,6 +5,13 @@
 #include "GameObject.h"
 #include <vector>
 
+//extern "C"
+//{
+//#include "lua.h"  
+//#include "lauxlib.h"  
+//#include "lualib.h"  
+//}
+
 class GameObjectManager
 {
 public:
@@ -17,10 +24,34 @@ public:
 	std::vector<Engine::OwningPointer<GameObject>> GameobjectList;
 	void Update();
 
-	void AddGameObejct(GameObject gameobject) {
+	void AddGameObject(GameObject gameobject) {
 		GameobjectList.push_back(Engine::OwningPointer<GameObject>(gameobject));
 		Engine::ObservingPointer<GameObject> currentGameObject = GameobjectList[GameobjectList.size() - 1];
 		currentGameObject->UpdateConnectionPointer(currentGameObject);
+	}
+
+	Status AddGameObjectByLua(std::string filename) {
+		/*using namespace std;
+		lua_State *L = luaL_newstate();
+		if (L == NULL)
+		{
+			return;
+		}
+
+		int bRet = luaL_loadfile(L, filename);
+		if (bRet)
+		{
+			cout << "load file error" << endl;
+			return;
+		}
+		
+		  
+		Engine::ObservingPointer < GameObject > newGameObject = GetNewGameObject();
+		string str = lua_tostring(L, -1);
+		cout << "encoding string = " << str.c_str() << endl; 
+		newGameObject.Decode(str);
+
+*/
 	}
 
 	Engine::ObservingPointer<GameObject> GetNewGameObject() {
@@ -29,7 +60,7 @@ public:
 		emptyGameObject->UpdateConnectionPointer(emptyGameObject);
 		return emptyGameObject;
 	}
-
+	void Start();
 	void Release();
 
 private:

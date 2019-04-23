@@ -164,11 +164,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Collider2D.h" />
+    <ClInclude Include="Delegate.h" />
     <ClInclude Include="GameObjectBasicAttr.h" />
     <ClInclude Include="BasicMacros.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameObjectManager.h" />
+    <ClInclude Include="GeoLine.h" />
+    <ClInclude Include="GeoMethod.h" />
+    <ClInclude Include="GeoPoint.h" />
+    <ClInclude Include="Message.h" />
+    <ClInclude Include="MessageController.h" />
     <ClInclude Include="StaticVariable.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="Log.h" />
@@ -183,20 +189,27 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Timing.h" />
     <ClInclude Include="Vector.h" />
-    <ClInclude Include="Vector4D.h" />
-    <ClInclude Include="Vectors.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="Vector3D.h" />
+    <ClInclude Include="Vector4D.h" />
+    <ClInclude Include="VectorUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Delegate.cpp" />
     <ClCompile Include="GameObjectBasicAttr.cpp" />
     <ClCompile Include="Collider2D.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectManager.cpp" />
+    <ClCompile Include="GeoLine.cpp" />
+    <ClCompile Include="GeoMethod.cpp" />
+    <ClCompile Include="GeoPoint.cpp" />
     <ClCompile Include="InputController.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
+    <ClCompile Include="Message.cpp" />
+    <ClCompile Include="MessageController.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsController.cpp" />
     <ClCompile Include="RenderComponent.cpp" />

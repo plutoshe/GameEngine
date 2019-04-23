@@ -1,24 +1,33 @@
 #pragma once
+#include <memory>
+#include "BasicMacros.h"
 
-# define PS_DATCOPY(dst, src, TYPE, n) \
-	{ for (int i = 0; i < (n); i++) (dest)[i] = (source)[i]; }
-
-#define PS_DATCONVERT(type,dest,source,n) \
-	{ for ( int i = 0; i < (n); i++ ) (dest)[i] = type((source)[i]); }
-
-
-template<typename Type, int N>
+template<typename TYPE, int N>
 class Vector
 {
 public:
 	TYPE data[N];
 
 	Vector() {}
-	Vecotr(const Vector &p) {
+	Vector(const Vector &p) {
 		data = p.data;
 	}
 	const Vector& operator  = (const Vector &p) {
-		PS_DATCOPY(data, p.data, Type, N);
+		PS_DATCOPY(data, p.data, N);
+		return *this;
+	}
+	template<int M>
+	const Vector(const Vector<TYPE, M> &p) {
+		data = p.data;
+	}
+	template<int M>
+	const Vector& operator  = (const Vector<TYPE, M> &p) {
+		if (N > M) {
+			PS_DATCOPY(data, p.data, M);
+			PS_DATCLEAR(TYPE, p + M, N - M);
+		}
+		else
+			PS_DATCOPY(data, p.data, N);
 		return *this;
 	}
 
@@ -43,10 +52,11 @@ public:
 	const Vector& operator /= (const TYPE v) { for (int i = 0; i < N; ++i) data[i] /= v; return *this; }
 };
 
-template<typename TYPE>
-class Vector2{
-public:
-};
+
+
+
+
+
 
 //
 //

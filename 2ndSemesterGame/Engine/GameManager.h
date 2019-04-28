@@ -17,7 +17,7 @@ public:
 	GameManager();
 	~GameManager();
 	//Model
-	Engine::OwningPointer<GameObjectManager> PSGameObejctManager;
+	Engine::OwningPointer<GameObjectManager> PSGameObjectManager;
 
 	//Controller
 	Engine::OwningPointer<PhysicsController> Physics;
@@ -34,9 +34,13 @@ public:
 
 	template<class T>
 	Engine::ObservingPointer<GameObject> AddGameObject(T gameobject) {
-		return PSGameObejctManager->AddGameObject(gameobject);
+		return PSGameObjectManager->AddGameObject(gameobject);
 	}
-	
+	void RemoveGameObject(Engine::ObservingPointer<GameObject> p) {
+		Render->RemoveRenderComponent(p->renderComponent);
+		Physics->RemovePhysicsComponent(p->physicsComponent);
+		PSGameObjectManager->RemoveGameObject(p);
+	}
 	void Release();
 
 	//void CheckInput(unsigned int i_VKeyID);

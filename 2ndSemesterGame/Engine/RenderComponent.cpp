@@ -55,8 +55,10 @@ void* RenderComponent::LoadFile(const char * i_pFilename, size_t & o_sizeFile)
 	return pBuffer;
 }
 
-
-void RenderComponent::CreateSprite(const char * i_pFilename)
+void RenderComponent::CreateSprite(const char * i_pFilename) {
+	CreateSprite(i_pFilename, ParentGameObject->BasicAttr.Scale.x * 100, ParentGameObject->BasicAttr.Scale.y * 100);
+}
+void RenderComponent::CreateSprite(const char * i_pFilename, int _width, int _height)
 {
 	assert(i_pFilename);
 
@@ -84,10 +86,10 @@ void RenderComponent::CreateSprite(const char * i_pFilename)
 	bool result = GLib::GetDimensions(pTexture, width, height, depth);
 	assert(result == true);
 	assert((width > 0) && (height > 0));
-	width = 100;
-	height = 100;
+	width = _width;
+	height = _height;
 	// Define the sprite edges
-	GLib::Sprites::SpriteEdges	Edges = { -float(width / 2.0f), float(height), float(width / 2.0f), 0.0f };
+	GLib::Sprites::SpriteEdges	Edges = { -float(width / 2.0f), float(height / 2.0f), float(width / 2.0f),-float(height / 2.0f)};
 	GLib::Sprites::SpriteUVs	UVs = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 0.0f, 1.0f }, { 1.0f, 1.0f } };
 	GLib::RGBA							Color = { 255, 255, 255, 255 };
 

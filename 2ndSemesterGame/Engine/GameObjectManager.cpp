@@ -21,6 +21,14 @@ void GameObjectManager::Update() {
 		GameobjectList[i]->Update(); 
 }
 
+void GameObjectManager::RemoveGameObject(Engine::ObservingPointer<GameObject> p) {
+	for (int i = 0; i < GameobjectList.size(); i++)
+		if (GameobjectList[i] == p) {
+			GameobjectList.erase(GameobjectList.begin() + i);
+			break;
+		}
+}
+
 void GameObjectManager::Release() {
 
 }

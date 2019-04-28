@@ -161,9 +161,6 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vectors.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SmartPointer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

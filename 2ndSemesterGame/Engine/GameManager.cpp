@@ -3,7 +3,7 @@
 
 GameManager::GameManager()
 {
-	PSGameObejctManager = new GameObjectManager();
+	PSGameObjectManager = new GameObjectManager();
 	Physics = new PhysicsController();
 	Input = new InputController();
 	Render = new RenderController();
@@ -24,11 +24,11 @@ bool GameManager::Initialization(HINSTANCE i_hInstance, int i_nCmdShow, const ch
 
 void GameManager::Run() {
 	//GLib::Service(bQuit);
-	PSGameObejctManager->Start();
+	PSGameObjectManager->Start();
 	while (!bQuit) {
 		DeltaTime = Timing::CalcLastFrameTime_ms();
 		Input->Update();
-		PSGameObejctManager->Update();
+		PSGameObjectManager->Update();
 		Physics->Update(DeltaTime / 1000);
 		Render->Update();
 		
@@ -38,7 +38,7 @@ void GameManager::Run() {
 }
 
 Engine::ObservingPointer<GameObject> GameManager::GetNewGameObject() {
-	return PSGameObejctManager->GetNewGameObject();
+	return PSGameObjectManager->GetNewGameObject();
 }
 
 

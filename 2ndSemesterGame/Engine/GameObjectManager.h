@@ -31,6 +31,8 @@ public:
 		return currentGameObject;
 	}
 
+	void RemoveGameObject(Engine::ObservingPointer<GameObject> p);
+
 	Status AddGameObjectByLua(std::string filename) {
 		/*using namespace std;
 		lua_State *L = luaL_newstate();

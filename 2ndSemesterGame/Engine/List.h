@@ -92,6 +92,8 @@ namespace DataStructure {
 	void List<T>::remove(int _index, int _size) {
 		for (int i = _index; i < size - _size; i++) 
 			data[i] = data[i + _size];
+		for (int i = size - _size; i < size; i++)
+			data[i] = nullptr;
 		size -= _size;
 	}
 

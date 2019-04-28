@@ -225,7 +225,6 @@
     <ClCompile Include="Timing.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Vector4D.cpp" />
-    <ClCompile Include="Vectors.cpp" />
     <ClCompile Include="Vector2D.cpp" />
     <ClCompile Include="Vector3D.cpp" />
   </ItemGroup>

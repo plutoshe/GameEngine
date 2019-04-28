@@ -44,6 +44,7 @@ public:
 	void Render();
 	void Release();
 	void CreateSprite(const char * i_pFilename);
+	void CreateSprite(const char * i_pFilename, int _width, int _height);
 	void* LoadFile(const char * i_pFilename, size_t & o_sizeFile);
 };
 

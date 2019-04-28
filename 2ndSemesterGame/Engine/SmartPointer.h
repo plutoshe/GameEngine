@@ -231,13 +231,13 @@ namespace Engine {
 
 		// Equality comparison operator for comparing to an Observing Pointer
 		inline bool operator==(const ObservingPointer<T> & i_other) const {
-			return (*this == i_other.AcquireOwnership());
+			return (OwningObject == i_other.OwningObject);
 		}
 
 		// Equality comparison operator for comparing to an Observing Pointer of a polymorphic type
 		template<class U>
 		inline bool operator==(const ObservingPointer<U> & i_other) const {
-			return (*this == i_other.AcquireOwnership());
+			return (OwningObject == reinterpret_cast<T*>(i_other.OwningObject));
 		}
 
 		// Inequality comparison operator

@@ -94,9 +94,10 @@ void PhysicsController::AddPhysicsComponent(Engine::ObservingPointer<PhysicsComp
 }
 
 void PhysicsController::RemovePhysicsComponent(Engine::ObservingPointer<PhysicsComponent> p) {
-	for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
-		if (PhysicsComponentList[i] == p)
+	for (int i = PhysicsComponentList.get_size() - 1; i >= 0; i--) 
+		if (PhysicsComponentList[i] == p) {
 			PhysicsComponentList.remove(i);
-	}
+			break;
+		}
 }
 

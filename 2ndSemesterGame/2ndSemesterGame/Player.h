@@ -6,6 +6,6 @@ public:
 	Player();
 	~Player();
 
-	void Update();
+	virtual void Update();
 };
 

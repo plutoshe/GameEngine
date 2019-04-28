@@ -31,7 +31,12 @@ public:
 	void Run();
 
 	Engine::ObservingPointer<GameObject> GetNewGameObject();
-	void AddGameObject(GameObject gameobject);
+
+	template<class T>
+	Engine::ObservingPointer<GameObject> AddGameObject(T gameobject) {
+		return PSGameObejctManager->AddGameObject(gameobject);
+	}
+	
 	void Release();
 
 	//void CheckInput(unsigned int i_VKeyID);

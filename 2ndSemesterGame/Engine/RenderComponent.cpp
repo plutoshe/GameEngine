@@ -1,13 +1,16 @@
+#include <math.h>
+#define _USE_MATH_DEFINES
+
 #include "RenderComponent.h"
 #include "GameObject.h"
 
 
 
 void RenderComponent::Render() {
-	// Tell GLib to render this sprite at our calculated location
-	
+	// Tell GLib to render this sprite at our calculated location	
 	auto pos = GLib::Point2D{ ParentGameObject->BasicAttr.Position.x, ParentGameObject->BasicAttr.Position.y };
-	GLib::Sprites::RenderSprite(*Irender, pos, 0.0f);
+	auto z = ParentGameObject->BasicAttr.Rotation.z;
+	GLib::Sprites::RenderSprite(*Irender, pos, z / 180 * M_PI);
 }
 
 void RenderComponent::Update() {

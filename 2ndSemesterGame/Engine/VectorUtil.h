@@ -14,7 +14,7 @@ class Vector2D
 public:
 	TYPE x, y;
 
-	Vector2D() {}
+	Vector2D() { Clear(); }
 	Vector2D(TYPE _x, TYPE _y) { x = _x; y = _y; }
 
 	void operator=(const Vector2D& p);
@@ -45,14 +45,14 @@ public:
 		return p * v;
 	}
 
-	Vector2D operator + (const Vector2D &p) const { return Vector2D(x + p.x, y + p.x); }
-	Vector2D operator - (const Vector2D &p) const { return Vector2D(x - p.x, y - p.x); }
-	Vector2D operator * (const Vector2D &p) const { return Vector2D(x * p.x, y * p.x); }
-	Vector2D operator / (const Vector2D &p) const { return Vector2D(x / p.x, y / p.x); }
+	Vector2D operator + (const Vector2D &p) const { return Vector2D(x + p.x, y + p.y); }
+	Vector2D operator - (const Vector2D &p) const { return Vector2D(x - p.x, y - p.y); }
+	Vector2D operator * (const Vector2D &p) const { return Vector2D(x * p.x, y * p.y); }
+	Vector2D operator / (const Vector2D &p) const { return Vector2D(x / p.x, y / p.y); }
 	Vector2D operator + (const TYPE v) const { return Vector2D(x + v, y + v); }
-	Vector2D operator - (const TYPE v) const { return Vector2D(x + v, y + v); }
-	Vector2D operator * (const TYPE v) const { return Vector2D(x + v, y + v); }
-	Vector2D operator / (const TYPE v) const { return Vector2D(x + v, y + v); }
+	Vector2D operator - (const TYPE v) const { return Vector2D(x - v, y - v); }
+	Vector2D operator * (const TYPE v) const { return Vector2D(x * v, y * v); }
+	Vector2D operator / (const TYPE v) const { return Vector2D(x / v, y / v); }
 
 	//!@name Assignment operators
 
@@ -63,7 +63,7 @@ public:
 	const Vector2D& operator += (const TYPE v) { x += v; y += v; return *this; }
 	const Vector2D& operator -= (const TYPE v) { x -= v; y -= v; return *this; }
 	const Vector2D& operator *= (const TYPE v) { x *= v; y *= v; return *this; }
-	const Vector2D& operator /= (const TYPE v) { x /= v; y /= v; return *this; }
+	const Vector2D& operator /= (const TYPE v) { if (v == 0) return Vector2D(); x /= v; y /= v; return *this; }
 
 
 	bool operator==(const Vector2D& p) const { return (x == p.x) && (y == p.y); }
@@ -100,7 +100,7 @@ public:
 
 	TYPE x, y, z;
 
-	Vector3D() {}
+	Vector3D() { Clear();  }
 	Vector3D(TYPE _x, TYPE _y, TYPE _z) { x = _x; y = _y; z = _z; }
 
 	void operator=(const Vector2D<TYPE>& p);
@@ -132,14 +132,14 @@ public:
 		return p * v;
 	}
 
-	Vector3D operator + (const Vector3D &p) const { return Vector3D(x + p.x, y + p.x, z + p.z); }
-	Vector3D operator - (const Vector3D &p) const { return Vector3D(x - p.x, y - p.x, z - p.z); }
-	Vector3D operator * (const Vector3D &p) const { return Vector3D(x * p.x, y * p.x, z * p.z); }
-	Vector3D operator / (const Vector3D &p) const { return Vector3D(x / p.x, y / p.x, z / p.z); }
+	Vector3D operator + (const Vector3D &p) const { return Vector3D(x + p.x, y + p.y, z + p.z); }
+	Vector3D operator - (const Vector3D &p) const { return Vector3D(x - p.x, y - p.y, z - p.z); }
+	Vector3D operator * (const Vector3D &p) const { return Vector3D(x * p.x, y * p.y, z * p.z); }
+	Vector3D operator / (const Vector3D &p) const { return Vector3D(x / p.x, y / p.y, z / p.z); }
 	Vector3D operator + (const TYPE v) const { return Vector3D(x + v, y + v, z + v); }
-	Vector3D operator - (const TYPE v) const { return Vector3D(x + v, y + v, z - v); }
-	Vector3D operator * (const TYPE v) const { return Vector3D(x + v, y + v, z * v); }
-	Vector3D operator / (const TYPE v) const { return Vector3D(x + v, y + v, z / v); }
+	Vector3D operator - (const TYPE v) const { return Vector3D(x - v, y - v, z - v); }
+	Vector3D operator * (const TYPE v) const { return Vector3D(x * v, y * v, z * v); }
+	Vector3D operator / (const TYPE v) const { return Vector3D(x / v, y / v, z / v); }
 
 	//!@name Assignment operators
 
@@ -150,7 +150,7 @@ public:
 	const Vector3D& operator += (const TYPE v) { x += v; y += v; z += v; return *this; }
 	const Vector3D& operator -= (const TYPE v) { x -= v; y -= v; z -= v; return *this; }
 	const Vector3D& operator *= (const TYPE v) { x *= v; y *= v; z *= v; return *this; }
-	const Vector3D& operator /= (const TYPE v) { x /= v; y /= v; z /= v; return *this; }
+	const Vector3D& operator /= (const TYPE v) { if (v == 0) return Vector3D(); x /= v; y /= v; z /= v; return *this; }
 
 
 	bool operator==(const Vector3D& p) const { return (x == p.x) && (y == p.y); }
@@ -185,7 +185,7 @@ class Vector4D
 public:
 	TYPE x, y, z, w;
 
-	Vector4D() {}
+	Vector4D() { Clear();  }
 	Vector4D(TYPE _x, TYPE _y, TYPE _z, TYPE _w) { x = _x; y = _y; z = _z; w = _w; }
 	void operator=(const Vector4D& p) { this->Equal(p); }
 	void operator=(const Vector3D<TYPE> &p) { this->Equal(p); }
@@ -215,14 +215,14 @@ public:
 		return p * v;
 	}
 
-	Vector4D operator + (const Vector4D &p) const { return Vector4D(x + p.x, y + p.x, z + p.z, w + p.w); }
-	Vector4D operator - (const Vector4D &p) const { return Vector4D(x - p.x, y - p.x, z - p.z, w + p.w); }
-	Vector4D operator * (const Vector4D &p) const { return Vector4D(x * p.x, y * p.x, z * p.z, w + p.w); }
-	Vector4D operator / (const Vector4D &p) const { return Vector4D(x / p.x, y / p.x, z / p.z, w + p.w); }
+	Vector4D operator + (const Vector4D &p) const { return Vector4D(x + p.x, y + p.y, z + p.z, w + p.w); }
+	Vector4D operator - (const Vector4D &p) const { return Vector4D(x - p.x, y - p.y, z - p.z, w + p.w); }
+	Vector4D operator * (const Vector4D &p) const { return Vector4D(x * p.x, y * p.y, z * p.z, w + p.w); }
+	Vector4D operator / (const Vector4D &p) const { return Vector4D(x / p.x, y / p.y, z / p.z, w + p.w); }
 	Vector4D operator + (const TYPE v) const { return Vector4D(x + v, y + v, z + v, w + v); }
-	Vector4D operator - (const TYPE v) const { return Vector4D(x + v, y + v, z - v, w + v); }
-	Vector4D operator * (const TYPE v) const { return Vector4D(x + v, y + v, z * v, w + v); }
-	Vector4D operator / (const TYPE v) const { return Vector4D(x + v, y + v, z / v, w + v); }
+	Vector4D operator - (const TYPE v) const { return Vector4D(x - v, y - v, z - v, w + v); }
+	Vector4D operator * (const TYPE v) const { return Vector4D(x / v, y * v, z * v, w + v); }
+	Vector4D operator / (const TYPE v) const { if (v == 0) return Vector4D(); return Vector4D(x / v, y / v, z / v, w + v); }
 
 	//!@name Assignment operators
 

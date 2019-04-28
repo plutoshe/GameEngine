@@ -29,14 +29,12 @@ void GameManager::Run() {
 		DeltaTime = Timing::CalcLastFrameTime_ms();
 		Input->Update();
 		PSGameObejctManager->Update();
-		Physics->Update(DeltaTime);
+		Physics->Update(DeltaTime / 1000);
 		Render->Update();
+		
+		if (Input->IsKeyDown(27)) break;
 	}
 	Release();
-}
-
-void GameManager::AddGameObject(GameObject gameobject) {
-	PSGameObejctManager->AddGameObject(gameobject);
 }
 
 Engine::ObservingPointer<GameObject> GameManager::GetNewGameObject() {
@@ -46,11 +44,11 @@ Engine::ObservingPointer<GameObject> GameManager::GetNewGameObject() {
 
 void GameManager::Release() {
 	// Component Release
-	PSGameObejctManager->Release();
+	//PSGameObejctManager->Release();
 	/*Render->Release();
 	Physics->Release();
 	Input->Release();*/
 	
 	// Process after release
-	GLib::Shutdown();
+	//GLib::Shutdown();
 }

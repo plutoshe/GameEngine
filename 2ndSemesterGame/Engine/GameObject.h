@@ -44,9 +44,9 @@ public:
 	void NewPhysicsComponent();
 	void NewRenderComponent();
 
-	Status AddPhysicsComponent(PhysicsComponent p);
+	/*Status AddPhysicsComponent(PhysicsComponent p);
 	Status AddRenderComponent(RenderComponent r);
-
+*/
 	Status UpdatePhysicsComponent(PhysicsComponent p);
 	Status UpdateRenderComponent(RenderComponent r);
 
@@ -73,7 +73,6 @@ public:
 	// Sphere Collider, Cube Collider, Capsule Collider
 
 private:
-	
 	void equal(const GameObject& g) {
 		BasicAttr = g.BasicAttr;
 		if (g.physicsComponent)

@@ -16,6 +16,7 @@ public:
 	void operator=(const PhysicsComponent &p) {
 		this->Equal(p);
 	}
+
 	void Equal(const PhysicsComponent &p) {
 		Mass = p.Mass;
 		DragCof = p.DragCof;
@@ -29,20 +30,22 @@ public:
 
 	float Mass = 1;
 	float DragCof = 1;
-	Vector3f velocity;
-	Vector3f acceleration;
-	bool HasGravity;
-	bool IsStatic;
+	Vector3f velocity = Vector3f(0,0,0);
+	Vector3f acceleration = Vector3f(0, 0, 0);
+	bool HasGravity = false;
+	bool IsStatic = false;
 	// TODO: AngleVelocity
 	// Vector3f angleVelocity
 	const Vector3f gravityAcceleration = Vector3f(0, -9.8, 0);
-	
-	double UpdateTime;
-	Engine::OwningPointer<Collider> ControlCollider;
-	//void AddCollider(Collider _collider);
-	//void NewCollider(ColliderType type);
+	Vector3f Force = Vector3f(0, 0, 0);
+	double UpdateTime = 0;
+	Engine::OwningPointer<Collider> ControlCollider = nullptr;
+
 	void Update(double deltaTime);
-	//void AddForce(Vector3f& i_Force);
+	void AddCollider(Collider _collider);
+	void NewCollider(ColliderType type);
+
+	void AddForce(Vector3f i_Force);
 private:
 		
 };

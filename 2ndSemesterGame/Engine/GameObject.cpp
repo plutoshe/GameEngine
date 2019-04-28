@@ -19,7 +19,9 @@ bool GameObject::HasRenderComponent() {
 void GameObject::NewPhysicsComponent() {
 	// TODO: Finish the new function of Physics system
 
-	//physicsComponent = Engine::OwningPointer<PhysicsComponent>(PhysicsComponent());
+	physicsComponent = Engine::OwningPointer<PhysicsComponent>(PhysicsComponent());
+	physicsComponent->ParentGameObject = selfPointer;
+	CurrentGameManager.Physics->AddPhysicsComponent(physicsComponent);
 	/*ParentManager->Physics->AddRenderController(physicsComponent);*/
 }
 
@@ -32,19 +34,19 @@ void GameObject::NewRenderComponent() {
 	//renderComponent = ;
 }
 
-Status GameObject::AddPhysicsComponent(PhysicsComponent p) {
-	if (HasPhysicsComponent())
-		return Status(400, "Already has a component");
-	physicsComponent = Engine::OwningPointer<PhysicsComponent>(&p);
-	return NoError;
-}
-
-Status GameObject::AddRenderComponent(RenderComponent r) {
-	if (HasRenderComponent())
-		return Status(400, "Already has a component");
-	renderComponent = Engine::OwningPointer<RenderComponent>(&r);
-	return NoError;
-}
+//Status GameObject::AddPhysicsComponent(PhysicsComponent p) {
+//	if (HasPhysicsComponent())
+//		return Status(400, "Already has a component");
+//	physicsComponent = Engine::OwningPointer<PhysicsComponent>(&p);
+//	return NoError;
+//}
+//
+//Status GameObject::AddRenderComponent(RenderComponent r) {
+//	if (HasRenderComponent())
+//		return Status(400, "Already has a component");
+//	renderComponent = Engine::OwningPointer<RenderComponent>(&r);
+//	return NoError;
+//}
 
 Status GameObject::UpdatePhysicsComponent(PhysicsComponent p) {
 	if (physicsComponent == nullptr)

@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "PhysicsComponent.h"
 #include "GameObject.h"
 
@@ -14,19 +16,50 @@ void PhysicsComponent::Update(double deltaTime) {
 	if (IsStatic) return;
 	// ignore density and area right now
 	Vector3f airDrag = (velocity * velocity * DragCof) / 2;
-	if (HasGravity)
+	if (velocity.x > 0)
+		airDrag.x *= -1;
+	if (velocity.y > 0)
+		airDrag.y *= -1;
+	if (velocity.z > 0)
+		airDrag.z *= -1;
+	Force += airDrag;
+
+	if (HasGravity) {
 		velocity += gravityAcceleration * (deltaTime - UpdateTime);
+		Force += gravityAcceleration * Mass;
+	}
 	velocity += acceleration * (deltaTime - UpdateTime);
+	std::cout << velocity;
 	ParentGameObject->BasicAttr.Position += (deltaTime - UpdateTime) * velocity;
 	UpdateTime = 0;
-	acceleration -= airDrag / Mass;
-	
+	/*DEBUG_LOG("%.2f %.2f", airDrag, Mass);
+	DEBUG_LOG("%.2f", airDrag / Mass);
+	DEBUG_LOG("%.2f %.2f %.2f", acceleration.x, acceleration.y, acceleration.z);*/
+	acceleration = Force / Mass;
+	Force.Clear();
+}
+
+
+void PhysicsComponent::AddCollider(Collider _collider) {
+	ControlCollider = Engine::OwningPointer<Collider>(_collider);
+}
+
+void PhysicsComponent::NewCollider(ColliderType type) {
+	switch (type)
+	{
+	case Box:
+		ControlCollider = Engine::OwningPointer<BoxCollider2D>();
+		break;
+	default:
+		break;
+	}
+}
+
+void PhysicsComponent::AddForce(Vector3f i_Force)
+{
+	Force += i_Force;
+	/*Vector3f acceleration = i_Force / gameobject.mass;
+	gameobject.position = gameobject.position + gameobject.velocity * (float)i_dt + acceleration * (float)(i_dt * i_dt / 2);
+	gameobject.velocity = gameobject.velocity + acceleration * (float)i_dt;*/
 
 }
-//void AddForce(Vector3f & i_Force, double i_dt)
-	//{
-	//	/*Vector3f acceleration = i_Force / gameobject.mass;
-	//	gameobject.position = gameobject.position + gameobject.velocity * (float)i_dt + acceleration * (float)(i_dt * i_dt / 2);
-	//	gameobject.velocity = gameobject.velocity + acceleration * (float)i_dt;*/
-
-	//}

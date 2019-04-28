@@ -49,18 +49,20 @@ void PhysicsController::CollisionImpact(Engine::ObservingPointer<PhysicsComponen
 }
 
 void PhysicsController::Update(double deltaTime) {
-	for (int i = 0; i < PhysicsComponentList.size(); i++) {
+	for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
 		PhysicsComponentList[i]->UpdateTime = 0;
 	}
 	while (true) {
 		double minimumCollisionTime = deltaTime;
 		int selectionObjectIDA = -1, selectionObjectIDB = -1;
-		for (int i = 0; i < PhysicsComponentList.size(); i++) {
-			for (int j = i + 1; j < PhysicsComponentList.size(); j++) {
-				double currentCollisionTime = GetCollisionTime(PhysicsComponentList[i], PhysicsComponentList[j], deltaTime);
-				if (currentCollisionTime < minimumCollisionTime) {
-					minimumCollisionTime = currentCollisionTime;
-					selectionObjectIDA = i; selectionObjectIDB = j;
+		for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
+			for (int j = i + 1; j < PhysicsComponentList.get_size(); j++) {
+				if (PhysicsComponentList[i] && PhysicsComponentList[j] && PhysicsComponentList[i] != PhysicsComponentList[j]) {
+					double currentCollisionTime = GetCollisionTime(PhysicsComponentList[i], PhysicsComponentList[j], deltaTime);
+					if (currentCollisionTime < minimumCollisionTime) {
+						minimumCollisionTime = currentCollisionTime;
+						selectionObjectIDA = i; selectionObjectIDB = j;
+					}
 				}
 			}
 		}
@@ -70,8 +72,19 @@ void PhysicsController::Update(double deltaTime) {
 		}
 		else break;
 	}
-	for (int i = 0; i < PhysicsComponentList.size(); i++) {
+	for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
 		PhysicsComponentList[i]->Update(deltaTime);
+	}
+}
+
+void PhysicsController::AddPhysicsComponent(Engine::ObservingPointer<PhysicsComponent> p) {
+	PhysicsComponentList.push(p);
+}
+
+void PhysicsController::RemovePhysicsComponent(Engine::ObservingPointer<PhysicsComponent> p) {
+	for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
+		if (PhysicsComponentList[i] == p)
+			PhysicsComponentList.remove(i);
 	}
 }
 

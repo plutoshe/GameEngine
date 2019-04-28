@@ -23,11 +23,12 @@ public:
 
 	std::vector<Engine::OwningPointer<GameObject>> GameobjectList;
 	void Update();
-
-	void AddGameObject(GameObject gameobject) {
-		GameobjectList.push_back(Engine::OwningPointer<GameObject>(gameobject));
+	template<class T>
+	Engine::ObservingPointer<GameObject> AddGameObject(T gameobject) {
+		GameobjectList.push_back(Engine::OwningPointer<T>(gameobject));
 		Engine::ObservingPointer<GameObject> currentGameObject = GameobjectList[GameobjectList.size() - 1];
 		currentGameObject->UpdateConnectionPointer(currentGameObject);
+		return currentGameObject;
 	}
 
 	Status AddGameObjectByLua(std::string filename) {

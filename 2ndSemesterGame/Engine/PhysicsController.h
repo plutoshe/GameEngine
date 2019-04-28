@@ -3,6 +3,7 @@
 #include "PhysicsComponent.h"
 #include <vector>
 #include <queue> 
+#include "List.h"
 
 struct Collision {
 public:
@@ -28,8 +29,11 @@ public:
 	//}
 	
 	void CollisionImpact(Engine::ObservingPointer<PhysicsComponent> ColliderPhysicsA, Engine::ObservingPointer<PhysicsComponent> ColliderPhysicsB, double collisionTime);
-	std::vector<Engine::ObservingPointer<PhysicsComponent>> PhysicsComponentList;
+	
 	/*std::priority_queue <Collision> Collisions;*/
 	void Update(double deltaTime);
 	double GetCollisionTime(Engine::ObservingPointer<PhysicsComponent> a, Engine::ObservingPointer<PhysicsComponent> b, double limitTime);
+	void AddPhysicsComponent(Engine::ObservingPointer<PhysicsComponent> p);
+	void RemovePhysicsComponent(Engine::ObservingPointer<PhysicsComponent> p);
+	DataStructure::List<Engine::ObservingPointer<PhysicsComponent>> PhysicsComponentList;
 };

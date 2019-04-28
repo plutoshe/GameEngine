@@ -18,10 +18,9 @@ void GameObjectManager::Start() {
 
 void GameObjectManager::Update() {
 	for (int i = 0; i < GameobjectList.size(); i++)
-		GameobjectList[i]->Update();
+		GameobjectList[i]->Update(); 
 }
 
 void GameObjectManager::Release() {
-	for (int i = 0; i < GameobjectList.size(); i++)
-		GameobjectList[i]->Release();
+
 }

@@ -1,4 +1,7 @@
 #include "Player.h"
+#include "GameManager.h"
+#include "PhysicsComponent.h"
+#include "Log.h"
 
 extern GameManager CurrentGameManager;
 
@@ -12,8 +15,8 @@ Player::~Player()
 }
 
 void Player::Update() {
-	if (CurrentGameManager.Input->KeyStatus.Has('J')) {
-		physicsComponent.AddForce(new Vector3f(0,10,0));
+	if (CurrentGameManager.Input->IsKeyDown('J')) {
+		physicsComponent->AddForce(Vector3f(0,-100000,0));
 	}
-		
+	//physicsComponent->AddForce(Vector3f(0, -20, 0));
 }

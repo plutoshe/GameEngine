@@ -16,6 +16,8 @@ namespace DataStructure {
 		void clear();
 		void fixedSize();
 		void push(T addend);
+		void remove(int _index, int _size);
+		void remove(int _index);
 
 		int get_size() const;
 		int get_capacity() const;
@@ -80,6 +82,17 @@ namespace DataStructure {
 		data = new T[1];
 		size = 0;
 		capacity = 1;
+	}
+	template <class T>
+	void List<T>::remove(int _index) {
+		remove(_index, 1);
+	}
+
+	template <class T>
+	void List<T>::remove(int _index, int _size) {
+		for (int i = _index; i < size - _size; i++) 
+			data[i] = data[i + _size];
+		size -= _size;
 	}
 
 	template <class T>

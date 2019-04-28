@@ -1,6 +1,6 @@
 #include "InputController.h"
 #include "Timing.h"
-
+#include "Log.h"
 namespace GLib {
 	extern HWND	g_hWnd;
 }
@@ -35,6 +35,10 @@ void InputController::GetInput() {
 		TranslateMessage(&mssg);
 		DispatchMessage(&mssg);
 	}
+}
+
+bool InputController::IsKeyDown(unsigned int keyCode) {
+	return KeyStatus.find(keyCode) != KeyStatus.end();
 }
 	
 void InputController::Update() {

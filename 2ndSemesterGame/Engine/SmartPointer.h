@@ -64,6 +64,10 @@ namespace Engine {
 			CountRef = new ReferenceCounters(1, 0);
 		}
 
+		OwningPointer(std::nullptr_t i_null) {
+			OwningObject = nullptr;
+			CountRef = nullptr;
+		}
 		// Copy Constructor
 		OwningPointer(const OwningPointer & i_other) {
 			/*ReleaseCurrentOwningPointer();*/
@@ -176,7 +180,7 @@ namespace Engine {
 		// OwningPointer<Base> BasePtr( new Base() );
 		// BasePtr = nullptr;
 		// Don't really need to implement this. If it's not here it'll go through OwningPointer & operator=( OwningPointer & i_other);
-		void  operator=(std::nullptr_t i_null) {
+		void operator=(std::nullptr_t i_null) {
 			if (*this != nullptr) {
 				ReleaseCurrentOwningPointer();
 			}
@@ -322,6 +326,11 @@ namespace Engine {
 			CountRef = nullptr;
 		}
 
+		ObservingPointer(std::nullptr_t inull) {
+			OwningObject = nullptr;
+			CountRef = nullptr;
+		}
+
 		// Copy Constructors
 		ObservingPointer(const ObservingPointer & i_other) {
 			OwningObject = i_other.OwningObject;
@@ -338,7 +347,7 @@ namespace Engine {
 
 		template<class U>
 		ObservingPointer(const ObservingPointer<U> & i_other) {
-			OwningObject = i_other.OwningObject;
+			OwningObject = reinterpret_cast<T*>(i_other.OwningObject);
 			CountRef = i_other.CountRef;
 			CountRef->ObserverReferences++;
 		}

@@ -39,11 +39,9 @@ void PhysicsComponent::Update(double deltaTime) {
 	Force.Clear();
 }
 
-
-void PhysicsComponent::AddCollider(Collider _collider) {
-	ControlCollider = Engine::OwningPointer<Collider>(_collider);
+void PhysicsComponent::UpdatePointer() {
+	ControlCollider->ParentGameObject = ParentGameObject->physicsComponent;
 }
-
 void PhysicsComponent::NewCollider(ColliderType type) {
 	switch (type)
 	{

@@ -15,11 +15,12 @@ class GameObject
 public:
 	Matrix4f LocalToWorldMatrix() {
 		//Matrix4f::GetTranslationMatrix(BasicAttr.Position)
-		return  Matrix4f::GetRotationMatrix(BasicAttr.Rotation) * Matrix4f::GetTranslationMatrix(Vector4f(BasicAttr.Position));
+		Matrix4f a = Matrix4f::GetTranslationMatrix(Vector4f(BasicAttr.Position)) * Matrix4f::GetRotationMatrix(BasicAttr.Rotation);
+		return a;
 	}
 
 	Matrix4f WorldToLocalMatrix() {
-		return  Matrix4f::GetTranslationMatrix(BasicAttr.Position).Inversion() * Matrix4f::GetRotationMatrix(BasicAttr.Rotation).Inversion();
+		return Matrix4f::GetRotationMatrix(BasicAttr.Rotation).Inversion() * Matrix4f::GetTranslationMatrix(BasicAttr.Position).Inversion() ;
 	}
 
 	Engine::ObservingPointer<GameObject> selfPointer;

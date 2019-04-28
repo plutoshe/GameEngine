@@ -14,6 +14,7 @@
 #include "VectorUtil.h"
 #include "Player.h"
 #include "ObstacleManager.h"
+#include "Collider2D.h"
 
 extern GameManager CurrentGameManager = GameManager();
 
@@ -26,11 +27,14 @@ void runGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	ch1->NewPhysicsComponent();
 	ch1->physicsComponent->Mass = 10;
 	ch1->physicsComponent->DragCof = 1;
+	ch1->physicsComponent->AddCollider(BoxCollider2D(Vector2f(0,0), Vector2f(100,100)));
 
 	Engine::ObservingPointer<GameObject> ch2 = CurrentGameManager.GetNewGameObject();
 	ch2->BasicAttr.Position = Vector3f(180.f, 100.f, 0);
 	ch2->NewRenderComponent();
 	ch2->GetRenderComponent()->CreateSprite("data\\BadGuy.dds");
+	ch2->NewPhysicsComponent();
+	ch2->physicsComponent->AddCollider(BoxCollider2D(Vector2f(0, 0), Vector2f(100, 100)));
 	/*ch1.mass = 10;
 	ch1.dragCof = 1;*/
 	//ch1.CreateSprite("data\\GoodGuy.dds");

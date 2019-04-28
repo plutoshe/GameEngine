@@ -2,24 +2,32 @@
 #include "GeoMethod.h"
 
 double PhysicsController::GetCollisionTime(Engine::ObservingPointer<PhysicsComponent> a, Engine::ObservingPointer<PhysicsComponent> b, double limitTime) {
-	// Get Collision Time by Collision
+	// Get Collision Time by Collision	
 	if (a->ControlCollider->type == Box && b->ControlCollider->type == Box) {
 		Engine::ObservingPointer<BoxCollider2D> colliderA = a->ControlCollider;
 		Engine::ObservingPointer<BoxCollider2D> colliderB = b->ControlCollider;
-	    Matrix4f matrixAtoB = a->ParentGameObject->LocalToWorldMatrix() * b->ParentGameObject->WorldToLocalMatrix();
+	    Matrix4f matrixAtoB = b->ParentGameObject->WorldToLocalMatrix() * a->ParentGameObject->LocalToWorldMatrix();
 		DataStructure::List<GeoPoint2D> ColliderAPoints = colliderA->GetBorderPoints();
 		DataStructure::List<GeoLine2D> ColliderBLines = colliderB->GetBorderLines();
 		double collisionTime = limitTime + 1;
 
 		for (int i = 0; i < 4; i++) {
-			GeoPoint2D currentPoint = ColliderAPoints[i] * matrixAtoB;
+			Vector4f conversionVector4f = ColliderAPoints[i];
+			conversionVector4f.w = 1;
+			GeoPoint2D currentPoint =  matrixAtoB * conversionVector4f;
 			// TODO: embed in acceleration
-			GeoPoint2D nextPoint = currentPoint + (a->velocity * matrixAtoB + b->velocity) * limitTime;
+			conversionVector4f = a->velocity;
+			conversionVector4f.w = 1;
+			auto s1 = matrixAtoB * conversionVector4f + b->velocity;
+			auto s = s1 * limitTime;
+			GeoPoint2D nextPoint = currentPoint + (matrixAtoB * conversionVector4f + b->velocity) * limitTime;
 			//+(a->acceleration * matrixAtoB + b->acceleration) * limitTime * limitTime / 2;
 			GeoLine2D intersectLine = GeoLine2D(currentPoint, nextPoint);
 			for (int j = 0; j < 4; j++) {
-				Vector3f crossover;
-				if (GeoMethod::IsLine2DIntersect(intersectLine, ColliderBLines[j])) {
+				GeoPoint2D crossover;
+				if (GeoMethod::Line2DIntersect(intersectLine, ColliderBLines[j], crossover)) {
+					DEBUG_LOG("~~~~~~~~~");
+					GeoMethod::IsLine2DIntersect(intersectLine, ColliderBLines[j]);
 					// TODO: embed in acceleration to calculate time
 					double intersectTime = limitTime * (crossover.x - currentPoint.x) / (nextPoint.x - currentPoint.x);
 					if (intersectTime < collisionTime)
@@ -46,6 +54,8 @@ void PhysicsController::CollisionImpact(Engine::ObservingPointer<PhysicsComponen
 	ColliderPhysicsB->velocity =
 		((massB - massA) * oldVelocityB + 2 * massA * oldVelocityA) /
 		(massA + massB);
+	ColliderPhysicsA->UpdateTime = collisionTime;
+	ColliderPhysicsA->UpdateTime = collisionTime;
 }
 
 void PhysicsController::Update(double deltaTime) {
@@ -57,7 +67,9 @@ void PhysicsController::Update(double deltaTime) {
 		int selectionObjectIDA = -1, selectionObjectIDB = -1;
 		for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
 			for (int j = i + 1; j < PhysicsComponentList.get_size(); j++) {
-				if (PhysicsComponentList[i] && PhysicsComponentList[j] && PhysicsComponentList[i] != PhysicsComponentList[j]) {
+				if (PhysicsComponentList[i] && PhysicsComponentList[j] &&
+					PhysicsComponentList[i]->ControlCollider && PhysicsComponentList[j]->ControlCollider &&
+					PhysicsComponentList[i] != PhysicsComponentList[j]) {
 					double currentCollisionTime = GetCollisionTime(PhysicsComponentList[i], PhysicsComponentList[j], deltaTime);
 					if (currentCollisionTime < minimumCollisionTime) {
 						minimumCollisionTime = currentCollisionTime;

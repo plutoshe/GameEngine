@@ -16,7 +16,7 @@ Player::~Player()
 
 void Player::Update() {
 	if (CurrentGameManager.Input->IsKeyDown('J')) {
-		physicsComponent->AddForce(Vector3f(0,-100000,0));
+		physicsComponent->AddForce(Vector3f(100000, 0, 0));
 	}
 	//physicsComponent->AddForce(Vector3f(0, -20, 0));
 }

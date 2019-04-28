@@ -84,7 +84,8 @@ void RenderComponent::CreateSprite(const char * i_pFilename)
 	bool result = GLib::GetDimensions(pTexture, width, height, depth);
 	assert(result == true);
 	assert((width > 0) && (height > 0));
-
+	width = 100;
+	height = 100;
 	// Define the sprite edges
 	GLib::Sprites::SpriteEdges	Edges = { -float(width / 2.0f), float(height), float(width / 2.0f), 0.0f };
 	GLib::Sprites::SpriteUVs	UVs = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 0.0f, 1.0f }, { 1.0f, 1.0f } };

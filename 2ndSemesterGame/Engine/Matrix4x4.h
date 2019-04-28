@@ -2,7 +2,8 @@
 #include <iostream>
 #include "BasicMacros.h"
 #include "VectorUtil.h"
-
+template<typename TYPE>
+class Matrix4x4;
 template<typename TYPE, int N, int M>
 class Matrix {
 public:
@@ -10,6 +11,7 @@ public:
 	Matrix() { PS_DATCLEAR(TYPE, data, N*M); }
 	Matrix(const Matrix &p) { PS_DATCOPY(data, p.data, N*M); }
 	Matrix(const TYPE v) { PS_INITIALIZE(data, N*M, v); }
+	Matrix(const Matrix4x4<TYPE> &p);
 	~Matrix() { PS_DATCLEAR(TYPE, data, N*M); }
 	void operator=(const Matrix &p) {
 		PS_DATCOPY(data, p.data, N*M);
@@ -136,25 +138,34 @@ public:
 
 	using Matrix<TYPE, 4, 4>::operator*;
 	Matrix4x4 operator*(const Matrix4x4 &p) {
-		*this = *this* (Matrix<TYPE, 4, 4>)(p);
+		Matrix<TYPE, 4, 4> a = (Matrix<TYPE, 4, 4>)(*this);
+		Matrix<TYPE, 4, 4> b = (Matrix<TYPE, 4, 4>)(p);
+		*this = a * b;
 		return *this;
 	}
 	Vector4D<TYPE> operator *(const Vector4D<TYPE> &p) {
 		Vector4D<TYPE> r;
 		r.Clear();
 		for (int i = 0; i < 4; i++)
-			for (int j = 0; j < 4; j++) {		
-				r[i] += (*this)[i][j] * p[j];
-			}
+			for (int j = 0; j < 1; j++)
+				for (int k = 0; k < 4; k++) 
+					r[i] += (*this)[i][k] * p[k];
+			
 		return r;
 	}
 
 	friend Vector4D<TYPE> operator *(const Vector4D<TYPE> &p, const Matrix4x4& v) {
 		Vector4D<TYPE> r;
 		r.Clear();
-		for (int j = 0; j < 4; j++)
-			for (int k = 0; k < 4; k++)
-				r[k] += p[j] * v[j][k];
+		
+		for (int i = 0; i < 1; i++)
+			for (int j = 0; j < 4; j++)
+				for (int k = 0; k < 4; k++) {
+					TYPE a = v[k][j];
+					TYPE b = p[k];
+					r[j] += p[k] * v[k][j];
+				}
+					
 		return r;
 	}
 
@@ -283,6 +294,12 @@ public:
 	Matrix4x4 Inversion()
 	{
 		Matrix4x4 inversion;
+		// matrix:
+		// 0 1 2 3
+		// 4 5 6 7
+		// 8 9 10 11
+		// 12 13 14 15
+
 		const TYPE data_11_14__10_15 = (*this)[2][3] * (*this)[3][2] - (*this)[2][2] * (*this)[3][3];
 		const TYPE data_10_15__11_14 = (*this)[2][2] * (*this)[3][3] - (*this)[2][3] * (*this)[3][2];
 		const TYPE data__7_14___6_15 = (*this)[1][3] * (*this)[3][2] - (*this)[1][2] * (*this)[3][3];
@@ -342,3 +359,10 @@ public:
 
 typedef Matrix4x4<float> Matrix4f;
 
+template<typename TYPE, int N, int M>
+Matrix<TYPE, N, M>::Matrix(const Matrix4x4<TYPE> &p) {
+	if (N == 4 && M == 4)
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				(*this)[i][j] = p[i][j];
+}

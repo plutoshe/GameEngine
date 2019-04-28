@@ -90,6 +90,9 @@ public:
 	TYPE operator % (const Vector2D &p) const { return this->Dot(p); }
 
 	void Clear() {}
+	TYPE Length() { return sqrt((x * x) + (y * y)); }
+
+
 };
 
 
@@ -216,13 +219,13 @@ public:
 	}
 
 	Vector4D operator + (const Vector4D &p) const { return Vector4D(x + p.x, y + p.y, z + p.z, w + p.w); }
-	Vector4D operator - (const Vector4D &p) const { return Vector4D(x - p.x, y - p.y, z - p.z, w + p.w); }
-	Vector4D operator * (const Vector4D &p) const { return Vector4D(x * p.x, y * p.y, z * p.z, w + p.w); }
-	Vector4D operator / (const Vector4D &p) const { return Vector4D(x / p.x, y / p.y, z / p.z, w + p.w); }
+	Vector4D operator - (const Vector4D &p) const { return Vector4D(x - p.x, y - p.y, z - p.z, w - p.w); }
+	Vector4D operator * (const Vector4D &p) const { return Vector4D(x * p.x, y * p.y, z * p.z, w * p.w); }
+	Vector4D operator / (const Vector4D &p) const { return Vector4D(x / p.x, y / p.y, z / p.z, w / p.w); }
 	Vector4D operator + (const TYPE v) const { return Vector4D(x + v, y + v, z + v, w + v); }
-	Vector4D operator - (const TYPE v) const { return Vector4D(x - v, y - v, z - v, w + v); }
-	Vector4D operator * (const TYPE v) const { return Vector4D(x / v, y * v, z * v, w + v); }
-	Vector4D operator / (const TYPE v) const { if (v == 0) return Vector4D(); return Vector4D(x / v, y / v, z / v, w + v); }
+	Vector4D operator - (const TYPE v) const { return Vector4D(x - v, y - v, z - v, w - v); }
+	Vector4D operator * (const TYPE v) const { return Vector4D(x * v, y * v, z * v, w * v); }
+	Vector4D operator / (const TYPE v) const { if (v == 0) return Vector4D(); return Vector4D(x / v, y / v, z / v, w / v); }
 
 	//!@name Assignment operators
 
@@ -248,7 +251,9 @@ public:
 	TYPE*       Data() { return &x; }
 	const TYPE* Data() const { return &x; }
 
-	void Clear() { x = y = z = w = 0; }
+	void Clear() { x = y = z = w = 0; } 
+	
+	TYPE Length() { return sqrt(x * x + y * y + z * z + w * w); }
 };
 
 template<typename TYPE> void Vector2D<TYPE>::operator=(const Vector2D<TYPE>& p) { this->Equal(p); }

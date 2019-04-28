@@ -42,9 +42,14 @@ public:
 	Engine::OwningPointer<Collider> ControlCollider = nullptr;
 
 	void Update(double deltaTime);
-	void AddCollider(Collider _collider);
-	void NewCollider(ColliderType type);
+	template<class T>
+	void AddCollider(T _collider) {
+		ControlCollider = Engine::OwningPointer<T>(_collider);
+		UpdatePointer();
+	}
 
+	void NewCollider(ColliderType type);
+	void UpdatePointer();
 	void AddForce(Vector3f i_Force);
 private:
 		

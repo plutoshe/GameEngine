@@ -36,6 +36,7 @@ public:
 
 	BoxCollider2D() { type = Box; }
 	BoxCollider2D(Vector2f _center, Vector2f _size) {
+		type = Box;
 		Center = _center; 
 		Size = _size;
 	}

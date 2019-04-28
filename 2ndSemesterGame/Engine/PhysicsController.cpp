@@ -7,7 +7,9 @@ double PhysicsController::GetCollisionTime(Engine::ObservingPointer<PhysicsCompo
 		Engine::ObservingPointer<BoxCollider2D> colliderA = a->ControlCollider;
 		Engine::ObservingPointer<BoxCollider2D> colliderB = b->ControlCollider;
 	    Matrix4f matrixAtoB = b->ParentGameObject->WorldToLocalMatrix() * a->ParentGameObject->LocalToWorldMatrix();
+		Matrix4f velocityMatrixAtoB = b->ParentGameObject->RotationMatrix().Inversion() * a->ParentGameObject->RotationMatrix();
 		DataStructure::List<GeoPoint2D> ColliderAPoints = colliderA->GetBorderPoints();
+		DataStructure::List<GeoPoint2D> ColliderBPoints = colliderB->GetBorderPoints();
 		DataStructure::List<GeoLine2D> ColliderBLines = colliderB->GetBorderLines();
 		double collisionTime = limitTime + 1;
 
@@ -20,14 +22,13 @@ double PhysicsController::GetCollisionTime(Engine::ObservingPointer<PhysicsCompo
 			conversionVector4f.w = 1;
 			auto s1 = matrixAtoB * conversionVector4f + b->velocity;
 			auto s = s1 * limitTime;
-			GeoPoint2D nextPoint = currentPoint + (matrixAtoB * conversionVector4f + b->velocity) * limitTime;
+			GeoPoint2D nextPoint = currentPoint + (velocityMatrixAtoB * conversionVector4f + b->velocity) * limitTime;
 			//+(a->acceleration * matrixAtoB + b->acceleration) * limitTime * limitTime / 2;
 			GeoLine2D intersectLine = GeoLine2D(currentPoint, nextPoint);
-			for (int j = 0; j < 4; j++) {
-				GeoPoint2D crossover;
-				if (GeoMethod::Line2DIntersect(intersectLine, ColliderBLines[j], crossover)) {
-					DEBUG_LOG("~~~~~~~~~");
-					GeoMethod::IsLine2DIntersect(intersectLine, ColliderBLines[j]);
+			if (GeoMethod::IsPointInPoly(nextPoint, ColliderBPoints)) {
+				for (int j = 0; j < 4; j++) {
+					GeoPoint2D crossover;
+					GeoMethod::Line2DIntersect(intersectLine, ColliderBLines[j], crossover);
 					// TODO: embed in acceleration to calculate time
 					double intersectTime = limitTime * (crossover.x - currentPoint.x) / (nextPoint.x - currentPoint.x);
 					if (intersectTime < collisionTime)
@@ -71,6 +72,7 @@ void PhysicsController::Update(double deltaTime) {
 					PhysicsComponentList[i]->ControlCollider && PhysicsComponentList[j]->ControlCollider &&
 					PhysicsComponentList[i] != PhysicsComponentList[j]) {
 					double currentCollisionTime = GetCollisionTime(PhysicsComponentList[i], PhysicsComponentList[j], deltaTime);
+					DEBUG_LOG("%.2f", currentCollisionTime);
 					if (currentCollisionTime < minimumCollisionTime) {
 						minimumCollisionTime = currentCollisionTime;
 						selectionObjectIDA = i; selectionObjectIDB = j;

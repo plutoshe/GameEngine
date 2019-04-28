@@ -19,6 +19,10 @@ public:
 		return a;
 	}
 
+	Matrix4f RotationMatrix() {
+		return Matrix4f::GetRotationMatrix(BasicAttr.Rotation);
+	}
+
 	Matrix4f WorldToLocalMatrix() {
 		return Matrix4f::GetRotationMatrix(BasicAttr.Rotation).Inversion() * Matrix4f::GetTranslationMatrix(BasicAttr.Position).Inversion() ;
 	}

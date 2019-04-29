@@ -17,5 +17,7 @@ public:
 		Start = _start; End = _end;
 	}
 	~GeoLine2D();
+	//GetNorm();
+
 	GeoPoint2D Start, End;	
 };

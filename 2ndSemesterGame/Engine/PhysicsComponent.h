@@ -36,7 +36,7 @@ public:
 	bool IsStatic = false;
 	// TODO: AngleVelocity
 	// Vector3f angleVelocity
-	const Vector3f gravityAcceleration = Vector3f(0, -9.8, 0);
+	const Vector3f gravityAcceleration = Vector3f(0, -9.8f, 0);
 	Vector3f Force = Vector3f(0, 0, 0);
 	double UpdateTime = 0;
 	Engine::OwningPointer<Collider> ControlCollider = nullptr;

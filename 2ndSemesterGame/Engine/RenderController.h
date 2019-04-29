@@ -21,7 +21,7 @@ public:
 	}
 
 	void RemoveRenderComponent(Engine::ObservingPointer<RenderComponent> p) {
-		for (int i = ListRenderComponent.size() - 1; i >= 0; i--) {
+		for (size_t i = ListRenderComponent.size() - 1; i >= 0; i--) {
 			if (ListRenderComponent[i] == p) {
 				ListRenderComponent.erase(ListRenderComponent.begin() + i);
 				break;

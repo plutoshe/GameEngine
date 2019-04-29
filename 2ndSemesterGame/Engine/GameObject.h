@@ -26,7 +26,7 @@ public:
 	Matrix4f WorldToLocalMatrix() {
 		return Matrix4f::GetRotationMatrix(BasicAttr.Rotation).Inversion() * Matrix4f::GetTranslationMatrix(BasicAttr.Position).Inversion() ;
 	}
-
+	Engine::ObservingPointer<GameObject> parentGameObject;
 	Engine::ObservingPointer<GameObject> selfPointer;
 	GameObject();
 	~GameObject();
@@ -72,7 +72,13 @@ public:
 	void NewBoxCollider2D() {
 
 	}
-
+	void Decode(std::string decodingStr) {
+		size_t pos = decodingStr.find(",");
+		if (pos != -1) {
+			decodingStr.substr(0, pos - 1);
+		}
+		
+	}
 
 	// TODO: 3D Collider
 	// Sphere Collider, Cube Collider, Capsule Collider
@@ -86,6 +92,8 @@ private:
 			renderComponent = Engine::OwningPointer<RenderComponent>(*(g.renderComponent));
 
 	}
+
+	
 
 
 	//Engine::OwningPointer<GameObject3DBasicAttr> attr;

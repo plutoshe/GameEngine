@@ -41,7 +41,7 @@ public:
 			return;
 		}
 
-		int bRet = luaL_loadfile(L, filename);
+		int bRet = luaL_loadfile(L, filename.c_str());
 		if (bRet)
 		{
 			cout << "load file error" << endl;

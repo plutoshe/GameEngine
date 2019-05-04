@@ -2,11 +2,3 @@
 
 
 
-Message::Message()
-{
-}
-
-
-Message::~Message()
-{
-}

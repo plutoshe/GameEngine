@@ -275,7 +275,3 @@ template<typename TYPE> Vector3D<TYPE>::Vector3D(const Vector4D<TYPE>& p) { this
 template<typename TYPE> void Vector3D<TYPE>::Equal(const Vector2D<TYPE>& p) { x = p.x; y = p.y; }
 template<typename TYPE> void Vector3D<TYPE>::Equal(const Vector3D<TYPE>& p) { x = p.x; y = p.y; z = p.z; }
 template<typename TYPE> void Vector3D<TYPE>::Equal(const Vector4D<TYPE>& p) { x = p.x; y = p.y; z = p.z; }
-typedef Vector4D<float> Vector4f;
-typedef Vector4D<int> Vector4i;
-typedef Vector2D<float> Vector2f;
-typedef Vector3D<float> Vector3f;

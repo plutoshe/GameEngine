@@ -35,13 +35,13 @@ public:
 	Matrix operator + (const Matrix &p) const { Matrix r; for (int i = 0; i < N*M; i++) r.data[i] = data[i] + p.data[i]; return r; }
 	Matrix operator - (const Matrix &p) const { Matrix r; for (int i = 0; i < N*M; i++) r.data[i] = data[i] - p.data[i]; return r; }
 	template<int K>
-	Matrix<TYPE, N, K> operator*(Matrix<TYPE, M, K> &p) const {
+	friend Matrix<TYPE, N, K> operator*(Matrix<TYPE, N, M> &v, Matrix<TYPE, M, K> &p) const {
 		Matrix<TYPE, N, K> r;
 		r.Clear();
 		for (int i = 0; i < N; i++)
 			for (int j = 0; j < K; j++)
 				for (int k = 0; k < M; k++) 
-					r[i][j] += (*this)[i][k] * p[k][j]; 
+					r[i][j] += v[i][k] * p[k][j]; 
 				
 		return r;
 	}
@@ -137,19 +137,19 @@ public:
 	}
 
 	using Matrix<TYPE, 4, 4>::operator*;
-	Matrix4x4 operator*(const Matrix4x4 &p) {
-		Matrix<TYPE, 4, 4> a = (Matrix<TYPE, 4, 4>)(*this);
-		Matrix<TYPE, 4, 4> b = (Matrix<TYPE, 4, 4>)(p);
-		*this = a * b;
-		return *this;
-	}
-	Vector4D<TYPE> operator *(const Vector4D<TYPE> &p) {
+	// Matrix4x4 operator*(const Matrix4x4 &p) {
+	// 	Matrix<TYPE, 4, 4> a = (Matrix<TYPE, 4, 4>)(*this);
+	// 	Matrix<TYPE, 4, 4> b = (Matrix<TYPE, 4, 4>)(p);
+	// 	*this = a * b;
+	// 	return *this;
+	// }
+	friend Vector4D<TYPE> operator *(const Matrix4x4& v, const Vector4D<TYPE> &p) {
 		Vector4D<TYPE> r;
 		r.Clear();
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 1; j++)
 				for (int k = 0; k < 4; k++) 
-					r[i] += (*this)[i][k] * p[k];
+					r[i] += v[i][k] * p[k];
 			
 		return r;
 	}
@@ -173,6 +173,7 @@ public:
 		*this *= v;
 		return *this;
 	}
+
 
 	Matrix4x4 Transpose() {
 		return this->OriginTranspose();
@@ -357,7 +358,6 @@ public:
 
 };
 
-typedef Matrix4x4<float> Matrix4f;
 
 template<typename TYPE, int N, int M>
 Matrix<TYPE, N, M>::Matrix(const Matrix4x4<TYPE> &p) {

@@ -4,6 +4,13 @@
 #include "VectorUtil.h"
 
 class GameObject;
+
+class Force {
+public:
+	Vector3f Magnitute;
+	float exertingTime;
+}
+
 class PhysicsComponent
 {
 public:
@@ -51,6 +58,8 @@ public:
 	void NewCollider(ColliderType type);
 	void UpdatePointer();
 	void AddForce(Vector3f i_Force);
+
+	DataStructure::List<Force> ExextForces;
 private:
 		
 };

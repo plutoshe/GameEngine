@@ -14,6 +14,7 @@ PhysicsComponent::~PhysicsComponent()
 
 void PhysicsComponent::Update(double deltaTime) {
 	if (IsStatic) return;
+	Force = ExertingForce;
 	// ignore density and area right now
 	Vector3f airDrag = (velocity * velocity * DragCof) / 2;
 	if (velocity.x > 0)
@@ -32,11 +33,17 @@ void PhysicsComponent::Update(double deltaTime) {
 	std::cout << velocity;
 	ParentGameObject->BasicAttr.Position += (deltaTime - UpdateTime) * velocity;
 	UpdateTime = 0;
-	/*DEBUG_LOG("%.2f %.2f", airDrag, Mass);
-	DEBUG_LOG("%.2f", airDrag / Mass);
-	DEBUG_LOG("%.2f %.2f %.2f", acceleration.x, acceleration.y, acceleration.z);*/
 	acceleration = Force / Mass;
 	Force.Clear();
+	checkExertingForces();
+}
+
+void PhysicsComponent::checkExertingForces(float deltaTime) {
+	for (int i = ExertingForces.size() - 1; i >= 0; i--) {
+		ExertingForces[i].ExertingTime -= deltaTime;
+		if (ExertingForces[i].ExertingTime < 0) 
+			ExertingForces.remove(i);
+	}	
 }
 
 void PhysicsComponent::UpdatePointer() {
@@ -55,7 +62,9 @@ void PhysicsComponent::NewCollider(ColliderType type) {
 
 void PhysicsComponent::AddForce(Vector3f i_Force)
 {
-	Force += i_Force;
+	//Force = i_Force;
+	ExextForces.push(Force(i_Force, 0.1f));
+	ExertingForces += i_Force;
 	/*Vector3f acceleration = i_Force / gameobject.mass;
 	gameobject.position = gameobject.position + gameobject.velocity * (float)i_dt + acceleration * (float)(i_dt * i_dt / 2);
 	gameobject.velocity = gameobject.velocity + acceleration * (float)i_dt;*/

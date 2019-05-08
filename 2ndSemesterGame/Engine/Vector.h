@@ -85,7 +85,6 @@ public:
 //		else { CY_MEMCONVERT(TYPE, data, p.data, M); CY_MEMCLEAR(TYPE, data, N - M); }
 //	}
 //	explicit Vector(const Vector2<TYPE> &p);
-//	explicit Vector(const Vector3<TYPE> &p);
 //	explicit Vector(const Vector4<TYPE> &p);
 //	template <typename T> explicit Vector(const Vector2<T> &p);
 //	template <typename T> explicit Vector(const Vector3<T> &p);

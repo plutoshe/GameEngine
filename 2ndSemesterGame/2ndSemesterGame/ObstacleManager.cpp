@@ -11,6 +11,12 @@ void ObstacleManager::Start() {
 	}*/
 }
 
+void ObstacleManager::Clear() {
+	for (int i = obstaclesList.get_size() - 1; i >= 0; i--) 
+		CurrentGameManager.RemoveGameObject(obstaclesList[i]);
+	obstaclesList.Clear();
+}
+
 void ObstacleManager::Update() {
 	for (int i = obstaclesList.get_size() - 1; i >= 0; i--) {
 		// update obstacles

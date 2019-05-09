@@ -41,10 +41,13 @@ void runGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 void myGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	
 	CurrentGameManager.Initialization(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
-	Engine::ObservingPointer<Player> ch1 = CurrentGameManager.AddGameObject(Player());
+	Engine::ObservingPointer<Player> ch1 = CurrentGameManager.AddGameObject(BirdPlayer());
 	ch1->BasicAttr.Position = Vector3f(-180.f, 100.f, 0);
 	ch1->NewRenderComponent();
-	ch1->GetRenderComponent()->CreateSprite("data\\charactor.dds");
+	ch1->GetRenderComponent()->CreateSprite("data\\charactor.dds", 100, 100);
+	ch1->NewPhysicsComponent();
+	ch2->physicsComponent->AddCollider(BoxCollider2D(Vector2f(0, 0), Vector2f(100, 100)));
+	ch2->physicsComponent->HasGravity = true;
 
 	Engine::ObservingPointer<ObstacleManager> ch2 = CurrentGameManager.AddGameObject(ObstacleManager());
 	ch2->SpriteName = "data\\BadGuy.dds";

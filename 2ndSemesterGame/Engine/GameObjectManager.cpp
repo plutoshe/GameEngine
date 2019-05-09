@@ -18,7 +18,8 @@ void GameObjectManager::Start() {
 
 void GameObjectManager::Update() {
 	for (int i = 0; i < GameobjectList.size(); i++)
-		GameobjectList[i]->Update(); 
+		if (GameobjectList[i]->Active)
+			GameobjectList[i]->Update(); 
 }
 
 void GameObjectManager::RemoveGameObject(Engine::ObservingPointer<GameObject> p) {

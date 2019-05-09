@@ -23,6 +23,7 @@ public:
 	Engine::OwningPointer<PhysicsController> Physics;
 	Engine::OwningPointer<InputController> Input;
 	Engine::OwningPointer<RenderController> Render;
+	
 	double DeltaTime;
 	bool bQuit;
 

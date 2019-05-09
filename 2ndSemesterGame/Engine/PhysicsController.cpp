@@ -78,7 +78,8 @@ void PhysicsController::CollisionImpact(Engine::ObservingPointer<PhysicsComponen
 void PhysicsController::Update(double deltaTime) {
 	for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
 		PhysicsComponentList[i]->UpdateTime = 0;
-		PhysicsComponentList[i]->Update(deltaTime);
+		if (PhysicsComponentList[i]->ParentGameObject->Active)
+			PhysicsComponentList[i]->Update(deltaTime);
 	}
 	
 	int lastI = -1, lastJ = -1;
@@ -86,7 +87,9 @@ void PhysicsController::Update(double deltaTime) {
 		double minimumCollisionTime = deltaTime;
 		int selectionObjectIDA = -1, selectionObjectIDB = -1;
 		for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
+			if (!PhysicsComponentList[i]->ParentGameObject->Active) continue;
 			for (int j = i + 1; j < PhysicsComponentList.get_size(); j++) {
+				if (!PhysicsComponentList[j]->ParentGameObject->Active) continue;
 				if (i == lastI && j == lastJ) continue;
 				if (PhysicsComponentList[i] && PhysicsComponentList[j] &&
 					PhysicsComponentList[i]->ControlCollider && PhysicsComponentList[j]->ControlCollider &&
@@ -102,6 +105,7 @@ void PhysicsController::Update(double deltaTime) {
 		}
 		if (selectionObjectIDA >= 0) {
 			for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
+				if (!PhysicsComponentList[i]->ParentGameObject->Active) continue;
 				PhysicsComponentList[i]->ParentGameObject->BasicAttr.Position += 
 					PhysicsComponentList[i]->velocity * minimumCollisionTime;
 				PhysicsComponentList[i]->UpdateTime = minimumCollisionTime;
@@ -115,6 +119,7 @@ void PhysicsController::Update(double deltaTime) {
 		else break;
 	}
 	for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
+		if (!PhysicsComponentList[i]->ParentGameObject->Active) continue;
 		PhysicsComponentList[i]->UpdatePos(deltaTime);
 	}
 }

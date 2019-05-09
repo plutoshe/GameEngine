@@ -40,6 +40,8 @@ public:
 	virtual void Start() {}
 	virtual void Update() {}
 
+	virtual void OnCollisionEnter(GameObject other) {}
+
 	void UpdateConnectionPointer(Engine::ObservingPointer<GameObject> g);
 
 	bool HasPhysicsComponent();
@@ -63,6 +65,7 @@ public:
 
 	Engine::OwningPointer<PhysicsComponent> physicsComponent;
 	Engine::OwningPointer<RenderComponent> renderComponent;
+	bool Active = true;
 	void Release();
 
 	// TODO: Add collider

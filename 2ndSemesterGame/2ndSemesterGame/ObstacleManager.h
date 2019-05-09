@@ -12,6 +12,7 @@ public:
 	DataStructure::List<Engine::ObservingPointer<GameObject>> obstaclesList;
 	void Start();
 	void Update();
+	void Clear();
 	Engine::ObservingPointer<Obstacle> AddNewObstacle(int width, int height);
 
 	std::string SpriteName;

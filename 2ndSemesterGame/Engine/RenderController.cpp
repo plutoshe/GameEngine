@@ -53,6 +53,7 @@ void RenderController::Update() {
 	//	}
 
 	for (int i = 0; i < ListRenderComponent.size(); i++)
+		if (!ListRenderComponent[i]->ParentGameObject->Active) continue;
 		ListRenderComponent[i]->Update();
 
 	// Tell GLib we're done rendering sprites

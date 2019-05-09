@@ -7,8 +7,6 @@
 
 // structure
 #include "SSERedef.h"
-#include "Matrix4x4.h"
-#include "SSERedef.h"
 
 // component
 #include "PhysicsComponent.h"

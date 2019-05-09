@@ -1,5 +1,5 @@
 #pragma once
-#define SSEOP
+//#define SSEOP
 
 #include "VectorUtil.h"
 #include "Matrix4x4.h"
@@ -77,6 +77,9 @@
 		void Clear() { x = y = z = w = 0; }
 		
 		float Length() { return sqrt(x * x + y * y + z * z + w * w); }
+		Vector4f Dot(const Vector4f& p) const {
+			return Vector4f(_mm_mul_ps(dat,p.dat));
+		}
 	};
 
 	class Vector3f: public Vector3D<float> {
@@ -148,6 +151,10 @@
 		void Clear() { x = y = z = 0; }
 		
 		float Length() { return sqrt(x * x + y * y + z * z); }
+
+		Vector3f Dot(const Vector3f& p) const {
+			return Vector3f(_mm_mul_ps(dat, p.dat));
+		}
 	};
 
 	class Vector2f : public Vector2D<float> {
@@ -220,6 +227,9 @@
 		void Clear() { x = y = 0; }
 
 		float Length() { return sqrt(x * x + y * y); }
+		Vector2f Dot(const Vector2f& p) const {
+			return Vector2f(_mm_mul_ps(dat, p.dat));
+		}
 	};
 	void Vector2f::Equal(const Vector2f &p) { dat = p.dat; }
 	void Vector2f::Equal(const Vector3f &p) { x = p.x; y = p.y; }

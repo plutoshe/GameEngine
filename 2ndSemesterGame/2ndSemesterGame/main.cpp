@@ -5,18 +5,12 @@
 #include <conio.h>
 #include <ctime>
 
+#include "Env.h"
 
-#include "GLib.h"
-#include "Log.h"
-#include "Timing.h"
-#include "GameObject.h"
-#include "GameManager.h"
-#include "SSERedef.h"
 #include "Player.h"
 #include "ObstacleManager.h"
-#include "Collider2D.h"
 
-extern GameManager CurrentGameManager = GameManager();
+GameManager CurrentGameManager = GameManager();
 
 void runGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	CurrentGameManager.Initialization(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
@@ -62,12 +56,61 @@ void myGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	CurrentGameManager.Run();
 	return;
 }
-extern void CollisionApp(HINSTANCE i_hInstance, int i_nCmdShow);
 
+class CollisionObject : public GameObject {
+	void Update() {
+		AddForce(Vector3f(rand() % 1000 - 500, rand() % 1000 - 500, 0));
+	}
+};
+
+DataStructure::List<Engine::ObservingPointer<CollisionObject>> collisionObjectList;
+void AddCollisionObject(Vector3f position, int width, int height, std::string spriteName) {
+	Engine::ObservingPointer<CollisionObject> ch2 = CurrentGameManager.AddGameObject(CollisionObject());
+	ch2->BasicAttr.Position = position;
+	ch2->NewPhysicsComponent();
+	ch2->physicsComponent->AddCollider(BoxCollider2D(Vector2f(0, 0), Vector2f(width, height)));
+	ch2->NewRenderComponent();
+	ch2->renderComponent->CreateSprite(spriteName.c_str(), width, height);
+	collisionObjectList.push(ch2);
+	return;
+}
+
+
+void CollisionTest(int screenWidth, int screenHeight) {
+	// add border
+	//
+	std::string collisionSpriteName = "a";
+	AddCollisionObject(Vector3f(0, -screenHeight / 2, 0), screenWidth, 10, collisionSpriteName);
+	AddCollisionObject(Vector3f(0, screenHeight / 2, 0), screenWidth, 10, collisionSpriteName);
+	AddCollisionObject(Vector3f(-screenWidth / 2, 0, 0), 10, screenHeight, collisionSpriteName);
+	AddCollisionObject(Vector3f(screenWidth / 2, 0, 0), 10, screenHeight, collisionSpriteName);
+
+	// add collision objects
+	int posX = 20;
+	int posY = 20;
+	for (int i = 0; i < (screenWidth / 10 * screenHeight / 10) / 100; i++) {
+		AddCollisionObject(
+			Vector3f(posX, posY, 0),
+			10, 10, collisionSpriteName);
+		posY += 20;
+		if (posY > screenHeight) {
+			posX += 20;
+			posY = 20;
+		}
+	}
+	CurrentGameManager.Run();
+}
+
+void CollisionApp(HINSTANCE i_hInstance, int i_nCmdShow) {
+	int screenWidth = 1024;
+	int screenHeight = 768;
+	CurrentGameManager.Initialization(i_hInstance, i_nCmdShow, "CollisionTest", -1, screenWidth, screenHeight);
+	CollisionTest(screenWidth, screenHeight);
+}
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
-	//runGame(i_hInstance, i_nCmdShow);
-	CollisionApp(i_hInstance, i_nCmdShow);
+	runGame(i_hInstance, i_nCmdShow);
+	//CollisionApp(i_hInstance, i_nCmdShow);
 	#if defined _DEBUG
 		_CrtDumpMemoryLeaks();
 	#endif // _DEBUG

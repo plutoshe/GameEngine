@@ -9,8 +9,7 @@ class GeoMethod
 public:
 	GeoMethod();
 	~GeoMethod();
-
-	static bool IsLine2DIntersect(GeoLine2D a, GeoLine2D b) {
+	static bool crossLineIntersection(GeoLine2D a, GeoLine2D b) {
 		float p1 = ((a.End - a.Start) ^ (b.Start - a.Start)) * ((a.End - a.Start) ^ (b.End - a.Start));
 		float p2 = ((b.End - b.Start) ^ (a.Start - b.Start)) * ((b.End - b.Start) ^ (a.End - b.Start));
 		if (p1 == 0 && p2 == 0) {
@@ -32,6 +31,13 @@ public:
 		return (p1 < 0) && (p2 < 0) || (p1 == 0) && (p2 < 0) || (p2 == 0) && (p1 < 0);
 	}
 
+	static bool dotLineIntersection(GeoLine2D a, GeoLine2D b) {
+		
+	}
+	static bool IsLine2DIntersect(GeoLine2D a, GeoLine2D b) {
+		return crossLineIntersection(a, b);
+	}
+
 	static bool IsPointInPoly(GeoPoint2D a, DataStructure::List<GeoPoint2D> b) {
 		if (b.get_size() < 3) return false;
 		bool dir = ((b[b.get_size() - 1] - a) ^ (b[0] - a)) > 0;
@@ -48,12 +54,17 @@ public:
 	}
 
 	static void Line2DIntersect(const GeoLine2D &a, const GeoLine2D &b, GeoPoint2D &intersection) {
-		double intersection1 = ((b.Start - a.Start).Dot(a.End - a.Start)).Length() / (a.End - a.Start).Length();
+		/*double intersection1 = ((b.Start - a.Start).Dot(a.End - a.Start)).Length() / (a.End - a.Start).Length();
 		double intersection2 = ((b.End - a.Start).Dot(a.End - a.Start)).Length() / (a.End - a.Start).Length();
 		if (intersection1 > intersection2)
 			intersection = a.Start + intersection2 / (a.End - a.Start).Length() * (a.End - a.Start);
 		else
-			intersection = a.Start + intersection1 / (a.End - a.Start).Length() * (a.End - a.Start);
+			intersection = a.Start + intersection1 / (a.End - a.Start).Length() * (a.End - a.Start);*/
+		GeoPoint2D s = b.End - b.Start;
+		Vector2f norms(s.y, -s.x);
+		float gEnd = a.End.Dot(Vector2f(s.y, -s.x)).Length();
+		float gStart = a.Start.Dot(Vector2f(s.y, -s.x)).Length();
+		intersection = a.Start + (a.End - a.Start) *  gStart / (gEnd - gStart);
 	}
 
 };

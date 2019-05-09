@@ -1,9 +1,8 @@
+#include "Env.h"
 #include "Player.h"
 #include "GameManager.h"
 #include "PhysicsComponent.h"
 #include "Log.h"
-
-extern GameManager CurrentGameManager;
 
 Player::Player()
 {

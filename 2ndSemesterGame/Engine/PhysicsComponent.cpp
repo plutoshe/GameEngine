@@ -17,6 +17,8 @@ void PhysicsComponent::Update(double deltaTime) {
 	CurrentForce = ContinuousForces;
 	// ignore density and area right now
 	Vector3f airDrag = (velocity * velocity * DragCof) / 2;
+	/*DEBUG_LOG("velocity: %.2f %.2f %.2f", velocity.x, velocity.y, velocity.z);
+	DEBUG_LOG("ariDrag: %.2f", airDrag.Length());*/
 	if (velocity.x > 0)
 		airDrag.x *= -1;
 	if (velocity.y > 0)
@@ -26,23 +28,28 @@ void PhysicsComponent::Update(double deltaTime) {
 	CurrentForce += airDrag;
 
 	if (HasGravity) {
-		velocity += gravityAcceleration * (deltaTime - UpdateTime);
+		//velocity += gravityAcceleration * deltaTime;
 		CurrentForce += gravityAcceleration * Mass;
 	}
-	velocity += acceleration * (deltaTime - UpdateTime);
-	std::cout << velocity;
-	ParentGameObject->BasicAttr.Position += (deltaTime - UpdateTime) * velocity;
-	UpdateTime = 0;
+	velocity += acceleration * deltaTime;
 	acceleration = CurrentForce / Mass;
 	
 	checkExertingForces(deltaTime);
 }
 
+void PhysicsComponent::UpdatePos(double deltaTime) {
+	//DEBUG_LOG("%.2f %.2f %.2f", velocity.Length(), acceleration.Length(), ContinuousForces.Length());
+	ParentGameObject->BasicAttr.Position += (deltaTime - UpdateTime) * velocity;
+	UpdateTime = 0;
+}
+
 void PhysicsComponent::checkExertingForces(float deltaTime) {
 	for (int i = ExextForces.get_size() - 1; i >= 0; i--) {
 		ExextForces[i].ExertingTime -= deltaTime;
-		if (ExextForces[i].ExertingTime < 0)
+		if (ExextForces[i].ExertingTime < 0) {
+			ContinuousForces -= ExextForces[i].Magnitute;
 			ExextForces.remove(i);
+		}
 	}	
 }
 

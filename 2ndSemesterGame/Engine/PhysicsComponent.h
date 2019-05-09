@@ -52,6 +52,7 @@ public:
 	Engine::OwningPointer<Collider> ControlCollider = nullptr;
 
 	void Update(double deltaTime);
+	void UpdatePos(double deltaTime);
 	template<class T>
 	void AddCollider(T _collider) {
 		ControlCollider = Engine::OwningPointer<T>(_collider);

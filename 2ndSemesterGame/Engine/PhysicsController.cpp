@@ -20,7 +20,9 @@ double PhysicsController::GetCollisionTime(Engine::ObservingPointer<PhysicsCompo
 			// TODO: embed in acceleration
 			conversionVector4f = a->velocity;
 			conversionVector4f.w = 1;
-			auto s1 = matrixAtoB * conversionVector4f + b->velocity;
+			auto ta = matrixAtoB * conversionVector4f;
+			auto s1 = ta + b->velocity;
+			
 			auto s = s1 * limitTime;
 			GeoPoint2D nextPoint = currentPoint + (velocityMatrixAtoB * conversionVector4f + b->velocity) * limitTime;
 			//+(a->acceleration * matrixAtoB + b->acceleration) * limitTime * limitTime / 2;
@@ -28,11 +30,14 @@ double PhysicsController::GetCollisionTime(Engine::ObservingPointer<PhysicsCompo
 			if (GeoMethod::IsPointInPoly(nextPoint, ColliderBPoints)) {
 				for (int j = 0; j < 4; j++) {
 					GeoPoint2D crossover;
-					GeoMethod::Line2DIntersect(intersectLine, ColliderBLines[j], crossover);
-					// TODO: embed in acceleration to calculate time
-					double intersectTime = limitTime * (crossover.x - currentPoint.x) / (nextPoint.x - currentPoint.x);
-					if (intersectTime < collisionTime)
-						collisionTime = intersectTime;
+					if (GeoMethod::IsLine2DIntersect(intersectLine, ColliderBLines[j])) {
+						
+						GeoMethod::Line2DIntersect(intersectLine, ColliderBLines[j], crossover);
+						// TODO: embed in acceleration to calculate time
+						double intersectTime = limitTime * (crossover.x - currentPoint.x) / (nextPoint.x - currentPoint.x);
+						if (intersectTime < collisionTime)
+							collisionTime = intersectTime;
+					}
 				}
 			}
 		}
@@ -43,10 +48,9 @@ double PhysicsController::GetCollisionTime(Engine::ObservingPointer<PhysicsCompo
 
 void PhysicsController::CollisionImpact(Engine::ObservingPointer<PhysicsComponent> ColliderPhysicsA, Engine::ObservingPointer<PhysicsComponent> ColliderPhysicsB, double collisionTime) {
 	// TODO: embed in acceleration to calculate impact
-	ColliderPhysicsA->ParentGameObject->BasicAttr.Position += ColliderPhysicsA->velocity * collisionTime;
-	ColliderPhysicsB->ParentGameObject->BasicAttr.Position += ColliderPhysicsB->velocity * collisionTime;
 	auto oldVelocityA = ColliderPhysicsA->velocity;
 	auto oldVelocityB = ColliderPhysicsB->velocity;
+	//DEBUG_LOG("before collisiion responseL %.2f, %.2f", ColliderPhysicsA->velocity.Length(), ColliderPhysicsB->velocity.Length());
 	auto massA = ColliderPhysicsA->Mass;
 	auto massB = ColliderPhysicsA->Mass;
 	ColliderPhysicsA->velocity =
@@ -55,24 +59,38 @@ void PhysicsController::CollisionImpact(Engine::ObservingPointer<PhysicsComponen
 	ColliderPhysicsB->velocity =
 		((massB - massA) * oldVelocityB + 2 * massA * oldVelocityA) /
 		(massA + massB);
-	ColliderPhysicsA->UpdateTime = collisionTime;
-	ColliderPhysicsA->UpdateTime = collisionTime;
+	
+	DEBUG_LOG(" collisiion responseL %.2f, %.2f", ColliderPhysicsA->velocity.Length(), ColliderPhysicsB->velocity.Length());
+	DEBUG_LOG(" collisiion response v: %.2f, %.2f %.2f || %.2f %.2f %.2f", 
+		ColliderPhysicsA->velocity.x, ColliderPhysicsA->velocity.y, ColliderPhysicsA->velocity.z,
+		ColliderPhysicsB->velocity.x, ColliderPhysicsB->velocity.y, ColliderPhysicsB->velocity.z);
+	DEBUG_LOG(" collisiion response v: %.2f, %.2f %.2f || %.2f %.2f %.2f",
+		ColliderPhysicsA->ParentGameObject->BasicAttr.Position.x, 
+		ColliderPhysicsA->ParentGameObject->BasicAttr.Position.y,
+		ColliderPhysicsA->ParentGameObject->BasicAttr.Position.z,
+		ColliderPhysicsB->ParentGameObject->BasicAttr.Position.x, 
+		ColliderPhysicsB->ParentGameObject->BasicAttr.Position.y, 
+		ColliderPhysicsB->ParentGameObject->BasicAttr.Position.z);
 }
 
 void PhysicsController::Update(double deltaTime) {
 	for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
 		PhysicsComponentList[i]->UpdateTime = 0;
+		PhysicsComponentList[i]->Update(deltaTime);
 	}
+	
+	int lastI = -1, lastJ = -1;
 	while (true) {
 		double minimumCollisionTime = deltaTime;
 		int selectionObjectIDA = -1, selectionObjectIDB = -1;
 		for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
 			for (int j = i + 1; j < PhysicsComponentList.get_size(); j++) {
+				if (i == lastI && j == lastJ) continue;
 				if (PhysicsComponentList[i] && PhysicsComponentList[j] &&
 					PhysicsComponentList[i]->ControlCollider && PhysicsComponentList[j]->ControlCollider &&
 					PhysicsComponentList[i] != PhysicsComponentList[j]) {
 					double currentCollisionTime = GetCollisionTime(PhysicsComponentList[i], PhysicsComponentList[j], deltaTime);
-					DEBUG_LOG("%.2f", currentCollisionTime);
+					//DEBUG_LOG("%.2f", currentCollisionTime);
 					if (currentCollisionTime < minimumCollisionTime) {
 						minimumCollisionTime = currentCollisionTime;
 						selectionObjectIDA = i; selectionObjectIDB = j;
@@ -81,13 +99,21 @@ void PhysicsController::Update(double deltaTime) {
 			}
 		}
 		if (selectionObjectIDA >= 0) {
+			for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
+				PhysicsComponentList[i]->ParentGameObject->BasicAttr.Position += 
+					PhysicsComponentList[i]->velocity * minimumCollisionTime;
+				PhysicsComponentList[i]->UpdateTime = minimumCollisionTime;
+			}
+
+			deltaTime -= minimumCollisionTime;
 			// Update A && B after collision
 			CollisionImpact(PhysicsComponentList[selectionObjectIDA], PhysicsComponentList[selectionObjectIDB], minimumCollisionTime);
+			lastI = selectionObjectIDA, lastJ = selectionObjectIDB;
 		}
 		else break;
 	}
 	for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
-		PhysicsComponentList[i]->Update(deltaTime);
+		PhysicsComponentList[i]->UpdatePos(deltaTime);
 	}
 }
 

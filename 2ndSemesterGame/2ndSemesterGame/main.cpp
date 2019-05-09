@@ -11,7 +11,7 @@
 #include "Timing.h"
 #include "GameObject.h"
 #include "GameManager.h"
-#include "VectorUtil.h"
+#include "SSERedef.h"
 #include "Player.h"
 #include "ObstacleManager.h"
 #include "Collider2D.h"
@@ -62,11 +62,12 @@ void myGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	CurrentGameManager.Run();
 	return;
 }
+extern void CollisionApp(HINSTANCE i_hInstance, int i_nCmdShow);
 
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
-	runGame(i_hInstance, i_nCmdShow);
-	
+	//runGame(i_hInstance, i_nCmdShow);
+	CollisionApp(i_hInstance, i_nCmdShow);
 	#if defined _DEBUG
 		_CrtDumpMemoryLeaks();
 	#endif // _DEBUG

@@ -165,6 +165,7 @@
   <ItemGroup>
     <ClInclude Include="Collider2D.h" />
     <ClInclude Include="Delegate.h" />
+    <ClInclude Include="Engine.h" />
     <ClInclude Include="GameObjectBasicAttr.h" />
     <ClInclude Include="BasicMacros.h" />
     <ClInclude Include="GameManager.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="GeoPoint.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageController.h" />
+    <ClInclude Include="SSERedef.h" />
     <ClInclude Include="StaticVariable.h" />
     <ClInclude Include="InputController.h" />
     <ClInclude Include="Log.h" />

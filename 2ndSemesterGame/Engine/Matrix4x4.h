@@ -4,7 +4,8 @@
 #include "VectorUtil.h"
 template<typename TYPE>
 class Matrix4x4;
-template<typename TYPE, int N, int M>
+
+template<class TYPE, int N, int M>
 class Matrix {
 public:
 	TYPE data[N*M];
@@ -34,17 +35,20 @@ public:
 
 	Matrix operator + (const Matrix &p) const { Matrix r; for (int i = 0; i < N*M; i++) r.data[i] = data[i] + p.data[i]; return r; }
 	Matrix operator - (const Matrix &p) const { Matrix r; for (int i = 0; i < N*M; i++) r.data[i] = data[i] - p.data[i]; return r; }
-	template<int K>
-	friend Matrix<TYPE, N, K> operator*(Matrix<TYPE, N, M> &v, Matrix<TYPE, M, K> &p) const {
-		Matrix<TYPE, N, K> r;
-		r.Clear();
-		for (int i = 0; i < N; i++)
-			for (int j = 0; j < K; j++)
-				for (int k = 0; k < M; k++) 
-					r[i][j] += v[i][k] * p[k][j]; 
-				
-		return r;
-	}
+
+	
+	//template<int K>
+	////const Matrix &v, 
+	//friend Matrix<TYPE, N, K> operator*(const Matrix<TYPE, M, K> &p) const {
+	//	Matrix<TYPE, N, K> r;
+	//	r.Clear();
+	//	for (int i = 0; i < N; i++)
+	//		for (int j = 0; j < K; j++)
+	//			for (int k = 0; k < M; k++) 
+	//				r[i][j] += (*this)[i][k] * p[k][j]; 
+	//			
+	//	return r;
+	//}
 	friend Matrix operator+(const TYPE v, const Matrix &p) {
 		return p + v;
 	}
@@ -91,10 +95,18 @@ public:
 				r[j][i] = (*this)[i][j];
 		return r;
 	}
+	template<int K>
+	friend Matrix<TYPE, N, K> operator*(const Matrix<TYPE, N, M> &v, const Matrix<TYPE, M, K> &p) {
+		Matrix<TYPE, N, K> r;
+		r.Clear();
+		for (int i = 0; i < N; i++)
+			for (int j = 0; j < K; j++)
+				for (int k = 0; k < M; k++)
+					r[i][j] += v[i][k] * p[k][j];
 
+		return r;
+	}
 };
-
-
 
 template<typename TYPE>
 class Matrix4x4 : public Matrix<TYPE, 4, 4>

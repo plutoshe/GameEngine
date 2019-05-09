@@ -1,6 +1,6 @@
 #pragma once
 #include "SmartPointer.h"
-#include "VectorUtil.h"
+#include "SSERedef.h"
 #include "List.h"
 #include "GeoLine.h"
 #include "GeoPoint.h"

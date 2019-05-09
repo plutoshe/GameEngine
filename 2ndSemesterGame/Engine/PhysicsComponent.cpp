@@ -14,7 +14,7 @@ PhysicsComponent::~PhysicsComponent()
 
 void PhysicsComponent::Update(double deltaTime) {
 	if (IsStatic) return;
-	Force = ExertingForce;
+	CurrentForce = ContinuousForces;
 	// ignore density and area right now
 	Vector3f airDrag = (velocity * velocity * DragCof) / 2;
 	if (velocity.x > 0)
@@ -23,26 +23,26 @@ void PhysicsComponent::Update(double deltaTime) {
 		airDrag.y *= -1;
 	if (velocity.z > 0)
 		airDrag.z *= -1;
-	Force += airDrag;
+	CurrentForce += airDrag;
 
 	if (HasGravity) {
 		velocity += gravityAcceleration * (deltaTime - UpdateTime);
-		Force += gravityAcceleration * Mass;
+		CurrentForce += gravityAcceleration * Mass;
 	}
 	velocity += acceleration * (deltaTime - UpdateTime);
 	std::cout << velocity;
 	ParentGameObject->BasicAttr.Position += (deltaTime - UpdateTime) * velocity;
 	UpdateTime = 0;
-	acceleration = Force / Mass;
-	Force.Clear();
-	checkExertingForces();
+	acceleration = CurrentForce / Mass;
+	
+	checkExertingForces(deltaTime);
 }
 
 void PhysicsComponent::checkExertingForces(float deltaTime) {
-	for (int i = ExertingForces.size() - 1; i >= 0; i--) {
-		ExertingForces[i].ExertingTime -= deltaTime;
-		if (ExertingForces[i].ExertingTime < 0) 
-			ExertingForces.remove(i);
+	for (int i = ExextForces.get_size() - 1; i >= 0; i--) {
+		ExextForces[i].ExertingTime -= deltaTime;
+		if (ExextForces[i].ExertingTime < 0)
+			ExextForces.remove(i);
 	}	
 }
 
@@ -64,7 +64,7 @@ void PhysicsComponent::AddForce(Vector3f i_Force)
 {
 	//Force = i_Force;
 	ExextForces.push(Force(i_Force, 0.1f));
-	ExertingForces += i_Force;
+	ContinuousForces += i_Force;
 	/*Vector3f acceleration = i_Force / gameobject.mass;
 	gameobject.position = gameobject.position + gameobject.velocity * (float)i_dt + acceleration * (float)(i_dt * i_dt / 2);
 	gameobject.velocity = gameobject.velocity + acceleration * (float)i_dt;*/

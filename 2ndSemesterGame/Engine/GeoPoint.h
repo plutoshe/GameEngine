@@ -1,5 +1,5 @@
 #pragma once
-#include "VectorUtil.h"
+#include "SSERedef.h"
 //class GeoPoint
 //{
 //public:
@@ -29,5 +29,6 @@
 //
 //	Vector2f Position;
 //};
+
 typedef Vector3f GeoPoint3D;
 typedef Vector2f GeoPoint2D;

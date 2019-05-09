@@ -138,6 +138,12 @@
     <ClInclude Include="VectorUtil.h">
       <Filter>Header Files\Utility\Vector</Filter>
     </ClInclude>
+    <ClInclude Include="SSERedef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

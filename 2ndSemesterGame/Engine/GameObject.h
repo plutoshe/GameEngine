@@ -1,14 +1,13 @@
 #pragma once
-#include "VectorUtil.h"
+#include "SSERedef.h"
 #include "GLib.h"
 #include "assert.h"
-#include "Log.h"
-#include "PhysicsComponent.h"
-#include "RenderComponent.h"
+#include "SSERedef.h"
 #include "GameObjectBasicAttr.h"
 #include "Status.h"
-#include "Matrix4x4.h"
-#include "SmartPointer.h"
+#include "RenderComponent.h"
+#include "PhysicsComponent.h"
+
 class GameManager;
 class GameObject
 {
@@ -66,12 +65,12 @@ public:
 	Engine::OwningPointer<RenderComponent> renderComponent;
 	void Release();
 
+	// TODO: Add collider
 	// 2D_Collider: 5 Type
 	// Box, Circle, Capsule, Edge, Polygon
+	// 3D Collider: 3 Type
+	// Cube, Sphere, Capsule
 
-	void NewBoxCollider2D() {
-
-	}
 	void Decode(std::string decodingStr) {
 		size_t pos = decodingStr.find(",");
 		if (pos != -1) {
@@ -79,6 +78,8 @@ public:
 		}
 		
 	}
+
+	void AddForce(Vector3f force);
 
 	// TODO: 3D Collider
 	// Sphere Collider, Cube Collider, Capsule Collider

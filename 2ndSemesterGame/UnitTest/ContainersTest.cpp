@@ -2,7 +2,7 @@
 #include <string.h>
 #include <iostream>
 #include "cmath"
-#include "VectorUtil.h"
+#include "SSERedef.h"
 #include "Matrix4x4.h"
 #include "iostream"
 
@@ -50,7 +50,10 @@ bool TestMatrix4x4() {
 	Matrix4f c(Vector4f(1, 2, 3, 4));
 	Matrix4f d(1, 0, 0, 0, 0, 2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 4);
 	Matrix4f e;
-	Matrix4f f;
+	Matrix4f f(90,100,110,120,202,228,254,280,314,356,398,440,426,484,542,600);
+	Matrix4f g;
+	
+
 	e[0][0] = 1;  e[0][1] = 2;  e[0][2] = 3;  e[0][3] = 4;
 	e[1][0] = 5;  e[1][1] = 6;  e[1][2] = 7;  e[1][3] = 8;
 	e[2][0] = 9;  e[2][1] = 10; e[2][2] = 11; e[2][3] = 12;
@@ -60,6 +63,12 @@ bool TestMatrix4x4() {
 		std::cout << "Test matrix assignment methods failed!" << std::endl;
 		return false;
 	}
+	g = a * b;
+	if (g != f) {
+		std::cout << "Test matrix multiply failed!" << std::endl;
+		return false;
+	}
+
 	f = a;
 	a += d;
 	b = b + d;

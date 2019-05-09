@@ -1,5 +1,5 @@
 #pragma once
-#include "VectorUtil.h"
+#include "SSERedef.h"
 #include "GeoLine.h"
 #include "GeoPoint.h"
 #include "List.h"

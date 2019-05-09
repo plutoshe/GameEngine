@@ -1,5 +1,5 @@
 #pragma once
-#include "VectorUtil.h"
+#include "SSERedef.h"
 #include "GeoPoint.h"
 //class GeoLine3D
 //{

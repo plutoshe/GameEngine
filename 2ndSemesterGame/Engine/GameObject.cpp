@@ -84,6 +84,11 @@ void GameObject::UpdateConnectionPointer(Engine::ObservingPointer<GameObject> g)
 		physicsComponent->ParentGameObject = g;
 }
 
+void GameObject::AddForce(Vector3f force) {
+	if (physicsComponent)
+		physicsComponent->AddForce(force);
+}
+
 
 //void GameObject::CheckInput(unsigned int i_VKeyID) {
 //	

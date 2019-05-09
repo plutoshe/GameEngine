@@ -1,15 +1,17 @@
 #pragma once
 #include "SmartPointer.h"
 #include "Collider2D.h"
-#include "VectorUtil.h"
+#include "SSERedef.h"
 
 class GameObject;
 
 class Force {
 public:
 	Vector3f Magnitute;
-	float exertingTime;
-}
+	float ExertingTime;
+	Force(Vector3f _magnitute, float _exertingTime) : Magnitute(_magnitute), ExertingTime(_exertingTime) {}
+	Force() {}
+};
 
 class PhysicsComponent
 {
@@ -44,7 +46,8 @@ public:
 	// TODO: AngleVelocity
 	// Vector3f angleVelocity
 	const Vector3f gravityAcceleration = Vector3f(0, -9.8f, 0);
-	Vector3f Force = Vector3f(0, 0, 0);
+	Vector3f ContinuousForces = Vector3f(0, 0, 0);
+	Vector3f CurrentForce = Vector3f(0, 0, 0);
 	double UpdateTime = 0;
 	Engine::OwningPointer<Collider> ControlCollider = nullptr;
 
@@ -58,8 +61,9 @@ public:
 	void NewCollider(ColliderType type);
 	void UpdatePointer();
 	void AddForce(Vector3f i_Force);
+	
 
 	DataStructure::List<Force> ExextForces;
 private:
-		
+	void checkExertingForces(float deltaTime);
 };

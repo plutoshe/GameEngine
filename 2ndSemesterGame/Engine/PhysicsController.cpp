@@ -53,12 +53,14 @@ void PhysicsController::CollisionImpact(Engine::ObservingPointer<PhysicsComponen
 	//DEBUG_LOG("before collisiion responseL %.2f, %.2f", ColliderPhysicsA->velocity.Length(), ColliderPhysicsB->velocity.Length());
 	auto massA = ColliderPhysicsA->Mass;
 	auto massB = ColliderPhysicsA->Mass;
-	ColliderPhysicsA->velocity =
-		((massA - massB) * oldVelocityA + 2 * massB * oldVelocityB) /
-		(massA + massB);
-	ColliderPhysicsB->velocity =
-		((massB - massA) * oldVelocityB + 2 * massA * oldVelocityA) /
-		(massA + massB);
+	if (!ColliderPhysicsA->IsStatic)
+		ColliderPhysicsA->velocity =
+			((massA - massB) * oldVelocityA + 2 * massB * oldVelocityB) /
+			(massA + massB);
+	if (!ColliderPhysicsB->IsStatic)
+		ColliderPhysicsB->velocity =
+			((massB - massA) * oldVelocityB + 2 * massA * oldVelocityA) /
+			(massA + massB);
 	
 	DEBUG_LOG(" collisiion responseL %.2f, %.2f", ColliderPhysicsA->velocity.Length(), ColliderPhysicsB->velocity.Length());
 	DEBUG_LOG(" collisiion response v: %.2f, %.2f %.2f || %.2f %.2f %.2f", 

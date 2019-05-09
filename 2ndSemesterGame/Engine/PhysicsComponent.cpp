@@ -31,15 +31,18 @@ void PhysicsComponent::Update(double deltaTime) {
 		//velocity += gravityAcceleration * deltaTime;
 		CurrentForce += gravityAcceleration * Mass;
 	}
-	velocity += acceleration * deltaTime;
-	acceleration = CurrentForce / Mass;
+	if (!IsStatic) {
+		velocity += acceleration * deltaTime;
+		acceleration = CurrentForce / Mass;
+	}
 	
 	checkExertingForces(deltaTime);
 }
 
 void PhysicsComponent::UpdatePos(double deltaTime) {
 	//DEBUG_LOG("%.2f %.2f %.2f", velocity.Length(), acceleration.Length(), ContinuousForces.Length());
-	ParentGameObject->BasicAttr.Position += (deltaTime - UpdateTime) * velocity;
+	if (!IsStatic)
+		ParentGameObject->BasicAttr.Position += (deltaTime - UpdateTime) * velocity;
 	UpdateTime = 0;
 }
 

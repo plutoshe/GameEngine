@@ -1,7 +1,7 @@
 #pragma once
 #include "Vector.h"
 #include <iostream>
-
+#include <emmintrin.h>
 template<typename TYPE>
 class Vector3D;
 template<typename TYPE>
@@ -12,7 +12,14 @@ template<typename TYPE>
 class Vector2D
 {
 public:
-	TYPE x, y;
+	union {
+		struct
+		{
+			TYPE x, y;
+		};
+		__m128 dat;
+	};
+	
 
 	Vector2D() { Clear(); }
 	Vector2D(TYPE _x, TYPE _y) { x = _x; y = _y; }
@@ -100,8 +107,13 @@ template<typename TYPE>
 class Vector3D
 {
 public:
-
-	TYPE x, y, z;
+	union {
+		struct
+		{
+			TYPE x, y,z;
+		};
+		__m128 dat;
+	};
 
 	Vector3D() { Clear();  }
 	Vector3D(TYPE _x, TYPE _y, TYPE _z) { x = _x; y = _y; z = _z; }
@@ -186,8 +198,13 @@ template<typename TYPE>
 class Vector4D
 {
 public:
-	TYPE x, y, z, w;
-
+	union {
+		struct
+		{
+			TYPE x, y, z, w;
+		};
+		__m128 dat;
+	};
 	Vector4D() { Clear();  }
 	Vector4D(TYPE _x, TYPE _y, TYPE _z, TYPE _w) { x = _x; y = _y; z = _z; w = _w; }
 	void operator=(const Vector4D& p) { this->Equal(p); }

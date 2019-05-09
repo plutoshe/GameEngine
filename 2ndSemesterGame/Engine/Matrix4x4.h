@@ -173,8 +173,6 @@ public:
 		for (int i = 0; i < 1; i++)
 			for (int j = 0; j < 4; j++)
 				for (int k = 0; k < 4; k++) {
-					TYPE a = v[k][j];
-					TYPE b = p[k];
 					r[j] += p[k] * v[k][j];
 				}
 					

@@ -29,7 +29,7 @@ void PhysicsComponent::Update(double deltaTime) {
 
 	if (HasGravity) {
 		//velocity += gravityAcceleration * deltaTime;
-		CurrentForce += gravityAcceleration * Mass;
+		CurrentForce += gravityAcceleration * PixelRatio * Mass;
 	}
 	if (!IsStatic) {
 		acceleration = CurrentForce / Mass;
@@ -41,13 +41,13 @@ void PhysicsComponent::Update(double deltaTime) {
 			velocity.x = 0;
 		if (oldVelocity.z * velocity.z < 0)
 			velocity.x = 0;
-		/*DEBUG_LOG("%.3f %.3f %.3f || %.3f %.3f %.3f", 
+		DEBUG_LOG("%.3f %.3f %.3f || %.3f %.3f %.3f", 
 			acceleration.x, 
 			acceleration.y,
 			acceleration.z,
 			velocity.x,
 			velocity.y,
-			velocity.z);*/
+			velocity.z);
 	}
 	
 	checkExertingForces(deltaTime);
@@ -55,8 +55,17 @@ void PhysicsComponent::Update(double deltaTime) {
 
 void PhysicsComponent::UpdatePos(double deltaTime) {
 	//DEBUG_LOG("%.2f %.2f %.2f", velocity.Length(), acceleration.Length(), ContinuousForces.Length());
-	if (!IsStatic)
+	if (!IsStatic) {
 		ParentGameObject->BasicAttr.Position += (deltaTime - UpdateTime) * velocity;
+		DEBUG_LOG("%.2f", UpdateTime);
+		DEBUG_LOG("===%.3f %.3f %.3f || %.3f %.3f %.3f",
+			ParentGameObject->BasicAttr.Position.x,
+			ParentGameObject->BasicAttr.Position.y,
+			ParentGameObject->BasicAttr.Position.z,
+			velocity.x,
+			velocity.y,
+			velocity.z);
+	}
 	UpdateTime = 0;
 }
 

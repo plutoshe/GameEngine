@@ -181,17 +181,24 @@ void PhysicsController::Update(double deltaTime) {
 			}
 		}
 		if (selectionObjectIDA >= 0) {
-			for (int i = 0; i < PhysicsComponentList.get_size(); i++) 
+			for (int i = 0; i < PhysicsComponentList.get_size(); i++) {
 				if (!PhysicsComponentList[i]->ParentGameObject->Active) continue;
 				if (!PhysicsComponentList[i]->IsStatic && i != selectionObjectIDA && i != selectionObjectIDB) {
-					PhysicsComponentList[i]->ParentGameObject->BasicAttr.Position += 
+					PhysicsComponentList[i]->ParentGameObject->BasicAttr.Position +=
 						PhysicsComponentList[i]->velocity * minimumCollisionTime;
 					PhysicsComponentList[i]->UpdateTime = minimumCollisionTime;
 				}
+			}
 			//DEBUG_LOG("%.4f", minimumCollisionTime);
 			deltaTime -= minimumCollisionTime;
 			// Update A && B after collision
 			CollisionImpact(PhysicsComponentList[selectionObjectIDA], PhysicsComponentList[selectionObjectIDB], minimumCollisionTime);
+			PhysicsComponentList[selectionObjectIDA]->ParentGameObject->OnCollisionEnter(PhysicsComponentList[selectionObjectIDB]->ParentGameObject);
+			auto c = PhysicsComponentList[selectionObjectIDB];
+			auto a = c->ParentGameObject;
+			//PhysicsComponentList[selectionObjectIDB]->ParentGameObject
+			a->OnCollisionEnter(
+				PhysicsComponentList[selectionObjectIDA]->ParentGameObject);
 			lastI = selectionObjectIDA, lastJ = selectionObjectIDB;
 		}
 		else break;

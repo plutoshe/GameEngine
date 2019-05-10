@@ -17,6 +17,11 @@ public:
 
 	std::string SpriteName;
 	int StrideLength = 30;
+	void Stop();
+	void Restart();
+private:
+	bool isStop = true;
 	double LastTime = 0;
+
 };
 

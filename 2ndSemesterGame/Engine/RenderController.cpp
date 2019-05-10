@@ -1,5 +1,5 @@
 #include "RenderController.h"
-
+#include "GameObject.h"
 
 RenderController::RenderController()
 {
@@ -51,10 +51,10 @@ void RenderController::Update() {
 	//		auto pos = GLib::Point2D{ gameobjects[id]->position.x, gameobjects[id]->position.y };
 	//		GLib::Sprites::RenderSprite(*gameobjects[id]->irender, pos, 0.0f);
 	//	}
-
-	for (int i = 0; i < ListRenderComponent.size(); i++)
-		if (!ListRenderComponent[i]->ParentGameObject->Active) continue;
+	for (int i = 0; i < ListRenderComponent.size(); i++) {
+		if (!(ListRenderComponent[i])->ParentGameObject->Active) continue;
 		ListRenderComponent[i]->Update();
+	}
 
 	// Tell GLib we're done rendering sprites
 	GLib::Sprites::EndRendering();

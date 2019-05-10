@@ -28,7 +28,7 @@ void GameManager::Run() {
 	DeltaTime = 0;
 	while (!bQuit) {
 		DeltaTime += Timing::CalcLastFrameTime_ms();
-		if (DeltaTime < 5) continue;
+		if (DeltaTime < 10) continue;
 		Input->Update();
 		PSGameObjectManager->Update();
 		Physics->Update(DeltaTime / 1000);

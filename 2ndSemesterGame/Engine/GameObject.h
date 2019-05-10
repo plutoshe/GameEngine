@@ -40,7 +40,7 @@ public:
 	virtual void Start() {}
 	virtual void Update() {}
 
-	virtual void OnCollisionEnter(GameObject other) {}
+	virtual void OnCollisionEnter(Engine::ObservingPointer<GameObject> other) {}
 
 	void UpdateConnectionPointer(Engine::ObservingPointer<GameObject> g);
 

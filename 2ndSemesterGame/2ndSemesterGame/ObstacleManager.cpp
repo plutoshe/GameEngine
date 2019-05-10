@@ -11,35 +11,47 @@ void ObstacleManager::Start() {
 }
 
 void ObstacleManager::Clear() {
-	for (int i = obstaclesList.get_size() - 1; i >= 0; i--) 
+
+}
+void ObstacleManager::Stop() {
+	for (int i = obstaclesList.get_size() - 1; i >= 0; i--)
+		obstaclesList[i]->Active = false;
+	isStop = true;
+}
+
+void ObstacleManager::Restart() {
+	for (int i = obstaclesList.get_size() - 1; i >= 0; i--)
 		CurrentGameManager.RemoveGameObject(obstaclesList[i]);
-	obstaclesList.Clear();
+	obstaclesList.clear();
+	isStop = false;
 }
 
 void ObstacleManager::Update() {
-	for (int i = obstaclesList.get_size() - 1; i >= 0; i--) {
-		// update obstacles
-		obstaclesList[i]->BasicAttr.Position.x -= 200.f * CurrentGameManager.DeltaTime / 1000;
-		if (obstaclesList[i]->BasicAttr.Position.x < -300 -StrideLength / 2) {
-			CurrentGameManager.RemoveGameObject(obstaclesList[i]);
-			obstaclesList.remove(i);
+	if (!isStop) {
+		for (int i = obstaclesList.get_size() - 1; i >= 0; i--) {
+			// update obstacles
+			obstaclesList[i]->BasicAttr.Position.x -= 200.f * CurrentGameManager.DeltaTime / 1000;
+			if (obstaclesList[i]->BasicAttr.Position.x < -300 - StrideLength / 2) {
+				CurrentGameManager.RemoveGameObject(obstaclesList[i]);
+				obstaclesList.remove(i);
+			}
 		}
-	}
-	LastTime += CurrentGameManager.DeltaTime / 1000;
-	if (LastTime > 0.5f && rand() % 10000 < 3) {
-		Vector2f startPoint;
-		Vector2f stride;
-		if (rand() % 2 == 0) {
-			startPoint = Vector2f(400 + StrideLength / 2, 300 - StrideLength / 2);
-			stride = Vector2f(0, -StrideLength);
+		LastTime += CurrentGameManager.DeltaTime / 1000;
+		if (LastTime > 0.5f && obstaclesList.get_size() < 5) {
+			Vector2f startPoint;
+			Vector2f stride;
+			if (rand() % 2 == 0) {
+				startPoint = Vector2f(400 + StrideLength / 2, 300 - StrideLength / 2);
+				stride = Vector2f(0, -StrideLength);
+			}
+			else {
+				startPoint = Vector2f(400 + StrideLength / 2, -300 + StrideLength / 2);
+				stride = Vector2f(0, StrideLength);
+			}
+			Engine::ObservingPointer<Obstacle> newOne = AddNewObstacle(StrideLength, (rand() % 5 * 2 + 7) * StrideLength);
+			newOne->BasicAttr.Position = startPoint;
+			LastTime = 0;
 		}
-		else {
-			startPoint = Vector2f(400 + StrideLength / 2, -300 + StrideLength / 2);
-			stride = Vector2f(0, StrideLength);
-		}
-		Engine::ObservingPointer<Obstacle> newOne = AddNewObstacle(StrideLength, (rand() % 5 * 2 + 7) * StrideLength);
-		newOne->BasicAttr.Position = startPoint;
-		LastTime = 0;
 	}
 }
 

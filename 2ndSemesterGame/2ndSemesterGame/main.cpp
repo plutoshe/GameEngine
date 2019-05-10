@@ -90,16 +90,16 @@ void CollisionTest(int screenWidth, int screenHeight) {
 	for (int i = 0; i < 4; i++)
 		collisionObjectList[i]->physicsComponent->IsStatic = true;
 	// add collision objects
-	int posX = 20;
-	int posY = 20;
-	for (int i = 0; i < 10; i++) {
+	int posX = -400 + 50;
+	int posY = -300 + 50;
+	for (int i = 0; i < 30; i++) {
 		AddCollisionObject(
 			Vector3f(posX, posY, 0),
 			10, 10, collisionSpriteName);
 		posY += 20;
-		if (posY > screenHeight) {
+		if (posY > screenHeight / 2 - 50) {
 			posX += 20;
-			posY = 20;
+			posY = -300 + 50;
 		}
 	}
 	CurrentGameManager.Run();
@@ -113,8 +113,8 @@ void CollisionApp(HINSTANCE i_hInstance, int i_nCmdShow) {
 }
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
-	runGame(i_hInstance, i_nCmdShow);
-	//CollisionApp(i_hInstance, i_nCmdShow);
+	//runGame(i_hInstance, i_nCmdShow);
+	CollisionApp(i_hInstance, i_nCmdShow);
 	#if defined _DEBUG
 		_CrtDumpMemoryLeaks();
 	#endif // _DEBUG

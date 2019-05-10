@@ -99,20 +99,20 @@ void PhysicsController::CollisionImpact(Engine::ObservingPointer<PhysicsComponen
 	auto oldVelocityA = ColliderPhysicsA->velocity;
 	auto oldVelocityB = ColliderPhysicsB->velocity;
 	//DEBUG_LOG("before collisiion responseL %.2f, %.2f", ColliderPhysicsA->velocity.Length(), ColliderPhysicsB->velocity.Length());
-	DEBUG_LOG(" before collisiion response position: %.2f, %.2f %.2f || %.2f %.2f %.2f",
+	/*DEBUG_LOG(" before collisiion response position: %.2f, %.2f %.2f || %.2f %.2f %.2f",
 		ColliderPhysicsA->ParentGameObject->BasicAttr.Position.x,
 		ColliderPhysicsA->ParentGameObject->BasicAttr.Position.y,
 		ColliderPhysicsA->ParentGameObject->BasicAttr.Position.z,
 		ColliderPhysicsB->ParentGameObject->BasicAttr.Position.x,
 		ColliderPhysicsB->ParentGameObject->BasicAttr.Position.y,
-		ColliderPhysicsB->ParentGameObject->BasicAttr.Position.z);
+		ColliderPhysicsB->ParentGameObject->BasicAttr.Position.z);*/
 	ColliderPhysicsA->ParentGameObject->BasicAttr.Position +=
 		ColliderPhysicsA->velocity * collisionTime;
 	ColliderPhysicsA->UpdateTime = collisionTime;
 	ColliderPhysicsB->ParentGameObject->BasicAttr.Position +=
 		ColliderPhysicsB->velocity * collisionTime;
 	ColliderPhysicsB->UpdateTime = collisionTime;
-	DEBUG_LOG(" after collisiion response position: %.2f, %.2f %.2f || %.2f %.2f %.2f",
+	/*DEBUG_LOG(" after collisiion response position: %.2f, %.2f %.2f || %.2f %.2f %.2f",
 		ColliderPhysicsA->ParentGameObject->BasicAttr.Position.x,
 		ColliderPhysicsA->ParentGameObject->BasicAttr.Position.y,
 		ColliderPhysicsA->ParentGameObject->BasicAttr.Position.z,
@@ -122,7 +122,7 @@ void PhysicsController::CollisionImpact(Engine::ObservingPointer<PhysicsComponen
 	DEBUG_LOG("before collisiion response v: %.2f, %.2f %.2f || %.2f %.2f %.2f",
 		ColliderPhysicsA->velocity.x, ColliderPhysicsA->velocity.y, ColliderPhysicsA->velocity.z,
 		ColliderPhysicsB->velocity.x, ColliderPhysicsB->velocity.y, ColliderPhysicsB->velocity.z);
-
+*/
 	auto massA = ColliderPhysicsA->Mass;
 	auto massB = ColliderPhysicsA->Mass;
 	if (!ColliderPhysicsA->IsStatic)
@@ -135,9 +135,9 @@ void PhysicsController::CollisionImpact(Engine::ObservingPointer<PhysicsComponen
 			(massA + massB);
 	
 	//DEBUG_LOG(" collisiion responseL %.2f, %.2f", ColliderPhysicsA->velocity.Length(), ColliderPhysicsB->velocity.Length());
-	DEBUG_LOG(" collisiion response v: %.2f, %.2f %.2f || %.2f %.2f %.2f", 
+	/*DEBUG_LOG(" collisiion response v: %.2f, %.2f %.2f || %.2f %.2f %.2f", 
 		ColliderPhysicsA->velocity.x, ColliderPhysicsA->velocity.y, ColliderPhysicsA->velocity.z,
-		ColliderPhysicsB->velocity.x, ColliderPhysicsB->velocity.y, ColliderPhysicsB->velocity.z);
+		ColliderPhysicsB->velocity.x, ColliderPhysicsB->velocity.y, ColliderPhysicsB->velocity.z);*/
 	
 
 }
@@ -184,7 +184,7 @@ void PhysicsController::Update(double deltaTime) {
 						PhysicsComponentList[i]->velocity * minimumCollisionTime;
 					PhysicsComponentList[i]->UpdateTime = minimumCollisionTime;
 				}
-			DEBUG_LOG("%.4f", minimumCollisionTime);
+			//DEBUG_LOG("%.4f", minimumCollisionTime);
 			deltaTime -= minimumCollisionTime;
 			// Update A && B after collision
 			CollisionImpact(PhysicsComponentList[selectionObjectIDA], PhysicsComponentList[selectionObjectIDB], minimumCollisionTime);

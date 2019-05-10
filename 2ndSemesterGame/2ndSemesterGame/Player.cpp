@@ -14,7 +14,16 @@ Player::~Player()
 }
 
 void Player::Update() {
-	if (CurrentGameManager.Input->IsKeyDown('J')) {
+	if (CurrentGameManager.Input->IsKeyDown('W')) {
+		physicsComponent->AddForce(Vector3f(0, 100000, 0));
+	}
+	if (CurrentGameManager.Input->IsKeyDown('A')) {
+		physicsComponent->AddForce(Vector3f(-100000, 0, 0));
+	}
+	if (CurrentGameManager.Input->IsKeyDown('S')) {
+		physicsComponent->AddForce(Vector3f(0, -100000, 0));
+	}
+	if (CurrentGameManager.Input->IsKeyDown('D')) {
 		physicsComponent->AddForce(Vector3f(100000, 0, 0));
 	}
 

@@ -23,7 +23,7 @@ public:
 	}
 
 	Matrix4f WorldToLocalMatrix() {
-		return Matrix4f::GetRotationMatrix(BasicAttr.Rotation).Inversion() * Matrix4f::GetTranslationMatrix(BasicAttr.Position).Inversion() ;
+		return Matrix4f::GetRotationMatrix(BasicAttr.Rotation).Inversion() * Matrix4f::GetTranslationMatrix(BasicAttr.Position).Inversion();
 	}
 	Engine::ObservingPointer<GameObject> parentGameObject;
 	Engine::ObservingPointer<GameObject> selfPointer;

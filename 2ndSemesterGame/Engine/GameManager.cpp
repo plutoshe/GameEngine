@@ -25,13 +25,15 @@ bool GameManager::Initialization(HINSTANCE i_hInstance, int i_nCmdShow, const ch
 void GameManager::Run() {
 	//GLib::Service(bQuit);
 	PSGameObjectManager->Start();
+	DeltaTime = 0;
 	while (!bQuit) {
-		DeltaTime = Timing::CalcLastFrameTime_ms();
+		DeltaTime += Timing::CalcLastFrameTime_ms();
+		if (DeltaTime < 5) continue;
 		Input->Update();
 		PSGameObjectManager->Update();
 		Physics->Update(DeltaTime / 1000);
 		Render->Update();
-		
+		DeltaTime = 0;
 		if (Input->IsKeyDown(27)) break;
 	}
 	Release();

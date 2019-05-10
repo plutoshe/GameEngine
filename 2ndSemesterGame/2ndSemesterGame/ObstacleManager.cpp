@@ -1,7 +1,6 @@
 #include <time.h>
 #include "Env.h"
 #include "ObstacleManager.h"
-#include "GameManager.h"
 
 void ObstacleManager::Start() {
 	srand(time(NULL));

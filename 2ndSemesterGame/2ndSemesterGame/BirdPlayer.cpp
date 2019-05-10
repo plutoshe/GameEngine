@@ -32,8 +32,7 @@ void BirdPlayer::Update() {
 }
 
 void BirdPlayer::Restart() {
-	Message1->Active = false;
-	Message2->Active = false;
+	DisplayMessage->Active = false;
 	obstacleManager->Clear();
 	obstacleManager->Restart();
 	live = true;
@@ -44,8 +43,7 @@ void BirdPlayer::Restart() {
 }
 
 void BirdPlayer::ShowMessage() {
-	Message1->Active = true;
-	Message2->Active = true;
+	DisplayMessage->Active = true;
 }
 
 

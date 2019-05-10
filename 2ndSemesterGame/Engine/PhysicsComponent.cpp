@@ -57,14 +57,14 @@ void PhysicsComponent::UpdatePos(double deltaTime) {
 	//DEBUG_LOG("%.2f %.2f %.2f", velocity.Length(), acceleration.Length(), ContinuousForces.Length());
 	if (!IsStatic) {
 		ParentGameObject->BasicAttr.Position += (deltaTime - UpdateTime) * velocity;
-		DEBUG_LOG("%.2f", UpdateTime);
+		/*DEBUG_LOG("%.2f", UpdateTime);
 		DEBUG_LOG("===%.3f %.3f %.3f || %.3f %.3f %.3f",
 			ParentGameObject->BasicAttr.Position.x,
 			ParentGameObject->BasicAttr.Position.y,
 			ParentGameObject->BasicAttr.Position.z,
 			velocity.x,
 			velocity.y,
-			velocity.z);
+			velocity.z);*/
 	}
 	UpdateTime = 0;
 }

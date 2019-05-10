@@ -10,3 +10,7 @@ Obstacle::Obstacle()
 Obstacle::~Obstacle()
 {
 }
+
+void Obstacle::Update() {
+	int i = 0;
+}

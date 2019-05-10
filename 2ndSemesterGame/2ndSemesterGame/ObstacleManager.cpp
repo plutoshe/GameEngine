@@ -30,7 +30,6 @@ void ObstacleManager::Update() {
 	if (!isStop) {
 		for (int i = obstaclesList.get_size() - 1; i >= 0; i--) {
 			// update obstacles
-			obstaclesList[i]->BasicAttr.Position.x -= 200.f * CurrentGameManager.DeltaTime / 1000;
 			if (obstaclesList[i]->BasicAttr.Position.x < -300 - StrideLength / 2) {
 				CurrentGameManager.RemoveGameObject(obstaclesList[i]);
 				obstaclesList.remove(i);
@@ -62,6 +61,9 @@ Engine::ObservingPointer<Obstacle> ObstacleManager::AddNewObstacle(int width, in
 	ch2->physicsComponent->AddCollider(BoxCollider2D(Vector2f(0, 0), Vector2f(width, height)));
 	ch2->NewRenderComponent();
 	ch2->renderComponent->CreateSprite(SpriteName.c_str(), width, height);
+	ch2->physicsComponent->velocity = Vector3f(-200.f, 0, 0);
+	ch2->physicsComponent->DragCof = 0;
+	ch2->physicsComponent->IsStatic = true;
 	obstaclesList.push(ch2);
 	return ch2;
 }

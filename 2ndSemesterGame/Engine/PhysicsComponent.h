@@ -39,7 +39,7 @@ public:
 	float PixelRatio = 100;
 	float Mass = 1;
 	float DragCof = 0.01;
-	Vector3f velocity = Vector3f(0,0,0);
+	Vector3f velocity = Vector3f(0, 0, 0);
 	Vector3f acceleration = Vector3f(0, 0, 0);
 	bool HasGravity = false;
 	bool IsStatic = false;

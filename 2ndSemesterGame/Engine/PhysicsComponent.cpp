@@ -17,8 +17,7 @@ void PhysicsComponent::Update(double deltaTime) {
 	CurrentForce = ContinuousForces;
 	// ignore density and area right now
 	Vector3f airDrag = (velocity * velocity * DragCof) / 2;
-	/*DEBUG_LOG("velocity: %.2f %.2f %.2f", velocity.x, velocity.y, velocity.z);
-	DEBUG_LOG("ariDrag: %.2f", airDrag.Length());*/
+
 	if (velocity.x > 0)
 		airDrag.x *= -1;
 	if (velocity.y > 0)
@@ -41,31 +40,16 @@ void PhysicsComponent::Update(double deltaTime) {
 			velocity.x = 0;
 		if (oldVelocity.z * velocity.z < 0)
 			velocity.x = 0;
-		DEBUG_LOG("%.3f %.3f %.3f || %.3f %.3f %.3f", 
-			acceleration.x, 
-			acceleration.y,
-			acceleration.z,
-			velocity.x,
-			velocity.y,
-			velocity.z);
+		if (oldVelocity.x == -200 && velocity.x != -200) {
+			int a = 0;
+		}
 	}
 	
 	checkExertingForces(deltaTime);
 }
 
 void PhysicsComponent::UpdatePos(double deltaTime) {
-	//DEBUG_LOG("%.2f %.2f %.2f", velocity.Length(), acceleration.Length(), ContinuousForces.Length());
-	if (!IsStatic) {
-		ParentGameObject->BasicAttr.Position += (deltaTime - UpdateTime) * velocity;
-		/*DEBUG_LOG("%.2f", UpdateTime);
-		DEBUG_LOG("===%.3f %.3f %.3f || %.3f %.3f %.3f",
-			ParentGameObject->BasicAttr.Position.x,
-			ParentGameObject->BasicAttr.Position.y,
-			ParentGameObject->BasicAttr.Position.z,
-			velocity.x,
-			velocity.y,
-			velocity.z);*/
-	}
+	ParentGameObject->BasicAttr.Position += (deltaTime - UpdateTime) * velocity;		
 	UpdateTime = 0;
 }
 

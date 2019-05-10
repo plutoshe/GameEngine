@@ -11,9 +11,31 @@
 #include "ObstacleManager.h"
 
 GameManager CurrentGameManager = GameManager();
+static DataStructure::List<Engine::ObservingPointer<CollisionObject>> collisionObjectList;
+void AddCollisionObject(Vector3f position, int width, int height, std::string spriteName) {
+	Engine::ObservingPointer<CollisionObject> ch2 = CurrentGameManager.AddGameObject(CollisionObject());
+	ch2->BasicAttr.Position = position;
+	ch2->NewPhysicsComponent();
+	ch2->physicsComponent->AddCollider(BoxCollider2D(Vector2f(0, 0), Vector2f(width, height)));
+	ch2->NewRenderComponent();
+	ch2->renderComponent->CreateSprite(spriteName.c_str(), width, height);
+	collisionObjectList.push(ch2);
+	return;
+}
 
 void runGame(HINSTANCE i_hInstance, int i_nCmdShow) {
+	
 	CurrentGameManager.Initialization(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
+	int screenHeight = 600;
+	int screenWidth = 800;
+	std::string collisionSpriteName = "data\\BadGuy.dds";
+	AddCollisionObject(Vector3f(0, -screenHeight / 2, 0), screenWidth, 30, collisionSpriteName);
+	AddCollisionObject(Vector3f(0, screenHeight / 2, 0), screenWidth, 30, collisionSpriteName);
+	AddCollisionObject(Vector3f(-screenWidth / 2, 0, 0), 30, screenHeight, collisionSpriteName);
+	AddCollisionObject(Vector3f(screenWidth / 2, 0, 0), 30, screenHeight, collisionSpriteName);
+	for (int i = 0; i < 4; i++)
+		collisionObjectList[i]->physicsComponent->IsStatic = true;
+
 	Engine::ObservingPointer<Player> ch1 = CurrentGameManager.AddGameObject(Player());
 	ch1->BasicAttr.Position = Vector3f(-180.f, 0.f, 0);
 	ch1->NewRenderComponent();
@@ -24,7 +46,7 @@ void runGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	ch1->physicsComponent->AddCollider(BoxCollider2D(Vector2f(0,0), Vector2f(100,100)));
 
 	Engine::ObservingPointer<GameObject> ch2 = CurrentGameManager.GetNewGameObject();
-	ch2->BasicAttr.Position = Vector3f(180.f, 30.f, 0);
+	ch2->BasicAttr.Position = Vector3f(180.f, 0.f, 0);
 	ch2->NewRenderComponent();
 	ch2->GetRenderComponent()->CreateSprite("data\\BadGuy.dds", 100, 100);
 	ch2->NewPhysicsComponent();
@@ -56,25 +78,6 @@ void myGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	CurrentGameManager.Run();
 	return;
 }
-
-class CollisionObject : public GameObject {
-	void Update() {
-		AddForce(Vector3f(rand() % 300 - 150, rand() % 300 - 150, 0));
-	}
-};
-
-DataStructure::List<Engine::ObservingPointer<CollisionObject>> collisionObjectList;
-void AddCollisionObject(Vector3f position, int width, int height, std::string spriteName) {
-	Engine::ObservingPointer<CollisionObject> ch2 = CurrentGameManager.AddGameObject(CollisionObject());
-	ch2->BasicAttr.Position = position;
-	ch2->NewPhysicsComponent();
-	ch2->physicsComponent->AddCollider(BoxCollider2D(Vector2f(0, 0), Vector2f(width, height)));
-	ch2->NewRenderComponent();
-	ch2->renderComponent->CreateSprite(spriteName.c_str(), width, height);
-	collisionObjectList.push(ch2);
-	return;
-}
-
 
 void CollisionTest(int screenWidth, int screenHeight) {
 	// add border
@@ -110,8 +113,8 @@ void CollisionApp(HINSTANCE i_hInstance, int i_nCmdShow) {
 }
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
-	//runGame(i_hInstance, i_nCmdShow);
-	CollisionApp(i_hInstance, i_nCmdShow);
+	runGame(i_hInstance, i_nCmdShow);
+	//CollisionApp(i_hInstance, i_nCmdShow);
 	#if defined _DEBUG
 		_CrtDumpMemoryLeaks();
 	#endif // _DEBUG

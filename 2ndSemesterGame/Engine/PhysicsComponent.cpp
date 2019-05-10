@@ -32,8 +32,22 @@ void PhysicsComponent::Update(double deltaTime) {
 		CurrentForce += gravityAcceleration * Mass;
 	}
 	if (!IsStatic) {
-		velocity += acceleration * deltaTime;
 		acceleration = CurrentForce / Mass;
+		Vector3f oldVelocity = velocity;
+		velocity += acceleration * deltaTime;
+		if (oldVelocity.x * velocity.x < 0)
+			velocity.x = 0;
+		if (oldVelocity.y * velocity.y < 0)
+			velocity.x = 0;
+		if (oldVelocity.z * velocity.z < 0)
+			velocity.x = 0;
+		/*DEBUG_LOG("%.3f %.3f %.3f || %.3f %.3f %.3f", 
+			acceleration.x, 
+			acceleration.y,
+			acceleration.z,
+			velocity.x,
+			velocity.y,
+			velocity.z);*/
 	}
 	
 	checkExertingForces(deltaTime);

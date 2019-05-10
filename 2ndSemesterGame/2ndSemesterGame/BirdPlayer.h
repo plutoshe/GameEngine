@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine.h"
+#include "Env.h"
 #include "ObstacleManager.h"
 class BirdPlayer: public GameObject
 {
@@ -23,4 +23,3 @@ public:
 	Engine::ObservingPointer<ObstacleManager> obstacleManager;
 	Vector3f StartPosition = Vector3f(-180,100,0);
 };
-

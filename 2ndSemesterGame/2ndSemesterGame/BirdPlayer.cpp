@@ -1,8 +1,4 @@
-#include "Env.h"
 #include "BirdPlayer.h"
-#include "GameManager.h"
-#include "PhysicsComponent.h"
-#include "Log.h"
 
 BirdPlayer::BirdPlayer()
 {

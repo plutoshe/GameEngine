@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "Env.h"
 
 class Obstacle: public GameObject
 {
@@ -8,3 +8,4 @@ public:
 	~Obstacle();
 	void Update();
 };
+

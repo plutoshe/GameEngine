@@ -1,5 +1,3 @@
-#include <time.h>
-#include "Env.h"
 #include "ObstacleManager.h"
 
 void ObstacleManager::Start() {
@@ -40,11 +38,11 @@ void ObstacleManager::Update() {
 			Vector2f startPoint;
 			Vector2f stride;
 			if (rand() % 2 == 0) {
-				startPoint = Vector2f(400 + StrideLength / 2, 300 - StrideLength / 2);
+				startPoint = Vector2f(400.f + StrideLength / 2, 300.f - StrideLength / 2);
 				stride = Vector2f(0, -StrideLength);
 			}
 			else {
-				startPoint = Vector2f(400 + StrideLength / 2, -300 + StrideLength / 2);
+				startPoint = Vector2f(400.f + StrideLength / 2, -300.f + StrideLength / 2);
 				stride = Vector2f(0, StrideLength);
 			}
 			Engine::ObservingPointer<Obstacle> newOne = AddNewObstacle(StrideLength, (rand() % 5 * 2 + 7) * StrideLength);

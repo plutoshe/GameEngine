@@ -6,13 +6,12 @@
 #include <ctime>
 
 #include "Env.h"
-
 #include "Player.h"
 #include "ObstacleManager.h"
 #include "BirdPlayer.h"
 
 GameManager CurrentGameManager = GameManager();
-static DataStructure::List<Engine::ObservingPointer<CollisionObject>> collisionObjectList;
+DataStructure::List<Engine::ObservingPointer<CollisionObject>> collisionObjectList;
 void AddCollisionObject(Vector3f position, int width, int height, std::string spriteName) {
 	Engine::ObservingPointer<CollisionObject> ch2 = CurrentGameManager.AddGameObject(CollisionObject());
 	ch2->BasicAttr.Position = position;
@@ -30,10 +29,10 @@ void runGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	int screenHeight = 600;
 	int screenWidth = 800;
 	std::string collisionSpriteName = "data\\Block.dds";
-	AddCollisionObject(Vector3f(0, -screenHeight / 2, 0), screenWidth, 30, collisionSpriteName);
-	AddCollisionObject(Vector3f(0, screenHeight / 2, 0), screenWidth, 30, collisionSpriteName);
-	AddCollisionObject(Vector3f(-screenWidth / 2, 0, 0), 30, screenHeight, collisionSpriteName);
-	AddCollisionObject(Vector3f(screenWidth / 2, 0, 0), 30, screenHeight, collisionSpriteName);
+	AddCollisionObject(Vector3f(0, (float)(-screenHeight)/ 2, 0), screenWidth, 30, collisionSpriteName);
+	AddCollisionObject(Vector3f(0, (float)(screenHeight) / 2, 0), screenWidth, 30, collisionSpriteName);
+	AddCollisionObject(Vector3f((float)(-screenWidth) / 2, 0, 0), 30, screenHeight, collisionSpriteName);
+	AddCollisionObject(Vector3f((float)(screenWidth) / 2, 0, 0), 30, screenHeight, collisionSpriteName);
 	for (int i = 0; i < 4; i++)
 		collisionObjectList[i]->physicsComponent->IsStatic = true;
 
@@ -120,15 +119,15 @@ void CollisionTest(int screenWidth, int screenHeight) {
 	// add border
 	//
 	std::string collisionSpriteName = "data\\Block.dds";
-	AddCollisionObject(Vector3f(0, -screenHeight / 2, 0), screenWidth, 30, collisionSpriteName);
-	AddCollisionObject(Vector3f(0, screenHeight / 2, 0), screenWidth, 30, collisionSpriteName);
-	AddCollisionObject(Vector3f(-screenWidth / 2, 0, 0), 30, screenHeight, collisionSpriteName);
-	AddCollisionObject(Vector3f(screenWidth / 2, 0, 0), 30, screenHeight, collisionSpriteName);
+	AddCollisionObject(Vector3f(0, (float)(-screenHeight / 2), 0), screenWidth, 30, collisionSpriteName);
+	AddCollisionObject(Vector3f(0, (float)(screenHeight / 2), 0), screenWidth, 30, collisionSpriteName);
+	AddCollisionObject(Vector3f((float)(-screenWidth / 2), 0, 0), 30, screenHeight, collisionSpriteName);
+	AddCollisionObject(Vector3f((float)(screenWidth / 2), 0, 0), 30, screenHeight, collisionSpriteName);
 	for (int i = 0; i < 4; i++)
 		collisionObjectList[i]->physicsComponent->IsStatic = true;
 	// add collision objects
-	int posX = -400 + 50;
-	int posY = -300 + 50;
+	float posX = -400.f + 50.f;
+	float posY = -300.f + 50.f;
 	for (int i = 0; i < 30; i++) {
 		AddCollisionObject(
 			Vector3f(posX, posY, 0),
@@ -150,9 +149,9 @@ void CollisionApp(HINSTANCE i_hInstance, int i_nCmdShow) {
 }
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
-	myGame(i_hInstance, i_nCmdShow);
+	//	myGame(i_hInstance, i_nCmdShow);
 	//runGame(i_hInstance, i_nCmdShow);
-	//CollisionApp(i_hInstance, i_nCmdShow);
+	CollisionApp(i_hInstance, i_nCmdShow);
 	#if defined _DEBUG
 		_CrtDumpMemoryLeaks();
 	#endif // _DEBUG

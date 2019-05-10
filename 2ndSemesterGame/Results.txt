@@ -1,0 +1,4 @@
+The main cost of collision test is at function named "GetCollisionTime" which almost cost 76.79% time.
+And In this function, GetBorderLines() and GetBorderPoints() cost almost 35% time, and it is because of the lack structure to represent the border lines and border points, I will update this structure latter. 
+Besides, I found the bottlenect were how you detect the collsion, not the exact calculation like Matrix Multiplication.
+And I could use heap to store the existing results avoiding redundant calculation.

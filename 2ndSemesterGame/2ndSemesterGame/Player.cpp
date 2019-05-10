@@ -1,8 +1,5 @@
-#include "Env.h"
 #include "Player.h"
-#include "GameManager.h"
-#include "PhysicsComponent.h"
-#include "Log.h"
+
 
 Player::Player()
 {

@@ -33,7 +33,7 @@ void PhysicsComponent::Update(double deltaTime) {
 	if (!IsStatic) {
 		acceleration = CurrentForce / Mass;
 		Vector3f oldVelocity = velocity;
-		velocity += acceleration * deltaTime;
+		velocity += acceleration * (float)(deltaTime);
 		if (oldVelocity.x * velocity.x < 0)
 			velocity.x = 0;
 		if (oldVelocity.y * velocity.y < 0)
@@ -45,11 +45,11 @@ void PhysicsComponent::Update(double deltaTime) {
 		}
 	}
 	
-	checkExertingForces(deltaTime);
+	checkExertingForces((float)(deltaTime));
 }
 
 void PhysicsComponent::UpdatePos(double deltaTime) {
-	ParentGameObject->BasicAttr.Position += (deltaTime - UpdateTime) * velocity;		
+	ParentGameObject->BasicAttr.Position += ((float)(deltaTime) - UpdateTime) * velocity;		
 	UpdateTime = 0;
 }
 

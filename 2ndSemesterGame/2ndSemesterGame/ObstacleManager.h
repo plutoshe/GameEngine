@@ -1,8 +1,9 @@
 ﻿#pragma once
-#include "GameObject.h"
-#include "SmartPointer.h"
-#include "Obstacle.h"
+#include <time.h>
 #include <string>
+
+#include "Env.h"
+#include "Obstacle.h"
 class ObstacleManager: public GameObject
 {
 public:

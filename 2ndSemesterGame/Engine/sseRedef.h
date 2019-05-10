@@ -1,6 +1,6 @@
 #pragma once
-//#define SSEOP
 
+#define SSEOP
 #include "VectorUtil.h"
 #include "Matrix4x4.h"
 
@@ -14,16 +14,18 @@
 		Vector4f() { Clear();  }
 		Vector4f(float _x, float _y, float _z, float _w) { x = _x; y = _y; z = _z; w = _w; }
 		Vector4f(__m128 _dat) { dat = _dat; }
+
+		void Equal(const Vector4f &p) { dat = p.dat; }
 		void operator=(const Vector4f& p) { this->Equal(p); }
-		void operator=(const Vector3f &p) { this->Equal(p); }
-		void operator=(const Vector2f &p) { this->Equal(p); }
 		Vector4f(const Vector4f& p) { this->Equal(p); }
-		Vector4f(const Vector3f &p) { this->Equal(p); }
-		Vector4f(const Vector2f &p) { this->Equal(p); }
-		void Equal(const Vector4f &p);
+
 		void Equal(const Vector3f &p);
 		void Equal(const Vector2f &p);
-
+		void operator=(const Vector3f &p);
+		void operator=(const Vector2f &p);
+		Vector4f(const Vector3f &p);
+		Vector4f(const Vector2f &p);
+		
 		~Vector4f() { Clear(); }
 
 		inline friend std::ostream& operator<<(std::ostream& os, const Vector4f &p) {
@@ -46,13 +48,13 @@
 		Vector4f operator * (const Vector4f &p) const { return Vector4f(_mm_mul_ps(dat, p.dat)); }
 		Vector4f operator / (const Vector4f &p) const { return Vector4f(_mm_div_ps(dat, p.dat)); }
 		Vector4f operator + (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector4f(_mm_add_ps(dat, pdat)); }
-		Vector4f operator - (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector4f(_mm_add_ps(dat, pdat)); }
-		Vector4f operator * (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector4f(_mm_add_ps(dat, pdat)); }
-		Vector4f operator / (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector4f(_mm_add_ps(dat, pdat)); }
+		Vector4f operator - (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector4f(_mm_sub_ps(dat, pdat)); }
+		Vector4f operator * (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector4f(_mm_mul_ps(dat, pdat)); }
+		Vector4f operator / (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector4f(_mm_div_ps(dat, pdat)); }
 
 		//!@name Assignment operators
 
-		const Vector4f& operator += (const Vector4f &p) { dat = _mm_add_ps(dat, p.dat); return *this + x; }
+		const Vector4f& operator += (const Vector4f &p) { dat = _mm_add_ps(dat, p.dat); return *this; }
 		const Vector4f& operator -= (const Vector4f &p) { dat = _mm_sub_ps(dat, p.dat); return *this; }
 		const Vector4f& operator *= (const Vector4f &p) { dat = _mm_mul_ps(dat, p.dat); return *this; }
 		const Vector4f& operator /= (const Vector4f &p) { dat = _mm_div_ps(dat, p.dat); return *this; }
@@ -88,14 +90,15 @@
 		Vector3f() { Clear();  }
 		Vector3f(float _x, float _y, float _z) { x = _x; y = _y; z = _z;}
 		Vector3f(__m128 _dat) { dat = _dat; }
-		void operator=(const Vector2f& p) { this->Equal(p); }
-		void operator=(const Vector3f &p) { this->Equal(p); }
-		void operator=(const Vector4f &p) { this->Equal(p); }
-		Vector3f(const Vector2f& p) { this->Equal(p); }
-		Vector3f(const Vector3f &p) { this->Equal(p); }
-		Vector3f(const Vector4f &p) { this->Equal(p); }
+		void Vector3f::Equal(const Vector3f &p) { dat = p.dat; }
+		void Vector3f::operator=(const Vector3f &p) { this->Equal(p); }
+		Vector3f::Vector3f(const Vector3f &p) { this->Equal(p); }
+
+		void operator=(const Vector2f& p);
+		void operator=(const Vector4f &p);
+		Vector3f(const Vector2f& p);
+		Vector3f(const Vector4f &p);
 		void Equal(const Vector2f &p);
-		void Equal(const Vector3f &p);
 		void Equal(const Vector4f &p);
 
 		~Vector3f() {}
@@ -120,13 +123,13 @@
 		Vector3f operator * (const Vector3f &p) const { return Vector3f(_mm_mul_ps(dat, p.dat)); }
 		Vector3f operator / (const Vector3f &p) const { return Vector3f(_mm_div_ps(dat, p.dat)); }
 		Vector3f operator + (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector3f(_mm_add_ps(dat, pdat)); }
-		Vector3f operator - (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector3f(_mm_add_ps(dat, pdat)); }
-		Vector3f operator * (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector3f(_mm_add_ps(dat, pdat)); }
-		Vector3f operator / (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector3f(_mm_add_ps(dat, pdat)); }
+		Vector3f operator - (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector3f(_mm_sub_ps(dat, pdat)); }
+		Vector3f operator * (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector3f(_mm_mul_ps(dat, pdat)); }
+		Vector3f operator / (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector3f(_mm_div_ps(dat, pdat)); }
 
 		//!@name Assignment operators
 
-		const Vector3f& operator += (const Vector3f &p) { dat = _mm_add_ps(dat, p.dat); return *this + x; }
+		const Vector3f& operator += (const Vector3f &p) { dat = _mm_add_ps(dat, p.dat); return *this; }
 		const Vector3f& operator -= (const Vector3f &p) { dat = _mm_sub_ps(dat, p.dat); return *this; }
 		const Vector3f& operator *= (const Vector3f &p) { dat = _mm_mul_ps(dat, p.dat); return *this; }
 		const Vector3f& operator /= (const Vector3f &p) { dat = _mm_div_ps(dat, p.dat); return *this; }
@@ -163,13 +166,14 @@
 		Vector2f() { Clear(); }
 		Vector2f(float _x, float _y) { x = _x; y = _y; }
 		Vector2f(__m128 _dat) { dat = _dat; }
-		void operator=(const Vector2f& p) { this->Equal(p); }
-		void operator=(const Vector3f &p) { this->Equal(p); }
-		void operator=(const Vector4f &p) { this->Equal(p); }
-		Vector2f(const Vector2f& p) { this->Equal(p); }
-		Vector2f(const Vector3f &p) { this->Equal(p); }
-		Vector2f(const Vector4f &p) { this->Equal(p); }
-		void Equal(const Vector2f &p);
+		void Vector2f::Equal(const Vector2f &p) { dat = p.dat; }
+		void Vector2f::operator=(const Vector2f& p) { this->Equal(p); }
+		Vector2f::Vector2f(const Vector2f& p) { this->Equal(p); }
+
+		void operator=(const Vector3f &p);
+		void operator=(const Vector4f &p);
+		Vector2f(const Vector3f &p);
+		Vector2f(const Vector4f &p);
 		void Equal(const Vector3f &p);
 		void Equal(const Vector4f &p);
 		
@@ -196,13 +200,13 @@
 		Vector2f operator * (const Vector2f &p) const { return Vector2f(_mm_mul_ps(dat, p.dat)); }
 		Vector2f operator / (const Vector2f &p) const { return Vector2f(_mm_div_ps(dat, p.dat)); }
 		Vector2f operator + (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector2f(_mm_add_ps(dat, pdat)); }
-		Vector2f operator - (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector2f(_mm_add_ps(dat, pdat)); }
-		Vector2f operator * (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector2f(_mm_add_ps(dat, pdat)); }
-		Vector2f operator / (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector2f(_mm_add_ps(dat, pdat)); }
+		Vector2f operator - (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector2f(_mm_sub_ps(dat, pdat)); }
+		Vector2f operator * (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector2f(_mm_mul_ps(dat, pdat)); }
+		Vector2f operator / (const float v) const { __m128 pdat = _mm_set_ps(v, v, v, v); return Vector2f(_mm_div_ps(dat, pdat)); }
 
 		//!@name Assignment operators
 
-		const Vector2f& operator += (const Vector2f &p) { dat = _mm_add_ps(dat, p.dat); return *this + x; }
+		const Vector2f& operator += (const Vector2f &p) { dat = _mm_add_ps(dat, p.dat); return *this; }
 		const Vector2f& operator -= (const Vector2f &p) { dat = _mm_sub_ps(dat, p.dat); return *this; }
 		const Vector2f& operator *= (const Vector2f &p) { dat = _mm_mul_ps(dat, p.dat); return *this; }
 		const Vector2f& operator /= (const Vector2f &p) { dat = _mm_div_ps(dat, p.dat); return *this; }
@@ -231,17 +235,6 @@
 			return Vector2f(_mm_mul_ps(dat, p.dat));
 		}
 	};
-	void Vector2f::Equal(const Vector2f &p) { dat = p.dat; }
-	void Vector2f::Equal(const Vector3f &p) { x = p.x; y = p.y; }
-	void Vector2f::Equal(const Vector4f &p) { x = p.x; y = p.y; }
-	void Vector3f::Equal(const Vector2f &p) { dat = p.dat; }
-	void Vector3f::Equal(const Vector3f &p) { dat = p.dat; }
-	void Vector3f::Equal(const Vector4f &p) { x = p.x; y = p.y; z = p.z; }
-	void Vector4f::Equal(const Vector4f &p) { dat = p.dat; }
-	void Vector4f::Equal(const Vector3f &p) { dat = p.dat; }
-	void Vector4f::Equal(const Vector2f &p) { dat = p.dat; }
-
-
 
 	class Matrix4f : public Matrix4x4<float> {
 	public:
@@ -372,7 +365,6 @@
 	typedef Vector4D<float> Vector4f;
 
 	typedef Matrix4x4<float> Matrix4f;
-	
 #endif
 	
 

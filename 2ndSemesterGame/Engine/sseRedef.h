@@ -1,6 +1,6 @@
 #pragma once
 
-#define SSEOP
+//#define SSEOP
 #include "VectorUtil.h"
 #include "Matrix4x4.h"
 

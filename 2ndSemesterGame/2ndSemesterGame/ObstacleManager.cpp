@@ -20,7 +20,7 @@ void ObstacleManager::Stop() {
 void ObstacleManager::Restart() {
 	for (int i = obstaclesList.get_size() - 1; i >= 0; i--)
 		CurrentGameManager.RemoveGameObject(obstaclesList[i]);
-	obstaclesList.clear();
+ 	obstaclesList.clear();
 	isStop = false;
 }
 

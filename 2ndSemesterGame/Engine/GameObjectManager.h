@@ -3,7 +3,7 @@
 #include "RenderComponent.h"
 #include "SmartPointer.h"
 #include "GameObject.h"
-#include <vector>
+#include "List.h"
 
 //extern "C"
 //{
@@ -21,12 +21,13 @@ public:
 	// TODO: lua add gameobject
 	// TODO: Normal addition interface
 
-	std::vector<Engine::OwningPointer<GameObject>> GameobjectList;
+	DataStructure::List<Engine::OwningPointer<GameObject>> GameobjectList;
+
 	void Update();
 	template<class T>
 	Engine::ObservingPointer<GameObject> AddGameObject(T gameobject) {
-		GameobjectList.push_back(Engine::OwningPointer<T>(gameobject));
-		Engine::ObservingPointer<GameObject> currentGameObject = GameobjectList[GameobjectList.size() - 1];
+		GameobjectList.push(Engine::OwningPointer<T>(gameobject));
+		Engine::ObservingPointer<GameObject> currentGameObject = GameobjectList[GameobjectList.get_size() - 1];
 		currentGameObject->UpdateConnectionPointer(currentGameObject);
 		return currentGameObject;
 	}
@@ -59,7 +60,7 @@ public:
 
 	Engine::ObservingPointer<GameObject> GetNewGameObject() {
 		Engine::OwningPointer<GameObject> emptyGameObject(new GameObject());
-		GameobjectList.push_back(emptyGameObject);
+		GameobjectList.push(emptyGameObject);
 		emptyGameObject->UpdateConnectionPointer(emptyGameObject);
 		return emptyGameObject;
 	}

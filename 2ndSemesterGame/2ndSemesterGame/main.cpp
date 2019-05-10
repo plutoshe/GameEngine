@@ -149,8 +149,8 @@ void CollisionApp(HINSTANCE i_hInstance, int i_nCmdShow) {
 }
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
-	//	myGame(i_hInstance, i_nCmdShow);
-	//runGame(i_hInstance, i_nCmdShow);
+	//myGame(i_hInstance, i_nCmdShow);
+	// runGame(i_hInstance, i_nCmdShow);
 	CollisionApp(i_hInstance, i_nCmdShow);
 	#if defined _DEBUG
 		_CrtDumpMemoryLeaks();

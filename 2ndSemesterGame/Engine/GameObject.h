@@ -66,6 +66,7 @@ public:
 	Engine::OwningPointer<PhysicsComponent> physicsComponent;
 	Engine::OwningPointer<RenderComponent> renderComponent;
 	bool Active = true;
+	bool willDelete = false;
 	void Release();
 
 	// TODO: Add collider

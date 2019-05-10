@@ -91,8 +91,9 @@ namespace Engine {
 					}
 				}
 			}
-			OwningObject = nullptr;
 			CountRef = nullptr;
+			OwningObject = nullptr;
+			
 		}
 		ReferenceCounters& GetReferenceCounters() {
 			return *CountRef;
@@ -115,7 +116,7 @@ namespace Engine {
 		OwningPointer(const ObservingPointer<T> & i_other) {
 			//ReleaseCurrentOwningPointer();
 			OwningObject = i_other.AcquireOwnership().OwningObject;
-			CountRef = i_other.AcquireOwnership().CountRef;
+			CountRef = i_other->CountRef;
 			if (CountRef)
 				CountRef->OwnerReferences++;
 		}
@@ -124,7 +125,7 @@ namespace Engine {
 		template<class U>
 		OwningPointer(const ObservingPointer<U> & i_other) {
 			//ReleaseCurrentOwningPointer();
-			OwningObject = (T)i_other.AcquireOwnership().OwningObject;
+			OwningObject = reinterpret_cast<T*>(i_other.AcquireOwnership().OwningObject);
 			CountRef = i_other.AcquireOwnership().CountRef;
 			if (CountRef)
 				CountRef->OwnerReferences++;
@@ -307,9 +308,8 @@ namespace Engine {
 		// indirection operator
 		T & operator*() const {
 			if (OwningObject == nullptr) {
-				printf("!!!");
+				assert(OwningObject != nullptr);
 			}
-			assert(OwningObject != nullptr);
 			return *OwningObject;
 		}
 		T* OriginalPointer() {
@@ -374,6 +374,7 @@ namespace Engine {
 				if (CountRef->isEmpty()) {
 					delete CountRef;
 				}
+				return;
 			}
 			OwningObject = nullptr;
 			CountRef = nullptr;

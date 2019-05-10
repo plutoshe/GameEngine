@@ -9,8 +9,8 @@ namespace Engine {
 	class Delegate
 	{
 	public:
-		typedef void(*tMethodStub)(void * i_pInstance, Params ... i_Parameter);
-		typedef void(*constMethodStub)(Params ... i_Parameter);
+		typedef void(*tMethodStub)(void * i_pInstance, Params ... i_Parameters);
+		//typedef void(*constMethodStub)(Params ... i_Parameters);
 
 		Delegate() :
 			m_pInstance(nullptr),
@@ -41,14 +41,6 @@ namespace Engine {
 			return Delegate(nullptr, &general_method_stub<T>);
 		}
 
-
-		//template <typename T>
-		//static Delegate Create(T a) {
-		//	return Create<T>();
-		//}
-
-
-
 		template <class T, void (T::*TMethod)(Params ...)>
 		static void method_stub(void * m_pInstance, Params ... i_Parameters)
 		{
@@ -66,18 +58,6 @@ namespace Engine {
 			return Delegate(i_pInstance, &method_stub<T, TMethod>);
 		}
 
-		//static Delegate Create(constMethodStub _t) {
-		//	return Delegate::Create<_t>();
-		//}
-
-		//template <constMethodStub>
-		//static Delegate Create(constMethodStub _t) {
-		//	void* a = nullptr;
-		//	//return 
-		////	return Delegate(a, &general_method_stub<constMethodStub>);
-		//	return Delegate();
-		//}
-
 		void operator=(const Delegate& p) {
 			m_pInstance = p.m_pInstance;
 			m_pMethodStub = p.m_pMethodStub;
@@ -92,7 +72,7 @@ namespace Engine {
 		{
 			assert(m_pMethodStub);
 
-			return (*m_pMethodStub)(m_pInstance, i_Parameter);
+			return (*m_pMethodStub)(m_pInstance, i_Parameters);
 		}
 
 		void ExecuteIfBound(Params ... i_Parameter) const

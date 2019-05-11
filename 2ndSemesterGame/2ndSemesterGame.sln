@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.28010.2026
+VisualStudioVersion = 15.0.26228.76
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2ndSemesterGame", "2ndSemesterGame\2ndSemesterGame.vcxproj", "{F3A4768C-ACB2-4DC1-844F-D8272B94D75F}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -12,6 +12,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLib", "GLib\GLib.vcxproj", "{B2AB67DE-B7FA-42BA-B060-959487392AEA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{DDAE5E99-28DC-41B7-9D49-1C6F6C713431}"
+	ProjectSection(ProjectDependencies) = postProject
+		{598E6B5D-75AD-43FB-838A-0B1D7E0947FC} = {598E6B5D-75AD-43FB-838A-0B1D7E0947FC}
+		{28C5737B-E126-4EA9-839E-3E5A9439E6BF} = {28C5737B-E126-4EA9-839E-3E5A9439E6BF}
+		{2F152E93-E8A1-4B15-AE5F-8E7B93900BF4} = {2F152E93-E8A1-4B15-AE5F-8E7B93900BF4}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTest.vcxproj", "{B8A71553-6F00-47DD-87C9-BAE560045031}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -19,6 +24,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTe
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaTest", "LuaTest\LuaTest.vcxproj", "{A4768521-7762-4538-B6F7-6CD1B7068498}"
+	ProjectSection(ProjectDependencies) = postProject
+		{28C5737B-E126-4EA9-839E-3E5A9439E6BF} = {28C5737B-E126-4EA9-839E-3E5A9439E6BF}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua", "LuaDeps\lua\lua.vcxproj", "{598E6B5D-75AD-43FB-838A-0B1D7E0947FC}"
 	ProjectSection(ProjectDependencies) = postProject

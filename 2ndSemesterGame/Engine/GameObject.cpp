@@ -31,7 +31,6 @@ void GameObject::NewRenderComponent() {
 	renderComponent = Engine::OwningPointer<RenderComponent>(RenderComponent());
 	renderComponent->ParentGameObject = selfPointer;
 	CurrentGameManager.Render->AddRenderController(renderComponent);
-	//renderComponent = ;
 }
 
 //Status GameObject::AddPhysicsComponent(PhysicsComponent p) {

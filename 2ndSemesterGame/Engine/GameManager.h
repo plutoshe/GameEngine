@@ -43,15 +43,5 @@ public:
 		PSGameObjectManager->RemoveGameObject(p);
 	}
 	void Release();
-
-	//void CheckInput(unsigned int i_VKeyID);
-	//void Rendering();
-	//void InputGet();
-	//void PhysicsUpdate(double deltaTime);
-	//void AddGameObject(GameObject *gameobject);
-	//void CheckInput(unsigned int i_VKeyID, bool bWentDown);
-	//void UpdateKey(unsigned int i_VKeyID);
-	//bool bQuit = false;
-
 };
 

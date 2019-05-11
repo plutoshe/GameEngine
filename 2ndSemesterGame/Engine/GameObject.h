@@ -13,7 +13,6 @@ class GameObject
 {
 public:
 	Matrix4f LocalToWorldMatrix() {
-		//Matrix4f::GetTranslationMatrix(BasicAttr.Position)
 		Matrix4f a = Matrix4f::GetTranslationMatrix(Vector4f(BasicAttr.Position)) * Matrix4f::GetRotationMatrix(BasicAttr.Rotation);
 		return a;
 	}
@@ -50,9 +49,6 @@ public:
 	void NewPhysicsComponent();
 	void NewRenderComponent();
 
-	/*Status AddPhysicsComponent(PhysicsComponent p);
-	Status AddRenderComponent(RenderComponent r);
-*/
 	Status UpdatePhysicsComponent(PhysicsComponent p);
 	Status UpdateRenderComponent(RenderComponent r);
 

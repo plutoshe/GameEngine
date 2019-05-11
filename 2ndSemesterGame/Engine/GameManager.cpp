@@ -13,17 +13,13 @@ GameManager::GameManager()
 GameManager::~GameManager()
 {
 	GLib::Shutdown();
-
 }
 
 bool GameManager::Initialization(HINSTANCE i_hInstance, int i_nCmdShow, const char * i_pWindowName, WORD i_IconID, unsigned int i_WindowWidth, unsigned int i_WindowHeight) {
-	return GLib::Initialize(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
+	return GLib::Initialize(i_hInstance, i_nCmdShow, i_pWindowName, i_IconID, i_WindowWidth, i_WindowHeight);
 }
 
-
-
 void GameManager::Run() {
-	//GLib::Service(bQuit);
 	PSGameObjectManager->Start();
 	DeltaTime = 0;
 	while (!bQuit) {
@@ -45,12 +41,4 @@ Engine::ObservingPointer<GameObject> GameManager::GetNewGameObject() {
 
 
 void GameManager::Release() {
-	// Component Release
-	//PSGameObejctManager->Release();
-	/*Render->Release();
-	Physics->Release();
-	Input->Release();*/
-	
-	// Process after release
-	//GLib::Shutdown();
 }

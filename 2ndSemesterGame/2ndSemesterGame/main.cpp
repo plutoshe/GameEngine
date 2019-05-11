@@ -60,10 +60,6 @@ void runGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	ch3->physicsComponent->AddCollider(BoxCollider2D(Vector2f(0, 0), Vector2f(100, 100)));
 	ch3->physicsComponent->IsStatic = true;
 
-	/*ch1.mass = 10;
-	ch1.dragCof = 1;*/
-	//ch1.CreateSprite("data\\GoodGuy.dds");
-	//CurrentGameManager.AddGameObject(ch1);
 	CurrentGameManager.Run();
 	return;
 }
@@ -73,8 +69,8 @@ void myGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	
 	CurrentGameManager.Initialization(i_hInstance, i_nCmdShow, "GLibTest", -1, 800, 600);
 	std::string collisionSpriteName = "data\\Block.dds";
-	int screenHeight = 600;
-	int screenWidth = 800;
+	float screenHeight = 600.f;
+	float screenWidth = 800.f;
 	AddCollisionObject(Vector3f(0, -screenHeight / 2, 0), screenWidth, 30, collisionSpriteName);
 	AddCollisionObject(Vector3f(0, screenHeight / 2, 0), screenWidth, 30, collisionSpriteName);
 	AddCollisionObject(Vector3f(-screenWidth / 2, 0, 0), 30, screenHeight, collisionSpriteName);
@@ -85,16 +81,17 @@ void myGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	Engine::ObservingPointer<ObstacleManager> ch2 = CurrentGameManager.AddGameObject(ObstacleManager());
 	ch2->SpriteName = "data\\Block.dds";
 
-	Engine::ObservingPointer<Player> message1 = CurrentGameManager.AddGameObject(GameObject());
+	Engine::ObservingPointer<GameObject> message1 = CurrentGameManager.AddGameObject(GameObject());
 	message1->BasicAttr.Position = Vector3f(0.f, 100.f, 0);
 	message1->NewRenderComponent();
-	message1->GetRenderComponent()->CreateSprite("data\\DiedMessage.dds", 100, 100);
+	message1->GetRenderComponent()->CreateSprite("data\\DiedMessage.dds", 150, 100);
 
-	/*Engine::ObservingPointer<Player> message2 = CurrentGameManager.AddGameObject(GameObject());
-	message2->BasicAttr.Position = Vector3f(0.f, -100.f, 0);
+	Engine::ObservingPointer<GameObject> message2 = CurrentGameManager.AddGameObject(GameObject());
+	message2->BasicAttr.Position = Vector3f(screenWidth / 2 - 125.f, screenHeight / 2 - 75.f, 0);
 	message2->NewRenderComponent();
-	message2->GetRenderComponent()->CreateSprite("data\\GoodGuy.dds", 100, 100);
-*/
+	message2->GetRenderComponent()->CreateSprite("data\\Jump.dds", 150, 100);
+
+
 	Engine::ObservingPointer<BirdPlayer> ch1 = CurrentGameManager.AddGameObject(BirdPlayer(ch2, message1));
 	ch1->StartPosition = Vector3f(-200.f, 100.f, 0);
 	ch1->NewRenderComponent();
@@ -105,12 +102,6 @@ void myGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	ch1->physicsComponent->DragCof = 0;
 	ch1->physicsComponent->Mass = 100;
 
-	
-	//ch2->AddONewbstacle();
-	/*ch1.mass = 10;
-	ch1.dragCof = 1;*/
-	//ch1.CreateSprite("data\\GoodGuy.dds");
-	//CurrentGameManager.AddGameObject(ch1);
 	CurrentGameManager.Run();
 	return;
 }
@@ -149,8 +140,8 @@ void CollisionApp(HINSTANCE i_hInstance, int i_nCmdShow) {
 }
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
-	//myGame(i_hInstance, i_nCmdShow);
-	runGame(i_hInstance, i_nCmdShow);
+	myGame(i_hInstance, i_nCmdShow);
+	//runGame(i_hInstance, i_nCmdShow);
 	//CollisionApp(i_hInstance, i_nCmdShow);
 	#if defined _DEBUG
 		_CrtDumpMemoryLeaks();

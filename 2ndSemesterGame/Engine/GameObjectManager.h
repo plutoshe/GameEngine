@@ -5,12 +5,12 @@
 #include "GameObject.h"
 #include "List.h"
 
-//extern "C"
-//{
-//#include "lua.h"  
-//#include "lauxlib.h"  
-//#include "lualib.h"  
-//}
+extern "C"
+{
+	#include "lua.h"  
+	#include "lauxlib.h"  
+	#include "lualib.h"  
+}
 
 class GameObjectManager
 {
@@ -35,27 +35,25 @@ public:
 	void RemoveGameObject(Engine::ObservingPointer<GameObject> p);
 
 	Status AddGameObjectByLua(std::string filename) {
-		/*using namespace std;
+		using namespace std;
 		lua_State *L = luaL_newstate();
 		if (L == NULL)
 		{
-			return;
+			return NullPointerError;
 		}
 
 		int bRet = luaL_loadfile(L, filename.c_str());
 		if (bRet)
 		{
 			cout << "load file error" << endl;
-			return;
+			return BadError;
 		}
 		
 		  
 		Engine::ObservingPointer < GameObject > newGameObject = GetNewGameObject();
 		string str = lua_tostring(L, -1);
 		cout << "encoding string = " << str.c_str() << endl; 
-		newGameObject.Decode(str);
-
-*/
+		return NoError;
 	}
 
 	Engine::ObservingPointer<GameObject> GetNewGameObject() {

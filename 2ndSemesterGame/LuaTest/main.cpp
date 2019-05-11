@@ -70,7 +70,7 @@ void main()
 		double fValue = lua_tonumber(L, -1);
 		cout << "Result is " << fValue << endl;
 	}
-
+	
 	//至此，栈中的情况是：  
 	//=================== 栈顶 ===================   
 	//  索引  类型      值  

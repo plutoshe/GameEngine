@@ -1,5 +1,4 @@
 str = "I am so cool"  
-tbl = {name = "shun", id = 20114442}  
-function add(a,b)  
-    return a + b  
-end
+position = {1, 2.1, 3.3}
+render_component = {spriteName = "data\\Block.dds", size = {100, 100}}
+physics_component = {velocity = {-20,0,0}, mass = 100, dragcof = 0}

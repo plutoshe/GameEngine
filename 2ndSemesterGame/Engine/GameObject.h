@@ -7,6 +7,7 @@
 #include "Status.h"
 #include "RenderComponent.h"
 #include "PhysicsComponent.h"
+#include "LuaUtil.h"
 
 class GameManager;
 class GameObject
@@ -81,6 +82,71 @@ public:
 
 	void AddForce(Vector3f force);
 
+	Status LoadDataByLua(std::string filename) {
+		lua_State *L = luaL_newstate();
+		if (L == NULL)
+		{
+			return NullPointerError;
+		}
+
+		int bRet = luaL_loadfile(L, filename.c_str());
+		if (bRet)
+		{
+			return BadError;
+		}
+
+		bRet = lua_pcall(L, 0, 0, 0);
+		if (bRet)
+		{
+			return BadError;
+		}
+
+		if (lua_getglobal(L, "position"))
+			this->BasicAttr.Position = LuaGetVector3f(L);
+
+		if (lua_getglobal(L, "rotation"))
+			this->BasicAttr.Rotation = LuaGetVector3f(L);
+
+		if (lua_getglobal(L, "physics_component")) {
+			this->NewPhysicsComponent();
+			if (lua_getfield(L, -1, "velocity")) {
+				this->physicsComponent->velocity = LuaGetVector3f(L);
+				lua_pop(L, 1);
+			}
+			if (lua_getfield(L, -1, "mass")) {
+				this->physicsComponent->Mass = lua_tonumber(L, -1);
+				lua_pop(L, 1);
+			}
+			if (lua_getfield(L, -1, "dragcof")) {
+				this->physicsComponent->DragCof = lua_tonumber(L, -1);;
+				lua_pop(L, 1);
+			}
+			// TODO:
+			// Add Collider
+		}
+		if (lua_getglobal(L, "render_component")) {
+			this->NewRenderComponent();
+			bool hasSize = false;
+			Vector2f spriteSize(-1, -1);
+			if (lua_getfield(L, -1, "size")) {
+				hasSize = true;
+				spriteSize = LuaGetVector2f(L);
+				lua_pop(L, 1);
+			}
+			if (lua_getfield(L, -1, "spriteName")) {
+				if (hasSize)
+					this->renderComponent->CreateSprite(lua_tostring(L, -1), spriteSize.x, spriteSize.y);
+				else
+					this->renderComponent->CreateSprite(lua_tostring(L, -1));
+				lua_pop(L, 1);
+			}
+		}
+		return NoError;
+	}
+
+	void SaveDataToLua(std::string filename) {
+
+	}
 	// TODO: 3D Collider
 	// Sphere Collider, Cube Collider, Capsule Collider
 

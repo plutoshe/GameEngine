@@ -4,13 +4,7 @@
 #include "SmartPointer.h"
 #include "GameObject.h"
 #include "List.h"
-
-extern "C"
-{
-	#include "lua.h"  
-	#include "lauxlib.h"  
-	#include "lualib.h"  
-}
+#include "Log.h"
 
 class GameObjectManager
 {
@@ -34,26 +28,10 @@ public:
 
 	void RemoveGameObject(Engine::ObservingPointer<GameObject> p);
 
-	Status AddGameObjectByLua(std::string filename) {
-		using namespace std;
-		lua_State *L = luaL_newstate();
-		if (L == NULL)
-		{
-			return NullPointerError;
-		}
 
-		int bRet = luaL_loadfile(L, filename.c_str());
-		if (bRet)
-		{
-			cout << "load file error" << endl;
-			return BadError;
-		}
-		
-		  
+	Status AddGameObjectByLua(std::string filename) {
 		Engine::ObservingPointer < GameObject > newGameObject = GetNewGameObject();
-		string str = lua_tostring(L, -1);
-		cout << "encoding string = " << str.c_str() << endl; 
-		return NoError;
+		return newGameObject->LoadDataByLua(filename);
 	}
 
 	Engine::ObservingPointer<GameObject> GetNewGameObject() {

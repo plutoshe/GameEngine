@@ -35,8 +35,8 @@ void runGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	AddCollisionObject(Vector3f((float)(screenWidth) / 2, 0, 0), 30, screenHeight, collisionSpriteName);
 	for (int i = 0; i < 4; i++)
 		collisionObjectList[i]->physicsComponent->IsStatic = true;
-
-	Engine::ObservingPointer<Player> ch1 = CurrentGameManager.AddGameObject(Player());
+	CurrentGameManager.PSGameObjectManager->AddGameObjectByLua("hello.lua");
+	/*Engine::ObservingPointer<Player> ch1 = CurrentGameManager.AddGameObject(Player());
 	ch1->BasicAttr.Position = Vector3f(-180.f, 0.f, 0);
 	ch1->NewRenderComponent();
 	ch1->GetRenderComponent()->CreateSprite("data\\charactor.dds", 100, 100);
@@ -58,7 +58,7 @@ void runGame(HINSTANCE i_hInstance, int i_nCmdShow) {
 	ch3->GetRenderComponent()->CreateSprite("data\\Stationary.dds", 100, 100);
 	ch3->NewPhysicsComponent();
 	ch3->physicsComponent->AddCollider(BoxCollider2D(Vector2f(0, 0), Vector2f(100, 100)));
-	ch3->physicsComponent->IsStatic = true;
+	ch3->physicsComponent->IsStatic = true;*/
 
 	CurrentGameManager.Run();
 	return;
@@ -140,8 +140,8 @@ void CollisionApp(HINSTANCE i_hInstance, int i_nCmdShow) {
 }
 int WINAPI wWinMain(HINSTANCE i_hInstance, HINSTANCE i_hPrevInstance, LPWSTR i_lpCmdLine, int i_nCmdShow)
 {
-	myGame(i_hInstance, i_nCmdShow);
-	//runGame(i_hInstance, i_nCmdShow);
+	//myGame(i_hInstance, i_nCmdShow);
+	runGame(i_hInstance, i_nCmdShow);
 	//CollisionApp(i_hInstance, i_nCmdShow);
 	#if defined _DEBUG
 		_CrtDumpMemoryLeaks();

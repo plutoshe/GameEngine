@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <stdint.h>
 #include <cstdio>
-
+#include "Log.h"
 namespace Engine {
 
 	typedef uint64_t	ref_counter_t;
@@ -42,10 +42,10 @@ namespace Engine {
 		friend class OwningPointer;
 	private:
 		// underlying object
-		T* OwningObject;
+		T* OwningObject = nullptr;
 
 		// ref count
-		ReferenceCounters* CountRef;
+		ReferenceCounters* CountRef = nullptr;
 	public:
 		// Default Constructor
 		OwningPointer() {
@@ -86,9 +86,9 @@ namespace Engine {
 				CountRef->OwnerReferences--;
 				if (!CountRef->HasOwner()) {
 					ReleaseOwningObject();
-					if (CountRef->isEmpty()) {
-						delete CountRef;
-					}
+				}
+				if (CountRef->isEmpty()) {
+					//delete CountRef;
 				}
 			}
 			CountRef = nullptr;

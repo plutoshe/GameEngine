@@ -80,6 +80,10 @@ bool TestStrongPointer() {
 		return false;
 	}
 	MyPtr6 = nullptr;
+
+	ObservingPointer<TestHeri> MyPtr7(MyPtr4);
+	MyPtr7 = nullptr;
+
 	return true;
 }
 

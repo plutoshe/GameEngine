@@ -18,7 +18,7 @@ void GameObjectManager::Start() {
 
 void GameObjectManager::Update() {
 	for (int i = 0; i < GameobjectList.get_size(); i++)
-		if (GameobjectList[i]->Active)
+		if (GameobjectList[i]->Active && !GameobjectList[i]->willDelete)
 			GameobjectList[i]->Update(); 
 	for (int i = GameobjectList.get_size() - 1; i >= 0; i--)
 		if (GameobjectList[i]->willDelete)

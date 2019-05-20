@@ -107,12 +107,9 @@ void MainWindow::paintGL()
    // glClearColor(0.0f, 1.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glEnableVertexAttribArray(0);
-    // 绑定GL_ARRAY_BUFFER缓冲器
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // 告诉管线怎样解析bufer中的数据
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    // 开始绘制几何图形(绘制一个点)
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 
     //  禁用顶点数据

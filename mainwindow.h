@@ -13,6 +13,9 @@
 #include <iostream>
 #include <fstream>
 #include "cyLib/cyTriMesh.h"
+#include <QCoreApplication>
+#include <QtDebug>
+#include <QDir>>
 //#include <QtOpenGL>
 //#include <gl/GLU.h>
 class Vector3f {
@@ -45,7 +48,8 @@ protected:
     void PaintEvent(QPaintEngine *event);
     void CreateVertexBuffer();
     void loadVertex(cyTriMesh &trimesh, std::string filename) {
-        trimesh.LoadFromFileObj("teapot.obj");
+        qDebug(QString(filename.c_str()).toLatin1());
+        trimesh.LoadFromFileObj(filename.c_str());
     }
     void file_reader(std::string file, std::string &result)
     {
@@ -65,7 +69,8 @@ protected:
             std::cout << "Unable to open file";
         }
     }
-    void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
+
+     void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
     {
         // 根据shader类型参数定义两个shader对象
         GLuint ShaderObj = glCreateShader(ShaderType);
@@ -74,12 +79,12 @@ protected:
             fprintf(stderr, "Error creating shader type %d\n", ShaderType);
             exit(0);
         }
-
+        qDebug(pShaderText);
         // 定义shader的代码源
         const GLchar* p[1];
         p[0] = pShaderText;
         GLint Lengths[1];
-        Lengths[0] = strlen(pShaderText);
+        Lengths[0]= strlen(pShaderText);
         glShaderSource(ShaderObj, 1, p, Lengths);
         glCompileShader(ShaderObj);// 编译shader对象
 
@@ -96,6 +101,8 @@ protected:
         // 将编译好的shader对象绑定到program object程序对象上
         glAttachShader(ShaderProgram, ShaderObj);
     }
+
+    // 编译着色器函数
     void CompileShaders()
     {
         // 创建着色器程序
@@ -109,10 +116,9 @@ protected:
         // 存储着色器文本的字符串缓冲
         std::string vs, fs;
         // 分别读取着色器文件中的文本到字符串缓冲区
-        file_reader(pVSFileName, vs);
-        file_reader(pFSFileName, fs);
-
-
+        file_reader(QDir::currentPath().toStdString() + "/../opengltest/" + pVSFileName,  vs);
+        file_reader(QDir::currentPath().toStdString() + "/../opengltest/" + pFSFileName, fs);
+        qDebug(QString(vs.c_str()).toLatin1());
         // 添加顶点着色器和片段着色器
         AddShader(ShaderProgram, vs.c_str(), GL_VERTEX_SHADER);
         AddShader(ShaderProgram, fs.c_str(), GL_FRAGMENT_SHADER);

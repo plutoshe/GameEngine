@@ -1,0 +1,156 @@
+﻿  stdafx.cpp
+  Delegate.cpp
+  GameObjectBasicAttr.cpp
+  Collider2D.cpp
+  GameManager.cpp
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(117): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(121): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(138): warning C4244: 'argument': conversion from 'TYPE' to 'int', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(81): warning C4150: deletion of pointer to incomplete type 'GLib::Sprites::Sprite'; no destructor called
+  e:\extraproject\gameengine\2ndsemestergame\exports\glib\glib.h(28): note: see declaration of 'GLib::Sprites::Sprite'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(80): note: while compiling class template member function 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(88): note: see reference to function template instantiation 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)' being compiled
+  e:\extraproject\gameengine\2ndsemestergame\engine\rendercomponent.h(36): note: see reference to class template instantiation 'Engine::OwningPointer<GLib::Sprites::Sprite>' being compiled
+  GameObject.cpp
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(117): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(121): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(138): warning C4244: 'argument': conversion from 'TYPE' to 'int', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(81): warning C4150: deletion of pointer to incomplete type 'GLib::Sprites::Sprite'; no destructor called
+  e:\extraproject\gameengine\2ndsemestergame\exports\glib\glib.h(28): note: see declaration of 'GLib::Sprites::Sprite'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(80): note: while compiling class template member function 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(88): note: see reference to function template instantiation 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)' being compiled
+  e:\extraproject\gameengine\2ndsemestergame\engine\rendercomponent.h(36): note: see reference to class template instantiation 'Engine::OwningPointer<GLib::Sprites::Sprite>' being compiled
+  GameObjectManager.cpp
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(117): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(121): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(138): warning C4244: 'argument': conversion from 'TYPE' to 'int', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(81): warning C4150: deletion of pointer to incomplete type 'GLib::Sprites::Sprite'; no destructor called
+  e:\extraproject\gameengine\2ndsemestergame\exports\glib\glib.h(28): note: see declaration of 'GLib::Sprites::Sprite'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(80): note: while compiling class template member function 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(88): note: see reference to function template instantiation 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)' being compiled
+  e:\extraproject\gameengine\2ndsemestergame\engine\rendercomponent.h(36): note: see reference to class template instantiation 'Engine::OwningPointer<GLib::Sprites::Sprite>' being compiled
+  GeoLine.cpp
+  GeoMethod.cpp
+  GeoPoint.cpp
+  InputController.cpp
+e:\extraproject\gameengine\2ndsemestergame\engine\inputcontroller.cpp(30): warning C4244: 'argument': conversion from 'WPARAM' to 'UINT', possible loss of data
+  Log.cpp
+  LuaUtil.cpp
+e:\extraproject\gameengine\2ndsemestergame\engine\luautil.cpp(8): warning C4244: '=': conversion from 'lua_Number' to 'TYPE', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+e:\extraproject\gameengine\2ndsemestergame\engine\luautil.cpp(19): warning C4244: '=': conversion from 'lua_Number' to 'TYPE', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+  Matrix4x4.cpp
+  Message.cpp
+  MessageController.cpp
+  PhysicsComponent.cpp
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(117): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(121): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(138): warning C4244: 'argument': conversion from 'TYPE' to 'int', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+e:\extraproject\gameengine\2ndsemestergame\engine\physicscomponent.cpp(52): warning C4244: 'argument': conversion from 'double' to 'const TYPE', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(81): warning C4150: deletion of pointer to incomplete type 'GLib::Sprites::Sprite'; no destructor called
+  e:\extraproject\gameengine\2ndsemestergame\exports\glib\glib.h(28): note: see declaration of 'GLib::Sprites::Sprite'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(80): note: while compiling class template member function 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(88): note: see reference to function template instantiation 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)' being compiled
+  e:\extraproject\gameengine\2ndsemestergame\engine\rendercomponent.h(36): note: see reference to class template instantiation 'Engine::OwningPointer<GLib::Sprites::Sprite>' being compiled
+  PhysicsController.cpp
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(117): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(121): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(138): warning C4244: 'argument': conversion from 'TYPE' to 'int', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+e:\extraproject\gameengine\2ndsemestergame\engine\physicscontroller.cpp(27): warning C4244: 'argument': conversion from 'double' to 'const TYPE', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+e:\extraproject\gameengine\2ndsemestergame\engine\physicscontroller.cpp(38): warning C4101: 'intersectTime2': unreferenced local variable
+e:\extraproject\gameengine\2ndsemestergame\engine\physicscontroller.cpp(117): warning C4244: 'argument': conversion from 'double' to 'const TYPE', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(81): warning C4150: deletion of pointer to incomplete type 'GLib::Sprites::Sprite'; no destructor called
+  e:\extraproject\gameengine\2ndsemestergame\exports\glib\glib.h(28): note: see declaration of 'GLib::Sprites::Sprite'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(80): note: while compiling class template member function 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(88): note: see reference to function template instantiation 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)' being compiled
+  e:\extraproject\gameengine\2ndsemestergame\engine\rendercomponent.h(36): note: see reference to class template instantiation 'Engine::OwningPointer<GLib::Sprites::Sprite>' being compiled
+  RenderComponent.cpp
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(117): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(121): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(138): warning C4244: 'argument': conversion from 'TYPE' to 'int', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+e:\extraproject\gameengine\2ndsemestergame\engine\rendercomponent.cpp(13): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\rendercomponent.cpp(59): warning C4244: 'argument': conversion from 'TYPE' to 'int', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(81): warning C4150: deletion of pointer to incomplete type 'GLib::Sprites::Sprite'; no destructor called
+  e:\extraproject\gameengine\2ndsemestergame\exports\glib\glib.h(28): note: see declaration of 'GLib::Sprites::Sprite'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(80): note: while compiling class template member function 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(88): note: see reference to function template instantiation 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)' being compiled
+  e:\extraproject\gameengine\2ndsemestergame\engine\rendercomponent.h(36): note: see reference to class template instantiation 'Engine::OwningPointer<GLib::Sprites::Sprite>' being compiled
+  RenderController.cpp
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(117): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(121): warning C4244: '=': conversion from 'lua_Number' to 'float', possible loss of data
+e:\extraproject\gameengine\2ndsemestergame\engine\gameobject.h(138): warning C4244: 'argument': conversion from 'TYPE' to 'int', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(81): warning C4150: deletion of pointer to incomplete type 'GLib::Sprites::Sprite'; no destructor called
+  e:\extraproject\gameengine\2ndsemestergame\exports\glib\glib.h(28): note: see declaration of 'GLib::Sprites::Sprite'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(80): note: while compiling class template member function 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)'
+  e:\extraproject\gameengine\2ndsemestergame\engine\smartpointer.h(88): note: see reference to function template instantiation 'void Engine::OwningPointer<GLib::Sprites::Sprite>::ReleaseOwningObject(void)' being compiled
+  e:\extraproject\gameengine\2ndsemestergame\engine\rendercomponent.h(36): note: see reference to class template instantiation 'Engine::OwningPointer<GLib::Sprites::Sprite>' being compiled
+  SmartPointer.cpp
+  Generating Code...
+e:\extraproject\gameengine\2ndsemestergame\engine\physicscontroller.cpp(56): warning C4715: 'PhysicsController::GetCollisionTime': not all control paths return a value
+  Compiling...
+  SSERedef.cpp
+  Status.cpp
+  Timing.cpp
+  Vector.cpp
+  Vector4D.cpp
+  Vector2D.cpp
+  Vector3D.cpp
+  Generating Code...
+SSERedef.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+SmartPointer.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+Message.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+Matrix4x4.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+GeoPoint.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+  Engine.vcxproj -> E:\ExtraProject\GameEngine\2ndSemesterGame\x64\Debug\Engine.lib
+  已复制         1 个文件。

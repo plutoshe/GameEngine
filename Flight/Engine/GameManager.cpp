@@ -6,17 +6,13 @@ GameManager::GameManager()
 	PSGameObjectManager = new GameObjectManager();
 	Physics = new PhysicsController();
 	Input = new InputController();
-	Render = new RenderController();
 }
 
 
-GameManager::~GameManager()
-{
-	GLib::Shutdown();
-}
+GameManager::~GameManager() {}
 
-bool GameManager::Initialization(HINSTANCE i_hInstance, int i_nCmdShow, const char * i_pWindowName, WORD i_IconID, unsigned int i_WindowWidth, unsigned int i_WindowHeight) {
-	return GLib::Initialize(i_hInstance, i_nCmdShow, i_pWindowName, i_IconID, i_WindowWidth, i_WindowHeight);
+bool GameManager::Initialization() {
+    return true;
 }
 
 void GameManager::Run() {

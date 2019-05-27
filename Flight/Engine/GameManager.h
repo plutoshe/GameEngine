@@ -4,7 +4,6 @@
 #include <conio.h>
 #include <functional> 
 #include "List.h"
-#include "GLib.h"
 #include "InputController.h"
 #include "PhysicsController.h"
 #include "GameObjectManager.h"
@@ -27,7 +26,7 @@ public:
 	double DeltaTime;
 	bool bQuit;
 
-	bool Initialization(HINSTANCE i_hInstance, int i_nCmdShow, const char * i_pWindowName, WORD i_IconID, unsigned int i_WindowWidth, unsigned int i_WindowHeight);
+    bool Initialization();
 
 	void Run();
 
@@ -37,6 +36,10 @@ public:
 	Engine::ObservingPointer<GameObject> AddGameObject(T gameobject) {
 		return PSGameObjectManager->AddGameObject(gameobject);
 	}
+    void AddRenderController(RenderController r) {
+        Render = Engine::OwningPointer<RenderController>(r);
+    }
+
 	void RemoveGameObject(Engine::ObservingPointer<GameObject> p) {
 		Render->RemoveRenderComponent(p->renderComponent);
 		Physics->RemovePhysicsComponent(p->physicsComponent);

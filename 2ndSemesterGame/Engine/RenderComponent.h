@@ -40,7 +40,7 @@ public:
 	// shaders
 
 	// functions
-	void Update();
+	virtual void Update();
 	void Render();
 	void Release();
 	void CreateSprite(const char * i_pFilename);

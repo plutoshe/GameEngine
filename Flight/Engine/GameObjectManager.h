@@ -29,12 +29,6 @@ public:
 
 	void RemoveGameObject(Engine::ObservingPointer<GameObject> p);
 
-
-	Status AddGameObjectByLua(std::string filename) {
-		Engine::ObservingPointer < GameObject > newGameObject = GetNewGameObject();
-		return newGameObject->LoadDataByLua(filename);
-	}
-
 	Engine::ObservingPointer<GameObject> GetNewGameObject() {
 		Engine::OwningPointer<GameObject> emptyGameObject(new GameObject());
 		GameobjectList.push(emptyGameObject);

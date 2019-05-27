@@ -1,46 +1,27 @@
 #pragma once
 
 #include "SmartPointer.h"
+#include <string>
 class GameObject;
 
 class RenderComponent
 {
 public:
 	RenderComponent() {}
-	RenderComponent(const RenderComponent &r) {
-		Clear();
-		// TODO: r.Irender is reference to pointer, change to value, has error with undefined type Sprite
-		if (r.Irender)
-			Irender = Engine::OwningPointer<GLib::Sprites::Sprite>(r.Irender);
+    virtual ~RenderComponent() {}
 
-	}
-
-	~RenderComponent() {
-		/*if (Irender)
-			GLib::Sprites::Release(Irender.OriginalPointer());*/
-	}
-
+    Engine::ObservingPointer<GameObject> ParentGameObject;
 	void Clear() {
 		ParentGameObject = nullptr;
-		Irender = nullptr;
 	}
 
-	// parent
-	Engine::ObservingPointer<GameObject> ParentGameObject;
+    virtual void CreateSprite(std::string filename) {}
 
-	// textures
-	Engine::OwningPointer<GLib::Sprites::Sprite> Irender;
-
-	// materials
-
-	// shaders
-
-	// functions
-	virtual void Update();
-	void Render();
-	void Release();
-	void CreateSprite(const char * i_pFilename);
-	void CreateSprite(const char * i_pFilename, int _width, int _height);
-	void* LoadFile(const char * i_pFilename, size_t & o_sizeFile);
+    virtual void Render() {}
+    void SetWidth(float width) { m_width = width; }
+    void SetHeight(float height) { m_height = height; }
+    void SetSize(float width, float height) { m_width = width; m_height = height; }
+    float m_width;
+    float m_height;
 };
 

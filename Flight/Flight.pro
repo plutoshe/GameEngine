@@ -4,8 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-
+QT       += core gui opengl widgets
+LIBS += -lOpengl32 -glu32
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Flight
@@ -36,14 +36,11 @@ SOURCES += \
         Engine/GeoPoint.cpp \
         Engine/InputController.cpp \
         Engine/Log.cpp \
-        Engine/LuaUtil.cpp \
         Engine/Matrix4x4.cpp \
         Engine/Message.cpp \
         Engine/MessageController.cpp \
         Engine/PhysicsComponent.cpp \
         Engine/PhysicsController.cpp \
-        Engine/RenderComponent.cpp \
-        Engine/RenderController.cpp \
         Engine/SSERedef.cpp \
         Engine/SmartPointer.cpp \
         Engine/Status.cpp \
@@ -53,8 +50,11 @@ SOURCES += \
         Engine/Vector3D.cpp \
         Engine/Vector4D.cpp \
         Engine/stdafx.cpp \
-        main.cpp \
-        mainwindow.cpp
+        QTRender/mainwindow.cpp \
+        QTRender/openglwindow.cpp \
+        QTRender/qtrendercomponent.cpp \
+        QTRender/qtrendercontroller.cpp \
+        main.cpp
 
 HEADERS += \
         Engine/BasicMacros.h \
@@ -71,7 +71,6 @@ HEADERS += \
         Engine/InputController.h \
         Engine/List.h \
         Engine/Log.h \
-        Engine/LuaUtil.h \
         Engine/Matrix4x4.h \
         Engine/Message.h \
         Engine/MessageController.h \
@@ -91,10 +90,13 @@ HEADERS += \
         Engine/sseRedef.h \
         Engine/stdafx.h \
         Engine/targetver.h \
-        mainwindow.h
+        QTRender/mainwindow.h \
+        QTRender/openglwindow.h \
+        QTRender/qtrendercomponent.h \
+        QTRender/qtrendercontroller.h
 
 FORMS += \
-        mainwindow.ui
+        QTRender/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

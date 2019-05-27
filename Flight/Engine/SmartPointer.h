@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdint.h>
 #include <cstdio>
+#include <cstddef>
 #include "Log.h"
 namespace Engine {
 
@@ -64,7 +65,7 @@ namespace Engine {
 			CountRef = new ReferenceCounters(1, 0);
 		}
 
-		OwningPointer(std::nullptr_t i_null) {
+        OwningPointer(std::nullptr_t i_null) {
 			OwningObject = nullptr;
 			CountRef = nullptr;
 		}
@@ -178,7 +179,7 @@ namespace Engine {
 		void operator=(const ObservingPointer<U> & i_other) {
 			if (*this != i_other) {
 				ReleaseCurrentOwningPointer();
-				OwningObject = (T)i_other.AcquireOwnership().OwningObject;
+                OwningObject = reinterpret_cast<T>(i_other.AcquireOwnership().OwningObject);
 				CountRef = i_other.AcquireOwnership().CountRef;
 				if (CountRef)
 					CountRef->OwnerReferences++;

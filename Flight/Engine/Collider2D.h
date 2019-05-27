@@ -28,7 +28,9 @@ public:
 	Collider2D();
 	~Collider2D();
 };
-
+// TODO: Add collider
+// 2D_Collider: 5 Type
+// Box, Circle, Capsule, Edge, Polygon
 class BoxCollider2D: public Collider2D {
 public:
 	Vector2f Center;
@@ -46,3 +48,5 @@ public:
 
 };
 
+// 3D Collider: 3 Type
+// Cube, Sphere, Capsule

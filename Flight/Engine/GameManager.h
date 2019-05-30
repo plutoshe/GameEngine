@@ -22,7 +22,7 @@ public:
 	Engine::OwningPointer<PhysicsController> Physics;
 	Engine::OwningPointer<InputController> Input;
 	Engine::OwningPointer<RenderController> Render;
-	
+	int frameID;
 	double DeltaTime;
 	bool bQuit;
 
@@ -36,7 +36,7 @@ public:
 	Engine::ObservingPointer<GameObject> AddGameObject(T gameobject) {
 		return PSGameObjectManager->AddGameObject(gameobject);
 	}
-    void AddRenderController(RenderController r) {
+    void AddRenderController(RenderController *r) {
         Render = Engine::OwningPointer<RenderController>(r);
     }
 

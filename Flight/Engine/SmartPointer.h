@@ -322,9 +322,9 @@ namespace Engine {
 	class ObservingPointer
 	{
 		template<class U>
-		friend class OwningPointer;
+        friend class OwningPointer;
 		template<class U>
-		friend class ObservingPointer;
+        friend class ObservingPointer;
 	private:
 		T* OwningObject;
 		ReferenceCounters* CountRef;

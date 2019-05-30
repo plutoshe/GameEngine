@@ -33,21 +33,29 @@ int main(int argc, char *argv[])
 {
     int screenHeight = 600;
     int screenWidth = 800;
+    QApplication app(argc, argv);
 
+    qDebug() << "start";
     CurrentGameManager.Initialization();
-    QTRenderController qtController;
-    CurrentGameManager.AddRenderController(qtController);
+    QTRenderController qtController(&app);
+    CurrentGameManager.AddRenderController(&qtController);
+    qtController.test();
 
 
+    QSurfaceFormat format;
+    format.setSamples(16);
+
+    CurrentGameManager.Render->Start();
+    CurrentGameManager.Render->test();
+    //reinterpret_cast<Engine::OwningPointer<QTRenderController>>(CurrentGameManager.Render);
+    qDebug() << "Expoes: " << qtController.isExposed();
     std::string collisionSpriteName = "C:/Users/plutoshe/Downloads/1.jpg";
     AddCollisionObject(Vector3f(0, (float)(-screenHeight)/ 2, 0), screenWidth, 30, collisionSpriteName);
-    AddCollisionObject(Vector3f(0, (float)(screenHeight) / 2, 0), screenWidth, 30, collisionSpriteName);
-    AddCollisionObject(Vector3f((float)(-screenWidth) / 2, 0, 0), 30, screenHeight, collisionSpriteName);
-    AddCollisionObject(Vector3f((float)(screenWidth) / 2, 0, 0), 30, screenHeight, collisionSpriteName);
+//    AddCollisionObject(Vector3f(0, (float)(screenHeight) / 2, 0), screenWidth, 30, collisionSpriteName);
+//    AddCollisionObject(Vector3f((float)(-screenWidth) / 2, 0, 0), 30, screenHeight, collisionSpriteName);
+//    AddCollisionObject(Vector3f((float)(screenWidth) / 2, 0, 0), 30, screenHeight, collisionSpriteName);
 
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    CurrentGameManager.Run();
-    return a.exec();
+    qDebug() << "phase 1";
+    //CurrentGameManager.Run();
+    return app.exec();
 }

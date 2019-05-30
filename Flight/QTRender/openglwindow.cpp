@@ -47,6 +47,7 @@ void OpenGLWindow::renderLater()
     requestUpdate();
 }
 void OpenGLWindow::Update() {
+    qDebug() << "in wrong update(openglwindow)";
     renderNow();
 }
 bool OpenGLWindow::event(QEvent *event)

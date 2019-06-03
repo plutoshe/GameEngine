@@ -20,7 +20,7 @@ void AddCollisionObject(Vector3f position, int width, int height, std::string sp
     ch2->BasicAttr.Position = position;
     ch2->NewPhysicsComponent();
     ch2->physicsComponent->AddCollider(BoxCollider2D(Vector2f(0, 0), Vector2f(width, height)));
-    QTRenderComponent qtComp;
+    QTRenderComponent *qtComp = new QTRenderComponent();
     ch2->AddRenderComponent(qtComp);
     auto renderPtr = static_cast<Engine::ObservingPointer<QTRenderComponent>>(ch2->renderComponent);
     renderPtr->CreateSprite(spriteName.c_str());
@@ -37,18 +37,20 @@ int main(int argc, char *argv[])
 
     qDebug() << "start";
     CurrentGameManager.Initialization();
-    QTRenderController qtController(&app);
-    CurrentGameManager.AddRenderController(&qtController);
-    qtController.test();
+    QTRenderController *qtController = new QTRenderController(&app);
+    CurrentGameManager.AddRenderController(qtController);
+    qDebug() << "start2";
+    //qtController.Start();
+    //qtController.test();
 
 
     QSurfaceFormat format;
     format.setSamples(16);
 
     CurrentGameManager.Render->Start();
-    CurrentGameManager.Render->test();
+    //CurrentGameManager.Render->test();
     //reinterpret_cast<Engine::OwningPointer<QTRenderController>>(CurrentGameManager.Render);
-    qDebug() << "Expoes: " << qtController.isExposed();
+
     std::string collisionSpriteName = "C:/Users/plutoshe/Downloads/1.jpg";
     AddCollisionObject(Vector3f(0, (float)(-screenHeight)/ 2, 0), screenWidth, 30, collisionSpriteName);
 //    AddCollisionObject(Vector3f(0, (float)(screenHeight) / 2, 0), screenWidth, 30, collisionSpriteName);
@@ -56,6 +58,6 @@ int main(int argc, char *argv[])
 //    AddCollisionObject(Vector3f((float)(screenWidth) / 2, 0, 0), 30, screenHeight, collisionSpriteName);
 
     qDebug() << "phase 1";
-    //CurrentGameManager.Run();
+    CurrentGameManager.Run();
     return app.exec();
 }

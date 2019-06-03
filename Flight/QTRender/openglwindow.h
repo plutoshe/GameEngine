@@ -16,13 +16,13 @@ public:
     explicit OpenGLWindow(QWindow *parent = 0);
     ~OpenGLWindow();
 
-     void Render(QPainter *painter);
-     void Render();
+    virtual void Render(QPainter *painter);
+    virtual void Render();
 
     virtual void Initialize();
     int frame;
     void setAnimating(bool animating);
-    void Update();
+    virtual void Update();
     bool event(QEvent *event) override;
 
     void exposeEvent(QExposeEvent *event) override;
@@ -33,7 +33,7 @@ public:
     QOpenGLPaintDevice *m_device;
 public slots:
     void renderLater();
-    void renderNow();
+    virtual void renderNow();
 
 
 };

@@ -66,13 +66,14 @@ bool OpenGLWindow::event(QEvent *event)
 void OpenGLWindow::exposeEvent(QExposeEvent *event)
 {
     Q_UNUSED(event);
-
+    qDebug() << "!!!!!!!!!!" << isExposed();
     if (isExposed())
         renderNow();
 }
 
 void OpenGLWindow::renderNow()
 {
+    qDebug() << "in opengl window";
     if (!isExposed())
         return;
 

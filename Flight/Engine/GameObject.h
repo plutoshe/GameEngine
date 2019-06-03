@@ -46,10 +46,10 @@ public:
 	bool HasRenderComponent();
 
 	void NewPhysicsComponent();
-    void AddRenderComponent(RenderComponent r);
+    void AddRenderComponent(RenderComponent *r);
 
-    void UpdatePhysicsComponent(PhysicsComponent p);
-    void UpdateRenderComponent(RenderComponent r);
+    void UpdatePhysicsComponent(PhysicsComponent *p);
+    void UpdateRenderComponent(RenderComponent *r);
 
 	Engine::ObservingPointer<PhysicsComponent> GetPhysicsComponent();
 	Engine::ObservingPointer<RenderComponent> GetRenderComponent();

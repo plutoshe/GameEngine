@@ -5,6 +5,7 @@
 #include <QtGui/QOpenGLShaderProgram>
 #include "Engine/Engine.h"
 #include "openglwindow.h"
+#include "qtrendercomponent.h"
 #include <fstream>
 
 class QTRenderController : public RenderController, public OpenGLWindow
@@ -25,10 +26,14 @@ public:
         setFormat(format);
         resize(640, 480);
         show();
+        //Initialize();
     }
     void test() { qDebug() << "in qt render";}
     void Initialize()
     {
+         //initializeGLFunctions();
+        qDebug() << "qt render controller initialization";
+        initializeOpenGLFunctions();
         m_program = new QOpenGLShaderProgram(this);
         std::string vertexShaderSource, fragmentShaderSource;
         file_reader(pVSFileName,  vertexShaderSource);
@@ -36,6 +41,7 @@ public:
         m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
         m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
         m_program->link();
+
 //         void TriangleWindow::initialize()
 // {
 //     m_program = new QOpenGLShaderProgram(this);
@@ -48,7 +54,7 @@ public:
 // }
 
     }
-    void Update() {
+    void Update() override {
         qDebug() << "phase 2: Render Update";
         if (!isExposed())
             return;
@@ -70,7 +76,7 @@ public:
             Initialize();
         }
 
-        RenderNow();
+        Render();
 
         m_context->swapBuffers(this);
         qDebug() <<"!!!!!!" << m_app;
@@ -78,14 +84,18 @@ public:
 
     }
 
-    void RenderNow()  {
-
+     void Render() override {
+        qDebug() << "phase 44";
         
         // Render
         const qreal retinaScale = devicePixelRatio();
         glViewport(0, 0, width() * retinaScale, height() * retinaScale);
         glClear(GL_COLOR_BUFFER_BIT);
+        for (size_t i = 0; i < ListRenderComponent.size(); i++) {
+            Engine::ObservingPointer<QTRenderComponent> r = static_cast<Engine::ObservingPointer<QTRenderComponent>>(ListRenderComponent[i]);
 
+            r->CreateTexture();
+        }
         m_program->bind();
 
 
@@ -95,8 +105,20 @@ public:
         glShadeModel(GL_SMOOTH);
         glLoadIdentity();
 
+        int posAttr = m_program->attributeLocation("Position");
+        int texCoordAttr = m_program->attributeLocation("TexCoord");
+
+        qDebug() << "render size: " << ListRenderComponent.size();
         for (size_t i = 0; i < ListRenderComponent.size(); i++) {
-            ListRenderComponent[i]->Render();
+            Engine::ObservingPointer<QTRenderComponent> r = static_cast<Engine::ObservingPointer<QTRenderComponent>>(ListRenderComponent[i]);
+            if (r) {
+                qDebug() << "tt: ";
+                r->posAttrLocation = posAttr;
+                r->texCoordAttrLocation = texCoordAttr;
+            }
+            qDebug() << "rr: " << r->posAttrLocation;
+               qDebug() << "rr: " << r->texCoordAttrLocation;
+            r->Render();
         }
 
         glFlush();

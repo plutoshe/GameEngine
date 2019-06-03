@@ -19,17 +19,19 @@ bool GameManager::Initialization() {
 void GameManager::Run() {
 	PSGameObjectManager->Start();
 	DeltaTime = 0;
-
+    qDebug("~~~~");
 	while (!bQuit) {
 		DeltaTime += Timing::CalcLastFrameTime_ms();
-		if (DeltaTime < 10) continue;
+        if (DeltaTime < 100) continue;
 		frameID++;
-		qDebug() << frameID;
-		Input->Update();
+        Input->Update();
 		PSGameObjectManager->Update();
 		Physics->Update(DeltaTime / 1000);
-		Render->Update();
-		DeltaTime = 0;
+
+
+        Render->Update();
+        //DeltaTime = 0; break;
+        qDebug()<<"finish";
 		if (Input->IsKeyDown(27)) break;
 	}
 

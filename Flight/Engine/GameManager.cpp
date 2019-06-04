@@ -12,14 +12,15 @@ GameManager::GameManager()
 GameManager::~GameManager() {}
 
 bool GameManager::Initialization() {
-	frameID = 0;
     return true;
 
 }
 void GameManager::Run() {
+	// Start Phase for controllers
 	PSGameObjectManager->Start();
-	DeltaTime = 0;
-    qDebug("~~~~");
+	//Render->Start();
+
+	DeltaTime = 0; frameID = 0;
 	while (!bQuit) {
 		DeltaTime += Timing::CalcLastFrameTime_ms();
         if (DeltaTime < 100) continue;
@@ -27,11 +28,7 @@ void GameManager::Run() {
         Input->Update();
 		PSGameObjectManager->Update();
 		Physics->Update(DeltaTime / 1000);
-
-
         Render->Update();
-        //DeltaTime = 0; break;
-        qDebug()<<"finish";
 		if (Input->IsKeyDown(27)) break;
 	}
 

@@ -29,17 +29,23 @@ public:
             needInitialize = false;
         }
         qDebug() << "start";
+
+        Vector3f pos = ParentGameObject->BasicAttr.Position;
+
+        // temp usage
+        int screenHeight = 600;
+        int screenWidth = 800;
+
         Vector3f vertices[4];
-        vertices[0] = Vector3f(0.0f, 0.0f, 0.0f);
-        vertices[1] = Vector3f(0.0f, 1.0f, 0.0f);
-        vertices[2] = Vector3f(1.0f, 0.0f, 0.0f);
-        vertices[3] = Vector3f(1.0f, 1.0f, 0.0f);
-qDebug() << "start1";
+        vertices[0] = Vector3f((pos.x - m_width/ 2 - screenWidth) / screenWidth, (pos.y - m_height/ 2 - screenHeight) / screenHeight, 0.0f);
+        vertices[1] = Vector3f((pos.x + m_width/ 2 - screenWidth) / screenWidth, (pos.y - m_height/ 2 - screenHeight) / screenHeight, 0.0f);
+        vertices[2] = Vector3f((pos.x - m_width/ 2 - screenWidth) / screenWidth, (pos.y + m_height/ 2 - screenHeight) / screenHeight, 0.0f);
+        vertices[3] = Vector3f((pos.x + m_width/ 2 - screenWidth) / screenWidth, (pos.y + m_height/ 2 - screenHeight) / screenHeight, 0.0f);
+
         glGenBuffers(1, &VBO);
-        qDebug() << "start2";
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-qDebug() << "finish vertex buffer";
+
         // Bind UV
         Vector2f uvs[4];
         uvs[0] = Vector2f(0.f, 0.f);
@@ -72,25 +78,25 @@ qDebug() << "finish vertex buffer";
     }
 
     void Render() override {
-        qDebug() << "in component render";
-
         CreateVertexBuffer();
         CreateIndexBuffer();
-        qDebug() << "posloc" << posAttrLocation;
         glClearColor(0.0f, 0.0f, 0.0f, 0.f);
         glClear(GL_COLOR_BUFFER_BIT);
-        glClear(GL_COLOR_BUFFER_BIT);
+        
         glEnableVertexAttribArray(posAttrLocation);
         glEnableVertexAttribArray(texCoordAttrLocation);
+
+        // bind attribute
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
         glVertexAttribPointer(posAttrLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vector3f), nullptr);
         glBindBuffer(GL_ARRAY_BUFFER, VboUV);
         glVertexAttribPointer(texCoordAttrLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vector2f), nullptr);
-qDebug() << "posloc" << posAttrLocation;
-qDebug() << "texloc" << texCoordAttrLocation;
+
+        // bind index
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
+        // bind texture
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, TextureID);
 

@@ -31,33 +31,22 @@ void AddCollisionObject(Vector3f position, int width, int height, std::string sp
 
 int main(int argc, char *argv[])
 {
-    int screenHeight = 600;
-    int screenWidth = 800;
+    // TODO: optimize qt render add way, make gamemanager as virtual class, and implement a qt game project based 
+    // on this game manager, and embed these render initializaton into game manager's initialization.
+    // CurrentGameManager.Initialization();
     QApplication app(argc, argv);
-
-    qDebug() << "start";
-    CurrentGameManager.Initialization();
     QTRenderController *qtController = new QTRenderController(&app);
+    qtController->screenHeight = 600;
+    qtController->screenWidth = 800;
     CurrentGameManager.AddRenderController(qtController);
-    qDebug() << "start2";
-    //qtController.Start();
-    //qtController.test();
-
-
-    QSurfaceFormat format;
-    format.setSamples(16);
-
-    CurrentGameManager.Render->Start();
-    //CurrentGameManager.Render->test();
-    //reinterpret_cast<Engine::OwningPointer<QTRenderController>>(CurrentGameManager.Render);
-
+    
+    qtController->Start();
     std::string collisionSpriteName = "C:/Users/plutoshe/Downloads/1.jpg";
-    AddCollisionObject(Vector3f(0, (float)(-screenHeight)/ 2, 0), screenWidth, 30, collisionSpriteName);
+    AddCollisionObject(Vector3f(0, (float)(-qtController->screenHeight)/ 2, 0), qtController->screenWidth, 30, collisionSpriteName);
 //    AddCollisionObject(Vector3f(0, (float)(screenHeight) / 2, 0), screenWidth, 30, collisionSpriteName);
 //    AddCollisionObject(Vector3f((float)(-screenWidth) / 2, 0, 0), 30, screenHeight, collisionSpriteName);
 //    AddCollisionObject(Vector3f((float)(screenWidth) / 2, 0, 0), 30, screenHeight, collisionSpriteName);
 
-    qDebug() << "phase 1";
     CurrentGameManager.Run();
     return app.exec();
 }

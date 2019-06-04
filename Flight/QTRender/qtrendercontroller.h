@@ -1,4 +1,4 @@
-    #ifndef QT_RENDER_CONTROLLER
+#ifndef QT_RENDER_CONTROLLER
 #define QT_RENDER_CONTROLLER
 
 #include <QOpenGLFunctions>
@@ -13,6 +13,8 @@ class QTRenderController : public RenderController, public OpenGLWindow
 public:
     QOpenGLShaderProgram *m_program;
     QGuiApplication* m_app;
+    int screenHeight = 600, screenWidth = 800;
+    int sampleRate = 16;
     int m_test = 0;
     QTRenderController() {}
     QTRenderController(QGuiApplication *app) { m_app = app;}
@@ -21,10 +23,10 @@ public:
     const char* pFSFileName = "D:/plutoshe/projects/qt/build-opengltest-Desktop_Qt_5_12_3_MSVC2017_64bit-Debug/debug/shader.fs";
     void Start() {
         QSurfaceFormat format;
-        format.setSamples(16);
+        format.setSamples(sampleRate);
         qDebug() << "phase start: Render start";
         setFormat(format);
-        resize(640, 480);
+        resize(screenWidth, screenHeight);
         show();
         //Initialize();
     }

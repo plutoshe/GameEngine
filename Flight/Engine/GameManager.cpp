@@ -10,6 +10,7 @@ GameManager::GameManager()
 
 
 GameManager::~GameManager() {}
+Engine::OwningPointer<GameManager> GameManager::Instance = nullptr;
 
 bool GameManager::Initialization() {
     return true;

@@ -1,9 +1,9 @@
 #include "InputController.h"
 #include "Timing.h"
 #include "Log.h"
-namespace GLib {
-	extern HWND	g_hWnd;
-}
+//namespace GLib {
+//	extern HWND	g_hWnd;
+//}
 
 InputController::InputController()
 {

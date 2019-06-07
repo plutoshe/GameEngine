@@ -2,6 +2,7 @@
 #include <iostream>
 #include "BasicMacros.h"
 #include "VectorUtil.h"
+#include <cmath>
 template<typename TYPE>
 class Matrix4x4;
 

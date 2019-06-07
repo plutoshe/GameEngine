@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui opengl widgets
-LIBS += -lOpengl32 -glu32
+#LIBS += -lOpengl32 -glu32
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Flight
@@ -15,15 +15,15 @@ TEMPLATE = app
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
+# DEFINES += QT_DEPRECATED_WARNINGS
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-CONFIG += c++11
-
+# CONFIG += c++11
+#SOURCES = main.cpp
 SOURCES += \
         Engine/Collider2D.cpp \
         Engine/Delegate.cpp \
@@ -42,14 +42,12 @@ SOURCES += \
         Engine/PhysicsComponent.cpp \
         Engine/PhysicsController.cpp \
         Engine/SSERedef.cpp \
-        Engine/SmartPointer.cpp \
         Engine/Status.cpp \
         Engine/Timing.cpp \
         Engine/Vector.cpp \
         Engine/Vector2D.cpp \
         Engine/Vector3D.cpp \
         Engine/Vector4D.cpp \
-        Engine/stdafx.cpp \
         QTRender/mainwindow.cpp \
         QTRender/openglwindow.cpp \
         QTRender/qtrendercomponent.cpp \
@@ -78,6 +76,7 @@ HEADERS += \
         Engine/PhysicsController.h \
         Engine/RenderComponent.h \
         Engine/RenderController.h \
+        Engine/SSERedef.h \
         Engine/SmartPointer.h \
         Engine/StaticVariable.h \
         Engine/Status.h \
@@ -87,8 +86,6 @@ HEADERS += \
         Engine/Vector3D.h \
         Engine/Vector4D.h \
         Engine/VectorUtil.h \
-        Engine/sseRedef.h \
-        Engine/stdafx.h \
         Engine/targetver.h \
         QTRender/mainwindow.h \
         QTRender/openglwindow.h \
@@ -98,11 +95,7 @@ HEADERS += \
 FORMS += \
         QTRender/mainwindow.ui
 
-# Default rules for deployment.
+#Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-DISTFILES += \
-    Engine/Engine.vcxproj \
-    Engine/Engine.vcxproj.filters

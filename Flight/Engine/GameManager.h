@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include "GameObject.h"
-#include <conio.h>
 #include <functional> 
 #include "List.h"
 #include "InputController.h"
@@ -13,14 +12,19 @@
 class GameManager
 {
 public:
-	GameManager();
+    static Engine::OwningPointer<GameManager> Instance;
+    static void CreateNewManager() {
+        Instance = Engine::OwningPointer<GameManager>(new GameManager());
+    }
+    GameManager();
 	~GameManager();
 	//Model
 	Engine::OwningPointer<GameObjectManager> PSGameObjectManager;
 
 	//Controller
 	Engine::OwningPointer<PhysicsController> Physics;
-	Engine::OwningPointer<InputController> Input;
+    Engine::OwningPointer<InputController> Input;
+
 	Engine::OwningPointer<RenderController> Render;
 	int frameID;
 	double DeltaTime;

@@ -1,8 +1,6 @@
 ﻿#include "GameObject.h"
 #include "GameManager.h"
 
-extern GameManager CurrentGameManager;
-
 GameObject::GameObject() {
 	BasicAttr.Clear();
 }
@@ -21,14 +19,14 @@ void GameObject::NewPhysicsComponent() {
 
 	physicsComponent = Engine::OwningPointer<PhysicsComponent>(PhysicsComponent());
 	physicsComponent->ParentGameObject = selfPointer;
-	CurrentGameManager.Physics->AddPhysicsComponent(physicsComponent);
+    belongedGameManager->Physics->AddPhysicsComponent(physicsComponent);
 	/*ParentManager->Physics->AddRenderController(physicsComponent);*/
 }
 
 void GameObject::AddRenderComponent(RenderComponent *r) {
     renderComponent = Engine::OwningPointer<RenderComponent>(r);
 	renderComponent->ParentGameObject = selfPointer;
-	CurrentGameManager.Render->AddRenderController(renderComponent);
+    belongedGameManager->Render->AddRenderController(renderComponent);
 }
 
 void GameObject::UpdatePhysicsComponent(PhysicsComponent *p) {

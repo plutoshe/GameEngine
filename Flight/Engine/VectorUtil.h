@@ -2,6 +2,7 @@
 #include "Vector.h"
 #include <iostream>
 #include <emmintrin.h>
+#include <cmath>
 template<typename TYPE>
 class Vector3D;
 template<typename TYPE>

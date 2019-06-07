@@ -17,11 +17,11 @@ public:
 		return *this;
 	}
 	template<int M>
-	const Vector(const Vector<TYPE, M> &p) {
+    Vector(const Vector<TYPE, M> &p) {
 		data = p.data;
 	}
 	template<int M>
-	const Vector& operator  = (const Vector<TYPE, M> &p) {
+    Vector& operator  = (const Vector<TYPE, M> &p) {
 		if (N > M) {
 			PS_DATCOPY(data, p.data, M);
 			PS_DATCLEAR(TYPE, p + M, N - M);

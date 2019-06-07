@@ -72,7 +72,7 @@ namespace Engine {
 		{
 			assert(m_pMethodStub);
 
-			return (*m_pMethodStub)(m_pInstance, i_Parameters);
+            return (*m_pMethodStub)(m_pInstance, i_Parameters...);
 		}
 
 		void ExecuteIfBound(Params ... i_Parameter) const

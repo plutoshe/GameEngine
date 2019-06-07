@@ -11,7 +11,8 @@ class GameManager;
 class GameObject
 {
 public:
-	Matrix4f LocalToWorldMatrix() {
+    Engine::ObservingPointer<GameManager> belongedGameManager;
+    Matrix4f LocalToWorldMatrix() {
 		Matrix4f a = Matrix4f::GetTranslationMatrix(Vector4f(BasicAttr.Position)) * Matrix4f::GetRotationMatrix(BasicAttr.Rotation);
 		return a;
 	}

@@ -11,5 +11,3 @@
 #include "GameObjectBasicAttr.h"
 #include "GameObject.h"
 #include "GameManager.h"
-
-extern GameManager CurrentGameManager;

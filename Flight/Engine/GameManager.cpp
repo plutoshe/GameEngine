@@ -35,6 +35,7 @@ void GameManager::Run() {
         PSGameObjectManager->Update();
         Physics->Update(DeltaTime / 1000);
         Render->Update();
+        //Render->
         if (Input->IsKeyDown(27)) break;
     }
 

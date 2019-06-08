@@ -30,6 +30,7 @@ void OpenGLWindow::Initialize()
 
 void OpenGLWindow::Render()
 {
+    qDebug() << "openglwindow render";
     if (!m_device)
         m_device = new QOpenGLPaintDevice;
 
@@ -56,7 +57,7 @@ bool OpenGLWindow::event(QEvent *event)
     case QEvent::UpdateRequest:
         frame++;
         qDebug() << frame;
-        renderNow();
+        //renderNow();
         return true;
     default:
         return QWindow::event(event);
@@ -68,24 +69,8 @@ void OpenGLWindow::exposeEvent(QExposeEvent *event)
     Q_UNUSED(event);
     if (!isExposed())
         return;
-qDebug("expose start");
-//    bool needsInitialize = false;
-
-//    if (!m_context) {
-//        m_context = new QOpenGLContext(this);
-//        m_context->setFormat(requestedFormat());
-//        m_context->create();
-
-//        needsInitialize = true;
-//    }
-
-//    m_context->makeCurrent(this);
-
-//    if (needsInitialize) {
-//        initializeOpenGLFunctions();
-//        Initialize();
-//    }
-renderNow();
+    qDebug("expose start");
+    //renderNow();
     qDebug("expose end");
 }
 

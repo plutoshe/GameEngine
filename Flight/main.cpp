@@ -51,6 +51,6 @@ int main(int argc, char *argv[])
     //GameManager::Instance->Run();
     qtController->CreateAWindow();
     app.processEvents();
-    //GameManager::Instance->Run();
+    GameManager::Instance->Run();
     return app.exec();
 }

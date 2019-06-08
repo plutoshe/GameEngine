@@ -8,16 +8,15 @@
 #include "qtrendercomponent.h"
 #include <fstream>
 
-class QTRenderController : public RenderController, public OpenGLWindow
+class QTRenderController : public OpenGLWindow, public RenderController
 {
+    Q_OBJECT
 public:
     QOpenGLShaderProgram *m_program;
     QGuiApplication* m_app;
     int screenHeight = 600, screenWidth = 800;
     int sampleRate = 16;
     int m_test = 0;
-    QOpenGLContext *m_context;
-    QOpenGLPaintDevice *m_device;
     QTRenderController() {}
     QTRenderController(QGuiApplication *app) { m_app = app;}
     ~QTRenderController() {}
@@ -36,8 +35,6 @@ public:
     void Start() {
         if (!isExposed())
             return;
-        qDebug() << "phase 3";
-//
     }
     void test() { qDebug() << "in qt render";}
 
@@ -85,21 +82,38 @@ public:
         }
     }
 
-public slots:
+
     void Update() override {
-        qDebug() <<"Render update" << m_app;
-        Render();
-       // m_context->swapBuffers(this);
-        qDebug() <<"!!!!!!" << m_app;
-
-
+        RenderNowa();
     }
+public slots:
+    virtual void RenderNowa() {
+        qDebug() << "NIUBIAO";
+        if (!isExposed())
+            return;
+
+        bool needsInitialize = false;
+
+        if (!m_context) {
+            m_context = new QOpenGLContext(this);
+            m_context->setFormat(requestedFormat());
+            m_context->create();
+
+            needsInitialize = true;
+
+        }
+//    qDebug() <<"Render paher 11" << m_app;
+m_context->makeCurrent(this);
+//    qDebug() <<"Render paher 110" << m_app;
+        if (needsInitialize) {
+            initializeOpenGLFunctions();
+            Initialize();
+        }
+Render();
+m_context->swapBuffers(this);
+    }
+
      void Render() {
-
-
-
-qDebug() <<"Render paher 111" << m_app;
-
         glClearColor(0.0f, 0.0f, 0.0f, 0.f);
         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -128,9 +142,10 @@ qDebug() <<"Render paher 111" << m_app;
                qDebug() << "rr: " << r->texCoordAttrLocation;
             r->Render();
         }
-
+qDebug() << "p1";
         glFlush();
-        m_program->release();
+        //m_program->release();
+        qDebug() << "p21";
     }
 
 };

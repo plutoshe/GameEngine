@@ -16,24 +16,33 @@ public:
     int screenHeight = 600, screenWidth = 800;
     int sampleRate = 16;
     int m_test = 0;
+    QOpenGLContext *m_context;
+    QOpenGLPaintDevice *m_device;
     QTRenderController() {}
     QTRenderController(QGuiApplication *app) { m_app = app;}
     ~QTRenderController() {}
     const char* pVSFileName = "D:/plutoshe/projects/qt/build-opengltest-Desktop_Qt_5_12_3_MSVC2017_64bit-Debug/debug/shader.vs";
     const char* pFSFileName = "D:/plutoshe/projects/qt/build-opengltest-Desktop_Qt_5_12_3_MSVC2017_64bit-Debug/debug/shader.fs";
-    void Start() {
+
+    void CreateAWindow() {
         QSurfaceFormat format;
         format.setSamples(sampleRate);
         qDebug() << "phase start: Render start";
         setFormat(format);
         resize(screenWidth, screenHeight);
         show();
-        //Initialize();
+    }
+
+    void Start() {
+        if (!isExposed())
+            return;
+        qDebug() << "phase 3";
+//
     }
     void test() { qDebug() << "in qt render";}
+
     void Initialize()
     {
-         //initializeGLFunctions();
         qDebug() << "qt render controller initialization";
         initializeOpenGLFunctions();
         m_program = new QOpenGLShaderProgram(this);
@@ -44,63 +53,60 @@ public:
         m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
         m_program->link();
 
-//         void TriangleWindow::initialize()
-// {
-//     m_program = new QOpenGLShaderProgram(this);
-//     m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource);
-//     m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource);
-//     m_program->link();
-//     m_posAttr = m_program->attributeLocation("posAttr");
-//     m_colAttr = m_program->attributeLocation("colAttr");
-//     m_matrixUniform = m_program->uniformLocation("matrix");
-// }
-
-    }
-    void Update() override {
-        qDebug() << "phase 2: Render Update";
-        if (!isExposed())
-            return;
-        qDebug() << "phase 3";
-        bool needsInitialize = false;
-
-        if (!m_context) {
-            m_context = new QOpenGLContext(this);
-            m_context->setFormat(requestedFormat());
-            m_context->create();
-
-            needsInitialize = true;
-        }
-
-        m_context->makeCurrent(this);
-       
-        if (needsInitialize) {
-            initializeOpenGLFunctions();
-            Initialize();
-        }
-
-        Render();
-
-        m_context->swapBuffers(this);
-        qDebug() <<"!!!!!!" << m_app;
-        m_app->processEvents();
-
-    }
-
-     void Render() override {
-        qDebug() << "phase 44";
-        
-        // Render
         const qreal retinaScale = devicePixelRatio();
         glViewport(0, 0, width() * retinaScale, height() * retinaScale);
+        qDebug() <<"Render paher 2" << m_app;
         glClear(GL_COLOR_BUFFER_BIT);
         for (size_t i = 0; i < ListRenderComponent.size(); i++) {
             Engine::ObservingPointer<QTRenderComponent> r = static_cast<Engine::ObservingPointer<QTRenderComponent>>(ListRenderComponent[i]);
-
+            qDebug() <<"Render paher 3" << r;
+            r->Initialize();
             r->CreateTexture();
         }
+    }
+
+
+    void file_reader(std::string file, std::string &result)
+    {
+        std::string line;
+        std::ifstream myfile(file);
+        if (myfile.is_open())
+        {
+            while (myfile.good())
+            {
+                getline(myfile, line);
+                result += line + "\n";
+            }
+            myfile.close();
+        }
+        else
+        {
+            std::cout << "Unable to open file";
+        }
+    }
+
+public slots:
+    void Update() override {
+        qDebug() <<"Render update" << m_app;
+        Render();
+       // m_context->swapBuffers(this);
+        qDebug() <<"!!!!!!" << m_app;
+
+
+    }
+     void Render() {
+
+
+
+qDebug() <<"Render paher 111" << m_app;
+
+        glClearColor(0.0f, 0.0f, 0.0f, 0.f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        qDebug() <<"Render paher 1" << m_app;
+
+        qDebug() <<"Render paher 3" << m_app;
         m_program->bind();
-
-
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         glDepthFunc(GL_LESS);
         glEnable(GL_DEPTH_TEST);
@@ -126,24 +132,7 @@ public:
         glFlush();
         m_program->release();
     }
-    void file_reader(std::string file, std::string &result)
-    {
-        std::string line;
-        std::ifstream myfile(file);
-        if (myfile.is_open())
-        {
-            while (myfile.good())
-            {
-                getline(myfile, line);
-                result += line + "\n";
-            }
-            myfile.close();
-        }
-        else
-        {
-            std::cout << "Unable to open file";
-        }
-    }
+
 };
 
 #endif

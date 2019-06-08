@@ -37,10 +37,16 @@ public:
         int screenWidth = 800;
 
         Vector3f vertices[4];
-        vertices[0] = Vector3f((pos.x - m_width/ 2 - screenWidth) / screenWidth, (pos.y - m_height/ 2 - screenHeight) / screenHeight, 0.0f);
-        vertices[1] = Vector3f((pos.x + m_width/ 2 - screenWidth) / screenWidth, (pos.y - m_height/ 2 - screenHeight) / screenHeight, 0.0f);
-        vertices[2] = Vector3f((pos.x - m_width/ 2 - screenWidth) / screenWidth, (pos.y + m_height/ 2 - screenHeight) / screenHeight, 0.0f);
-        vertices[3] = Vector3f((pos.x + m_width/ 2 - screenWidth) / screenWidth, (pos.y + m_height/ 2 - screenHeight) / screenHeight, 0.0f);
+
+        qDebug() << pos.x;
+        qDebug() << pos.y;
+        qDebug() << m_width << ' ' << m_height;
+        qDebug() << screenWidth << ' ' << screenHeight;
+
+        vertices[0] = Vector3f((pos.x - m_width/ 2) / screenWidth * 2, (pos.y - m_height/ 2) / screenHeight * 2, 0.0f);
+        vertices[1] = Vector3f((pos.x + m_width/ 2) / screenWidth * 2, (pos.y - m_height/ 2) / screenHeight * 2, 0.0f);
+        vertices[2] = Vector3f((pos.x - m_width/ 2) / screenWidth * 2, (pos.y + m_height/ 2) / screenHeight * 2, 0.0f);
+        vertices[3] = Vector3f((pos.x + m_width/ 2) / screenWidth * 2, (pos.y + m_height/ 2) / screenHeight * 2, 0.0f);
 
         glGenBuffers(1, &VBO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -60,6 +66,7 @@ public:
     }
 
     void CreateTexture() {
+        qDebug() << gl_image.bits();
         glGenTextures(1, &TextureID);
         glBindTexture(GL_TEXTURE_2D, TextureID);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, gl_image.width(), gl_image.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, gl_image.bits());
@@ -80,9 +87,7 @@ public:
     void Render() override {
         CreateVertexBuffer();
         CreateIndexBuffer();
-        glClearColor(0.0f, 0.0f, 0.0f, 0.f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
+
         glEnableVertexAttribArray(posAttrLocation);
         glEnableVertexAttribArray(texCoordAttrLocation);
 

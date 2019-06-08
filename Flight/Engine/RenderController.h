@@ -7,19 +7,21 @@
 class RenderController
 {
 public:
-    RenderController() { }
+    RenderController() {ListRenderComponent = std::vector<Engine::ObservingPointer<RenderComponent>>();}
     virtual void Start() {}
     //virtual void RenderNow() {}
 
     virtual void Update() {
         qDebug() << "in wrong render of rendercontroller";
-        //RenderNow(); 
+
     }
     virtual void test() { qDebug() << "in base";}
     std::vector<Engine::ObservingPointer<RenderComponent>> ListRenderComponent;
 
     void AddRenderController(Engine::ObservingPointer<RenderComponent> p) {
+        qDebug() << ListRenderComponent.size();
         ListRenderComponent.push_back(p);
+        qDebug() << ListRenderComponent.size();
     }
 
 	void RemoveRenderComponent(Engine::ObservingPointer<RenderComponent> p) {

@@ -66,7 +66,7 @@ namespace Engine {
 		}
 
         OwningPointer(std::nullptr_t i_null) {
-			OwningObject = nullptr;
+            OwningObject = i_null;
 			CountRef = nullptr;
 		}
 		// Copy Constructor
@@ -416,7 +416,7 @@ namespace Engine {
 
 		void operator=(std::nullptr_t i_null) {
 			ReleaseCurrentCurrentObservingPointer();
-			OwningObject = nullptr;
+            OwningObject = i_null;
 			CountRef = nullptr;
 		}
 

@@ -66,40 +66,55 @@ bool OpenGLWindow::event(QEvent *event)
 void OpenGLWindow::exposeEvent(QExposeEvent *event)
 {
     Q_UNUSED(event);
-    qDebug() << "!!!!!!!!!!" << isExposed();
-    if (isExposed())
-        renderNow();
+    if (!isExposed())
+        return;
+qDebug("expose start");
+//    bool needsInitialize = false;
+
+//    if (!m_context) {
+//        m_context = new QOpenGLContext(this);
+//        m_context->setFormat(requestedFormat());
+//        m_context->create();
+
+//        needsInitialize = true;
+//    }
+
+//    m_context->makeCurrent(this);
+
+//    if (needsInitialize) {
+//        initializeOpenGLFunctions();
+//        Initialize();
+//    }
+renderNow();
+    qDebug("expose end");
 }
+
 
 void OpenGLWindow::renderNow()
 {
-    qDebug() << "in opengl window";
-    if (!isExposed())
-        return;
+//    qDebug() <<"Render paher 1" << m_app;
+             if (!isExposed())
+                 return;
 
-    bool needsInitialize = false;
+             bool needsInitialize = false;
 
-    if (!m_context) {
-        m_context = new QOpenGLContext(this);
-        m_context->setFormat(requestedFormat());
-        m_context->create();
+             if (!m_context) {
+                 m_context = new QOpenGLContext(this);
+                 m_context->setFormat(requestedFormat());
+                 m_context->create();
 
-        needsInitialize = true;
-    }
+                 needsInitialize = true;
 
+             }
+//    qDebug() <<"Render paher 11" << m_app;
     m_context->makeCurrent(this);
-
-    if (needsInitialize) {
-        initializeOpenGLFunctions();
-        Initialize();
-    }
-
+//    qDebug() <<"Render paher 110" << m_app;
+             if (needsInitialize) {
+                 initializeOpenGLFunctions();
+                 Initialize();
+             }
     Render();
-
     m_context->swapBuffers(this);
-
-    if (m_animating)
-        renderLater();
 }
 
 void OpenGLWindow::setAnimating(bool animating)

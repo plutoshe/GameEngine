@@ -17,16 +17,16 @@ bool GameObject::HasRenderComponent() {
 void GameObject::NewPhysicsComponent() {
 	// TODO: Finish the new function of Physics system
 
-	physicsComponent = Engine::OwningPointer<PhysicsComponent>(PhysicsComponent());
+    physicsComponent = Engine::OwningPointer<PhysicsComponent>(new PhysicsComponent());
 	physicsComponent->ParentGameObject = selfPointer;
-    belongedGameManager->Physics->AddPhysicsComponent(physicsComponent);
+    GameManager::Instance->Physics->AddPhysicsComponent(physicsComponent);
 	/*ParentManager->Physics->AddRenderController(physicsComponent);*/
 }
 
 void GameObject::AddRenderComponent(RenderComponent *r) {
     renderComponent = Engine::OwningPointer<RenderComponent>(r);
 	renderComponent->ParentGameObject = selfPointer;
-    belongedGameManager->Render->AddRenderController(renderComponent);
+    GameManager::Instance->Render->AddRenderController(renderComponent);
 }
 
 void GameObject::UpdatePhysicsComponent(PhysicsComponent *p) {

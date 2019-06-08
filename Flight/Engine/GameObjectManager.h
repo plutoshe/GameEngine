@@ -19,7 +19,7 @@ public:
 
 	void Update();
 	template<class T>
-	Engine::ObservingPointer<GameObject> AddGameObject(T gameobject) {
+    Engine::ObservingPointer<GameObject> AddGameObject(Engine::OwningPointer<T> gameobject) {
 		
 		GameobjectList.push(Engine::OwningPointer<T>(gameobject));
 		Engine::ObservingPointer<GameObject> currentGameObject = GameobjectList[GameobjectList.get_size() - 1];

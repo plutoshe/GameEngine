@@ -6,6 +6,7 @@ GameManager::GameManager()
 	PSGameObjectManager = new GameObjectManager();
 	Physics = new PhysicsController();
 	Input = new InputController();
+    bQuit = false;
 }
 
 
@@ -17,21 +18,25 @@ bool GameManager::Initialization() {
 
 }
 void GameManager::Run() {
-	// Start Phase for controllers
+    // Start Phase
+    //Input->Start();
+    //Physics->Start();
+    Render->Start();
 	PSGameObjectManager->Start();
-	//Render->Start();
-
 	DeltaTime = 0; frameID = 0;
-	while (!bQuit) {
-		DeltaTime += Timing::CalcLastFrameTime_ms();
-        if (DeltaTime < 100) continue;
-		frameID++;
+    while (!bQuit) {
+
+        DeltaTime += Timing::CalcLastFrameTime_ms();
+        qDebug() << DeltaTime;
+        if (DeltaTime < 10) continue;
+        DeltaTime = 0;
+        frameID++;
         Input->Update();
-		PSGameObjectManager->Update();
-		Physics->Update(DeltaTime / 1000);
+        PSGameObjectManager->Update();
+        Physics->Update(DeltaTime / 1000);
         Render->Update();
-		if (Input->IsKeyDown(27)) break;
-	}
+        if (Input->IsKeyDown(27)) break;
+    }
 
 	Release();
 }

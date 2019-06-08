@@ -37,7 +37,7 @@ public:
 	Engine::ObservingPointer<GameObject> GetNewGameObject();
 
 	template<class T>
-	Engine::ObservingPointer<GameObject> AddGameObject(T gameobject) {
+    Engine::ObservingPointer<GameObject> AddGameObject(Engine::OwningPointer<T> gameobject) {
 		return PSGameObjectManager->AddGameObject(gameobject);
 	}
     void AddRenderController(RenderController *r) {

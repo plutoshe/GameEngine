@@ -70,14 +70,14 @@ void OpenGLWindow::exposeEvent(QExposeEvent *event)
     if (!isExposed())
         return;
     qDebug("expose start");
-    //renderNow();
+    renderNow();
     qDebug("expose end");
 }
 
 
 void OpenGLWindow::renderNow()
 {
-//    qDebug() <<"Render paher 1" << m_app;
+    qDebug() <<"Render paher 1";
              if (!isExposed())
                  return;
 

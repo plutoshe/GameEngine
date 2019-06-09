@@ -4,6 +4,7 @@ void QTRenderComponent::CreateSprite(std::string filename) {
     QImage tex, buf;
     buf.load(filename.c_str());
     gl_image=QGLWidget::convertToGLFormat(buf);
+    std::cout << "image width: " << gl_image.width();
     //CreateTexture();
 //    glGenTextures(1, &TextureID);
 //    glBindTexture(GL_TEXTURE_2D, TextureID);

@@ -1,7 +1,30 @@
 #pragma once
+#ifdef __APPLE__
+#pragma once
+
+#include <CoreServices/CoreServices.h>
+#include <mach/mach.h>
+#include <mach/mach_time.h>
+#include <unistd.h>
+
+
+class Timing
+{
+public:
+    static double CalcLastFrameTime_ms() {
+        // Grab the CPU tick counter
+        double currentTick = mach_absolute_time();
+        g_LastFrameTime_ms = currentTick - g_LastFrameStartTick;
+        g_LastFrameStartTick = currentTick;
+        return g_LastFrameTime_ms;
+    }
+private:
+    static double g_LastFrameStartTick;
+    static double g_LastFrameTime_ms;
+};
+#endif
+#ifdef __MINGW32__
 #include <windows.h>
-
-
 
 class Timing
 {
@@ -47,3 +70,4 @@ private:
     static double g_LastFrameTime_ms;
 
 };
+#endif

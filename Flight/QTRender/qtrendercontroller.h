@@ -20,9 +20,14 @@ public:
     QTRenderController() {}
     QTRenderController(QGuiApplication *app) { m_app = app;}
     ~QTRenderController() {}
+#ifdef __MINGW32__
     const char* pVSFileName = "D:/plutoshe/projects/qt/build-opengltest-Desktop_Qt_5_12_3_MSVC2017_64bit-Debug/debug/shader.vs";
     const char* pFSFileName = "D:/plutoshe/projects/qt/build-opengltest-Desktop_Qt_5_12_3_MSVC2017_64bit-Debug/debug/shader.fs";
-
+#endif
+#ifdef __APPLE__
+     const char* pVSFileName = "/Users/plutoshe/Downloads/opengltest/shader.vs";
+     const char* pFSFileName = "/Users/plutoshe/Downloads/opengltest/shader.fs";
+#endif
     void CreateAWindow() {
         QSurfaceFormat format;
         format.setSamples(sampleRate);
@@ -46,17 +51,20 @@ public:
         std::string vertexShaderSource, fragmentShaderSource;
         file_reader(pVSFileName,  vertexShaderSource);
         file_reader(pFSFileName, fragmentShaderSource);
+#ifdef __APPLE__
+        // ignore the header of ut8 file
+        vertexShaderSource = vertexShaderSource.substr(3);
+        fragmentShaderSource = fragmentShaderSource.substr(3);
+#endif
         m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource.c_str());
         m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource.c_str());
         m_program->link();
 
         const qreal retinaScale = devicePixelRatio();
         glViewport(0, 0, width() * retinaScale, height() * retinaScale);
-        qDebug() <<"Render paher 2" << m_app;
         glClear(GL_COLOR_BUFFER_BIT);
         for (size_t i = 0; i < ListRenderComponent.size(); i++) {
             Engine::ObservingPointer<QTRenderComponent> r = static_cast<Engine::ObservingPointer<QTRenderComponent>>(ListRenderComponent[i]);
-            qDebug() <<"Render paher 3" << r;
             r->Initialize();
             r->CreateTexture();
         }
@@ -67,6 +75,7 @@ public:
     {
         std::string line;
         std::ifstream myfile(file);
+        result = "";
         if (myfile.is_open())
         {
             while (myfile.good())
@@ -102,9 +111,7 @@ public slots:
             needsInitialize = true;
 
         }
-//    qDebug() <<"Render paher 11" << m_app;
 m_context->makeCurrent(this);
-//    qDebug() <<"Render paher 110" << m_app;
         if (needsInitialize) {
             initializeOpenGLFunctions();
             Initialize();
@@ -117,9 +124,6 @@ m_context->swapBuffers(this);
         glClearColor(0.0f, 0.0f, 0.0f, 0.f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        qDebug() <<"Render paher 1" << m_app;
-
-        qDebug() <<"Render paher 3" << m_app;
         m_program->bind();
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         glDepthFunc(GL_LESS);
@@ -130,22 +134,16 @@ m_context->swapBuffers(this);
         int posAttr = m_program->attributeLocation("Position");
         int texCoordAttr = m_program->attributeLocation("TexCoord");
 
-        qDebug() << "render size: " << ListRenderComponent.size();
         for (size_t i = 0; i < ListRenderComponent.size(); i++) {
             Engine::ObservingPointer<QTRenderComponent> r = static_cast<Engine::ObservingPointer<QTRenderComponent>>(ListRenderComponent[i]);
             if (r) {
-                qDebug() << "tt: ";
                 r->posAttrLocation = posAttr;
                 r->texCoordAttrLocation = texCoordAttr;
             }
-            qDebug() << "rr: " << r->posAttrLocation;
-               qDebug() << "rr: " << r->texCoordAttrLocation;
             r->Render();
         }
-qDebug() << "p1";
         glFlush();
         //m_program->release();
-        qDebug() << "p21";
     }
 
 };

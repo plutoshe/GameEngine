@@ -16,6 +16,7 @@ static DataStructure::List<Engine::ObservingPointer<CollisionObject>> collisionO
 
 
 void AddCollisionObject(Vector3f position, int width, int height, std::string spriteName) {
+    qDebug() << "add 1";
     Engine::ObservingPointer<CollisionObject> ch2 = GameManager::Instance->AddGameObject(Engine::OwningPointer<CollisionObject>(new CollisionObject()));
     ch2->BasicAttr.Position = position;
     ch2->NewPhysicsComponent();
@@ -26,6 +27,7 @@ void AddCollisionObject(Vector3f position, int width, int height, std::string sp
     renderPtr->CreateSprite(spriteName.c_str());
     renderPtr->SetSize(width, height);
     collisionObjectList.push(ch2);
+    qDebug() << "add 2";
     return;
 }
 
@@ -43,7 +45,12 @@ int main(int argc, char *argv[])
     GameManager::Instance->AddRenderController(qtController);
     GameManager::Instance->Initialization();
 
+#ifdef __APPLE__
+    std::string collisionSpriteName = "/Users/plutoshe/Downloads/1.jpg";
+#endif
+#ifdef __MINGW32__
     std::string collisionSpriteName = "C:/Users/plutoshe/Downloads/1.jpg";
+#endif
     AddCollisionObject(Vector3f(0, (float)(-qtController->screenHeight)/ 2, 0), qtController->screenWidth, 30, collisionSpriteName);
     AddCollisionObject(Vector3f(0, (float)(qtController->screenHeight) / 2, 0), qtController->screenWidth, 30, collisionSpriteName);
     AddCollisionObject(Vector3f((float)(-qtController->screenWidth) / 2, 0, 0), 30, qtController->screenHeight, collisionSpriteName);

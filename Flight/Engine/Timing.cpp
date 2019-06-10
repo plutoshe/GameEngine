@@ -1,5 +1,5 @@
 #include "Timing.h"
-#ifdef __MINGW32__
+#ifdef _WIN32
 
 double Timing::FreqEveryMillSecond = Timing::freqInitialization();
 double Timing::g_LastFrameTime_ms = 0;

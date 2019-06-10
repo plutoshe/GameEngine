@@ -20,7 +20,7 @@ public:
     QTRenderController() {}
     QTRenderController(QGuiApplication *app) { m_app = app;}
     ~QTRenderController() {}
-#ifdef __MINGW32__
+#ifdef _WIN32
     const char* pVSFileName = "D:/plutoshe/projects/qt/build-opengltest-Desktop_Qt_5_12_3_MSVC2017_64bit-Debug/debug/shader.vs";
     const char* pFSFileName = "D:/plutoshe/projects/qt/build-opengltest-Desktop_Qt_5_12_3_MSVC2017_64bit-Debug/debug/shader.fs";
 #endif
@@ -120,7 +120,7 @@ Render();
 m_context->swapBuffers(this);
     }
 
-     void Render() {
+     void Render() override {
         glClearColor(0.0f, 0.0f, 0.0f, 0.f);
         glClear(GL_COLOR_BUFFER_BIT);
 

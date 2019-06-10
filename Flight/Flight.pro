@@ -5,7 +5,9 @@
 #-------------------------------------------------
 
 QT       += core gui opengl widgets
-#LIBS += -lOpengl32 -glu32
+
+LIBS += -lOpengl32 -glu32
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Flight

@@ -23,7 +23,7 @@ private:
     static double g_LastFrameTime_ms;
 };
 #endif
-#ifdef __MINGW32__
+#ifdef _WIN32
 #include <windows.h>
 
 class Timing

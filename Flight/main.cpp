@@ -48,8 +48,8 @@ int main(int argc, char *argv[])
 #ifdef __APPLE__
     std::string collisionSpriteName = "/Users/plutoshe/Downloads/1.jpg";
 #endif
-#ifdef __MINGW32__
-    std::string collisionSpriteName = "C:/Users/plutoshe/Downloads/1.jpg";
+#ifdef _WIN32
+    std::string collisionSpriteName = "D:/plutoshe/document/pic/1.jpg";
 #endif
     AddCollisionObject(Vector3f(0, (float)(-qtController->screenHeight)/ 2, 0), qtController->screenWidth, 30, collisionSpriteName);
     AddCollisionObject(Vector3f(0, (float)(qtController->screenHeight) / 2, 0), qtController->screenWidth, 30, collisionSpriteName);

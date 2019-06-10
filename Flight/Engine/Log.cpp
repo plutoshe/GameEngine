@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <stdarg.h>		// for va_<xxx>
 #include <stdio.h>		// for vsprintf_s()
-#ifdef __MINGW32__
+#ifdef _WIN32
 #include <Windows.h>	// for OutputDebugStringA(). Uggh.. this pulls in a lot of Windows specific stuff
 
 namespace Engine {

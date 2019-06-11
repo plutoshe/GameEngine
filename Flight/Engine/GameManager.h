@@ -14,6 +14,7 @@ class GameManager
 {
 public:
     static Engine::OwningPointer<GameManager> Instance;
+	Engine::ObservingPointer<GameManager> selfPointer;
     GameManager();
 	~GameManager();
 	//Model

@@ -3,22 +3,20 @@
 
 #include <QOpenGLFunctions>
 #include <QtGui/QOpenGLShaderProgram>
-#include "Engine/Engine.h"
+#include "Engine/RenderController.h"
+#include "Engine/SmartPointer.h"
 #include "openglwindow.h"
 #include "qtrendercomponent.h"
 #include <fstream>
-
 class QTRenderController : public OpenGLWindow, public RenderController
 {
     Q_OBJECT
 public:
     QOpenGLShaderProgram *m_program;
-    QGuiApplication* m_app;
     int screenHeight = 600, screenWidth = 800;
     int sampleRate = 16;
     int m_test = 0;
     QTRenderController() {}
-    QTRenderController(QGuiApplication *app) { m_app = app;}
     ~QTRenderController() {}
 #ifdef _WIN32
     const char* pVSFileName = "D:/plutoshe/projects/qt/build-opengltest-Desktop_Qt_5_12_3_MSVC2017_64bit-Debug/debug/shader.vs";
@@ -28,6 +26,7 @@ public:
      const char* pVSFileName = "/Users/plutoshe/Downloads/opengltest/shader.vs";
      const char* pFSFileName = "/Users/plutoshe/Downloads/opengltest/shader.fs";
 #endif
+	bool event(QEvent *event) override;
     void CreateAWindow() {
         QSurfaceFormat format;
         format.setSamples(sampleRate);

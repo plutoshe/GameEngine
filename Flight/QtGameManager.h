@@ -16,7 +16,6 @@ public:
 		DeltaTime = 0;
 		frameID++;
 		Input->Update();
-		m_app->processEvents();
 		PSGameObjectManager->Update();
 		Physics->Update(DeltaTime / 1000);
 		Render->Update();

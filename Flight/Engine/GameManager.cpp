@@ -3,7 +3,8 @@
 GameManager::GameManager()
 {
 	PSGameObjectManager = new GameObjectManager();
-	PSGameObjectManager->belongedGameManager = this;
+	selfPointer = this;
+	PSGameObjectManager->belongedGameManager = selfPointer;
 	Physics = new PhysicsController();
 	Input = new InputController();
     bQuit = false;

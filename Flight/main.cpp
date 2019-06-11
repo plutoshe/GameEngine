@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 	g = new QtGameManager();
 
     QApplication app(argc, argv);
-    QTRenderController *qtController = new QTRenderController(&app);
+    QTRenderController *qtController = new QTRenderController();
     qtController->screenHeight = 600;
     qtController->screenWidth = 800;
 	g->AddRenderController(qtController);
@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
     AddCollisionObject(Vector3f((float)(qtController->screenWidth) / 2, 0, 0), 30, qtController->screenHeight, collisionSpriteName);
     //GameManager::Instance->Run();
     qtController->CreateAWindow();
+	qtController->belongedGameManager = g->selfPointer;
     app.processEvents();
 	g->m_app = &app;
 	while (true) {

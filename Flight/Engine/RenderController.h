@@ -4,13 +4,14 @@
 #include <vector>
 #include <QGuiApplication>
 #include <Qdebug>
+class GameManager;
 class RenderController
 {
 public:
     RenderController() {ListRenderComponent = std::vector<Engine::ObservingPointer<RenderComponent>>();}
     virtual void Start() {}
     //virtual void RenderNow() {}
-
+	Engine::ObservingPointer<GameManager> belongedGameManager;
     virtual void Update() {
         qDebug() << "in wrong render of rendercontroller";
 

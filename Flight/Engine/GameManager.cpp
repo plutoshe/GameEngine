@@ -1,9 +1,9 @@
 #include "GameManager.h"
-#include "Timing.h"
-#include <Qdebug>
+
 GameManager::GameManager()
 {
 	PSGameObjectManager = new GameObjectManager();
+	PSGameObjectManager->belongedGameManager = this;
 	Physics = new PhysicsController();
 	Input = new InputController();
     bQuit = false;
@@ -11,32 +11,38 @@ GameManager::GameManager()
 
 
 GameManager::~GameManager() {}
-Engine::OwningPointer<GameManager> GameManager::Instance = nullptr;
 
 bool GameManager::Initialization() {
-    return true;
-
-}
-void GameManager::Run() {
-    // Start Phase
-    //Input->Start();
-    //Physics->Start();
-    Render->Start();
+	// Start Phase
+	//Input->Start();
+	//Physics->Start();
+	Render->Start();
 	PSGameObjectManager->Start();
 	DeltaTime = 0; frameID = 0;
-    while (!bQuit) {
+	return true;
 
-        DeltaTime += Timing::CalcLastFrameTime_ms();
-        qDebug() << DeltaTime;
-        if (DeltaTime < 10) continue;
-        DeltaTime = 0;
-        frameID++;
-        Input->Update();
-        PSGameObjectManager->Update();
-        Physics->Update(DeltaTime / 1000);
-        Render->Update();
-        //Render->
-        if (Input->IsKeyDown(27)) break;
+}
+
+bool GameManager::Once() {
+	DeltaTime += Timing::CalcLastFrameTime_ms();
+	if (DeltaTime < 10) return true;
+	DeltaTime = 0;
+	frameID++;
+	Input->Update();
+	PSGameObjectManager->Update();
+	Physics->Update(DeltaTime / 1000);
+	Render->Update();
+	//Render->
+	if (Input->IsKeyDown(27)) return true;
+	return false;
+}
+
+void GameManager::Run() {
+	Initialization();
+    while (!bQuit) {
+		if (Once()) {
+			break;
+		}
     }
 
 	Release();

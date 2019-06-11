@@ -6,6 +6,7 @@
 #include "SmartPointer.h"
 
 // component
+#include "Timing.h"
 #include "PhysicsComponent.h"
 #include "RenderComponent.h"
 #include "GameObjectBasicAttr.h"

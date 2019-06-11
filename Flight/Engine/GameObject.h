@@ -7,11 +7,11 @@
 #include "RenderComponent.h"
 #include "PhysicsComponent.h"
 
-class GameManager;
+class GameObjectManager;
 class GameObject
 {
 public:
-    //Engine::ObservingPointer<GameManager> belongedGameManager;
+    Engine::ObservingPointer<GameObjectManager> belongedGameObjectManager;
     Matrix4f LocalToWorldMatrix() {
 		Matrix4f a = Matrix4f::GetTranslationMatrix(Vector4f(BasicAttr.Position)) * Matrix4f::GetRotationMatrix(BasicAttr.Rotation);
 		return a;
@@ -79,10 +79,11 @@ public:
 private:
 	void equal(const GameObject& g) {
 		BasicAttr = g.BasicAttr;
-		if (g.physicsComponent)
-			physicsComponent = Engine::OwningPointer<PhysicsComponent>(*(g.physicsComponent));
+		if (g.physicsComponent) {
+			physicsComponent.DeepCopy(g.physicsComponent);
+		}
 		if (g.renderComponent)
-			renderComponent = Engine::OwningPointer<RenderComponent>(*(g.renderComponent));
+			renderComponent.DeepCopy(g.renderComponent);
 
 	}
 };

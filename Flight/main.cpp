@@ -3,7 +3,8 @@
 #include "Engine/Engine.h"
 #include "QTRender/qtrendercomponent.h"
 #include "QTRender/qtrendercontroller.h"
-
+#include "QtGameManager.h"
+QtGameManager* g;
 class CollisionObject : public GameObject {
 public:
     CollisionObject() : GameObject() {}
@@ -17,10 +18,10 @@ static DataStructure::List<Engine::ObservingPointer<CollisionObject>> collisionO
 
 void AddCollisionObject(Vector3f position, int width, int height, std::string spriteName) {
     qDebug() << "add 1";
-    Engine::ObservingPointer<CollisionObject> ch2 = GameManager::Instance->AddGameObject(Engine::OwningPointer<CollisionObject>(new CollisionObject()));
+    Engine::ObservingPointer<CollisionObject> ch2 = g->AddGameObject(Engine::OwningPointer<CollisionObject>(new CollisionObject()));
     ch2->BasicAttr.Position = position;
     ch2->NewPhysicsComponent();
-    ch2->physicsComponent->AddCollider(BoxCollider2D(Vector2f(0, 0), Vector2f(width, height)));
+    ch2->physicsComponent->AddCollider(new BoxCollider2D(Vector2f(0, 0), Vector2f(width, height)));
     QTRenderComponent *qtComp = new QTRenderComponent();
     ch2->AddRenderComponent(qtComp);
     auto renderPtr = static_cast<Engine::ObservingPointer<QTRenderComponent>>(ch2->renderComponent);
@@ -36,14 +37,14 @@ int main(int argc, char *argv[])
     // TODO: optimize qt render add way, make gamemanager as virtual class, and implement a qt game project based
     // on this game manager, and embed these render initializaton into game manager's initialization.
     // CurrentGameManager.Initialization();
-    GameManager::CreateNewManager();
+	g = new QtGameManager();
 
     QApplication app(argc, argv);
     QTRenderController *qtController = new QTRenderController(&app);
     qtController->screenHeight = 600;
     qtController->screenWidth = 800;
-    GameManager::Instance->AddRenderController(qtController);
-    GameManager::Instance->Initialization();
+	g->AddRenderController(qtController);
+	g->Initialization();
 
 #ifdef __APPLE__
     std::string collisionSpriteName = "/Users/plutoshe/Downloads/1.jpg";
@@ -58,6 +59,11 @@ int main(int argc, char *argv[])
     //GameManager::Instance->Run();
     qtController->CreateAWindow();
     app.processEvents();
-    GameManager::Instance->Run();
+	g->m_app = &app;
+	while (true) {
+		if (g->Once())
+			break;
+	}
+
     return app.exec();
 }

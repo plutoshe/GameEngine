@@ -1,11 +1,12 @@
 #include "openglwindow.h"
 
 #include <QtCore/QCoreApplication>
-
+#include <QMouseEvent>
 #include <QtGui/QOpenGLContext>
-#include <QtGui/QOpenGLPaintDevice>
+#include <QtGui/QOpenGLPaintDevice>	
 #include <QtGui/QPainter>
 #include <QtDebug>
+#include <QMouseEvent>
 OpenGLWindow::OpenGLWindow(QWindow *parent)
     : QWindow(parent)
     , m_animating(false)
@@ -59,6 +60,12 @@ bool OpenGLWindow::event(QEvent *event)
         qDebug() << frame;
         //renderNow();
         return true;
+	case QEvent::MouseButtonPress:
+	{
+		QMouseEvent *me = static_cast<QMouseEvent *>(event);
+		qDebug() << "Mouse click" << me->pos();
+		break;
+	}
     default:
         return QWindow::event(event);
     }

@@ -1,14 +1,9 @@
 #include "GameObjectManager.h"
+#include "GameManager.h"
 
 
-
-GameObjectManager::GameObjectManager()
-{
-}
-
-
-GameObjectManager::~GameObjectManager()
-{
+void GameObjectManager::updateOwningGameObjectLink(Engine::ObservingPointer<GameObject> g) {
+	g->belongedGameObjectManager = belongedGameManager->PSGameObjectManager;
 }
 
 void GameObjectManager::Start() {

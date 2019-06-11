@@ -111,13 +111,13 @@ public slots:
             needsInitialize = true;
 
         }
-m_context->makeCurrent(this);
+		m_context->makeCurrent(this);
         if (needsInitialize) {
             initializeOpenGLFunctions();
             Initialize();
         }
-Render();
-m_context->swapBuffers(this);
+		Render();
+		m_context->swapBuffers(this);
     }
 
      void Render() override {

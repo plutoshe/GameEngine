@@ -19,14 +19,14 @@ void GameObject::NewPhysicsComponent() {
 
     physicsComponent = Engine::OwningPointer<PhysicsComponent>(new PhysicsComponent());
 	physicsComponent->ParentGameObject = selfPointer;
-    GameManager::Instance->Physics->AddPhysicsComponent(physicsComponent);
+    belongedGameObjectManager->belongedGameManager->Physics->AddPhysicsComponent(physicsComponent);
 	/*ParentManager->Physics->AddRenderController(physicsComponent);*/
 }
 
 void GameObject::AddRenderComponent(RenderComponent *r) {
     renderComponent = Engine::OwningPointer<RenderComponent>(r);
 	renderComponent->ParentGameObject = selfPointer;
-    GameManager::Instance->Render->AddRenderController(renderComponent);
+	belongedGameObjectManager->belongedGameManager->Render->AddRenderController(renderComponent);
 }
 
 void GameObject::UpdatePhysicsComponent(PhysicsComponent *p) {

@@ -5,17 +5,21 @@
 #include "GameObject.h"
 #include "List.h"
 #include "Log.h"
-
+class GameManager;
 class GameObjectManager
 {
 public:
-	GameObjectManager();
-	~GameObjectManager();
+	GameObjectManager() {
+	}
+	~GameObjectManager() {}
 
+	Engine::ObservingPointer<GameManager> belongedGameManager;
 	// TODO: lua add gameobject
 	// TODO: Normal addition interface
-
+	
 	DataStructure::List<Engine::OwningPointer<GameObject>> GameobjectList;
+
+	void updateOwningGameObjectLink(Engine::ObservingPointer<GameObject> g);
 
 	void Update();
 	template<class T>
@@ -24,6 +28,7 @@ public:
 		GameobjectList.push(Engine::OwningPointer<T>(gameobject));
 		Engine::ObservingPointer<GameObject> currentGameObject = GameobjectList[GameobjectList.get_size() - 1];
 		currentGameObject->UpdateConnectionPointer(currentGameObject);
+		updateOwningGameObjectLink(currentGameObject);
 		return currentGameObject;
 	}
 
@@ -33,6 +38,7 @@ public:
 		Engine::OwningPointer<GameObject> emptyGameObject(new GameObject());
 		GameobjectList.push(emptyGameObject);
 		emptyGameObject->UpdateConnectionPointer(emptyGameObject);
+		updateOwningGameObjectLink(emptyGameObject);
 		return emptyGameObject;
 	}
 	void Start();

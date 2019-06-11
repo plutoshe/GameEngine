@@ -8,19 +8,16 @@
 #include "GameObjectManager.h"
 #include "RenderController.h"
 #include "SmartPointer.h"
+#include "Timing.h"
 
 class GameManager
 {
 public:
     static Engine::OwningPointer<GameManager> Instance;
-    static void CreateNewManager() {
-        Instance = Engine::OwningPointer<GameManager>(new GameManager());
-    }
     GameManager();
 	~GameManager();
 	//Model
 	Engine::OwningPointer<GameObjectManager> PSGameObjectManager;
-
 	//Controller
 	Engine::OwningPointer<PhysicsController> Physics;
     Engine::OwningPointer<InputController> Input;
@@ -31,7 +28,7 @@ public:
 	bool bQuit;
 
     bool Initialization();
-
+	virtual bool Once();
 	void Run();
 
 	Engine::ObservingPointer<GameObject> GetNewGameObject();

@@ -54,7 +54,7 @@ public:
 	void Update(double deltaTime);
 	void UpdatePos(double deltaTime);
 	template<class T>
-	void AddCollider(T _collider) {
+	void AddCollider(T *_collider) {
 		ControlCollider = Engine::OwningPointer<T>(_collider);
 		UpdatePointer();
 	}

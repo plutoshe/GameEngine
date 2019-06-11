@@ -43,5 +43,6 @@ bool InputController::IsKeyDown(unsigned int keyCode) {
 	
 void InputController::Update() {
 	KeyStatus.clear();
+	m_mouseStatus.Clear();
 	GetInput();
 }
